@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block page_content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function(){
+		  $('[data-toggle="popover"]').popover();
+	});
+	$('.popover-dismiss').popover({
+		trigger: 'focus'
+	})
+</script>
+<div name="pageArea" class="col-md-9 offset-md-1" style="background-color:lightgreen">
+	<div name="topSection">
+	<table class="table-bordered">
+	<tr>
+		<td>{{ character.spellcastingClass }}</td><td>{{character.spellcastingAbility}}</td><td>{{ spellSaveDC }}</td><td>{{ spellAtkBonus }}</td>
+	</tr>
+	<tr>
+		<td><small>Spellcasting Class</small></td><td><small>Spellcasting Ability</small></td><td><small>Spell Save DC</small></td><td><small>Spell Attack Bonus</small></td>
+	</tr>
+	</table>
+	</div>
+	<div name="spacer">&nbsp;<br></div>
+	<div name="spellSection">
+		<div name="cantrips">
+		<table class="table-bordered">
+			<tr><td colspan=3> Cantrips</td></tr>
+			{% for s in spells.0 %}
+			<tr><td colspan=3><a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+		<div name="1spells">
+		<table class="table-bordered">
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td>1</td><td> {{ character.lvl1slotsTotal }}</td><td> {{ character.lvl1slotsUsed }}</td></tr>
+			{% for s in spells.1 %}
+			<tr><td>{{ s.prepared }}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+		<div name="2spells">
+		<table class="table-bordered">
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td>2</td><td> {{ character.lvl2slotsTotal }}</td><td> {{ character.lvl2slotsUsed }}</td></tr>
+			{% for s in spells.2 %}
+			<tr><td>{{ s.prepared }}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+		<div name="3spells">
+		<table class="table-bordered">
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td>3</td><td> {{ character.lvl3slotsTotal }}</td><td> {{ character.lvl3slotsUsed }}</td></tr>
+			{% for s in spells.3 %}
+			<tr><td>{{ s.prepared }}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+		<div name="4spells">
+		<table class="table-bordered">
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td>4</td><td> {{ character.lvl4slotsTotal }}</td><td> {{ character.lvl4slotsUsed }}</td></tr>
+			{% for s in spells.4 %}
+			<tr><td>{{ s.prepared }}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+		<div name="5spells">
+		<table class="table-bordered">
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td>5</td><td> {{ character.lvl5slotsTotal }}</td><td> {{ character.lvl5slotsUsed }}</td></tr>
+			{% for s in spells.5 %}
+			<tr><td>{{ s.prepared }}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+		<div name="6spells">
+		<table class="table-bordered">
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td>6</td><td> {{ character.lvl6slotsTotal }}</td><td> {{ character.lvl6slotsUsed }}</td></tr>
+			{% for s in spells.6 %}
+			<tr><td>{{ s.prepared }}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+		<div name="7spells">
+		<table class="table-bordered">
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td>7</td><td> {{ character.lvl7slotsTotal }}</td><td> {{ character.lvl7slotsUsed }}</td></tr>
+			{% for s in spells.7 %}
+			<tr><td>{{ s.prepared }}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+		<div name="8spells">
+		<table class="table-bordered">
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td>8</td><td> {{ character.lvl8slotsTotal }}</td><td> {{ character.lvl8slotsUsed }}</td></tr>
+			{% for s in spells.8 %}
+			<tr><td>{{ s.prepared }}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+		<div name="9spells">
+		<table class="table-bordered">
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td>9</td><td> {{ character.lvl9slotsTotal }}</td><td> {{ character.lvl9slotsUsed }}</td></tr>
+			{% for s in spells.9 %}
+			<tr><td>{{ s.prepared }}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		<div name="spacer">&nbsp;<br></div>
+
+	</div>
+</div>
+<div name="spacer">&nbsp;<br></div>
+{% endblock %}

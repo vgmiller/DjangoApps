@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block page_content %}
+<div class="col-md-9 offset-md-1">
+	<p>Saren's Identities</p>
+	<table>
+	{% for i in imageWithTexts %}
+	<tr>
+		<td><div class="col-md-4"><img class="card-img-top" src="{{ i.image.url }}" alt=""></div></td>
+		<td><b>{{ i.displayName }}</b><br/> {{ i.text }}</td>
+	</tr>
+	{% endfor %}
+	</table>
+</div>
+{% endblock %}

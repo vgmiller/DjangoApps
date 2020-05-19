@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block extra_js%}
+<script src="http://malsup.github.com/jquery.form.js"></script>
+{% endblock %}
+
+{% block content %}
+<section>
+<h1>Nodes list</h1>
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div><!-- /.modal -->
+
+<table class="table table-bordered table-hovered "cellspacing='0'>
+	<tr>
+	<th>Node</th>
+	<th>Actions</th>
+	</tr>
+{% for node in node_list %}
+	<tr>
+	<td>{{ node.name }}</td>
+	<td><a class="fa fa-pencil" data-toggle="modal" href="{% url 'node_edit' node.id %}" data-target="#modal" title="edit node" data-tooltip></a> |</td>
+	</tr>
+{% endfor %}
+</table>
+</section>
+{% endblock %}

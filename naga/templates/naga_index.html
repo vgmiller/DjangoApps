@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block page_content %}
+<div class="col-md-8 offset-md-2">
+    <h1>Character Index</h1>
+    <hr>
+    {% for character in characters %}
+    	<h2><a href="{% url 'naga_characterHome' character.name %}">{{ character.name }}</a></h2>
+    {% endfor %}
+</div>
+{% endblock %}

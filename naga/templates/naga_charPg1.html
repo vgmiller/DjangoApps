@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% block page_content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script>
+	$(document).ready(function(){
+		  $('[data-toggle="popover"]').popover();
+	});
+	$('.popover-dismiss').popover({
+		trigger: 'focus'
+	})
+</script>
+<div name="pageArea" class="col-md-10 offset-md-1" style="background-color:lightgreen">
+<table class="table-bordered" style="width:100%">
+	<tr><td colspan=5>
+	<div name="topAttrs">
+		<table class="table-bordered">
+		<tr>
+		{% for aDict in topAttrs %}
+		<td style="padding:10px"><b> {{ aDict.displayname }}:</b> {{ aDict.value }} <br></td>
+		{% endfor %}
+		</tr>
+		</table>
+	</div>
+	</td></tr>
+	<tr><td colspan=5><div name="spacer">&nbsp;<br></div></td></tr>
+	<tr><!--start mainArea-->
+	<div name="mainArea">
+	<td style="width:33%,vertical-align:top"> <!--column1-->
+		<table class="table-bordered">
+		<tr><td>
+			<table class="table-bordered">
+			<tr>
+				<td style="vertical-align:top"><div name="stats">
+					<table class="table-bordered">
+					{% for sDict in stats %}
+					<p class="stat"> 
+					<tr><td style="text-align:center"><b>{{ sDict.displayname }}</b></td></tr>
+					<tr><td style="text-align:center"><big><b>
+						{% if sDict.mod > 0 %}+{% elif sDict.mod < 0 %}-{% endif %}{{ sDict.mod }}
+					</b></big></td></tr>
+					<tr><td style="text-align:center"><small>{{ sDict.value }}</small></td></tr>
+					</p>
+					{% endfor %}
+					</table>
+				</div></td>
+				<td><div name="spacer">&nbsp;<br></div></td>
+				<td><div name="abilities">
+					<table class="table-bordered">
+						<tr><td class="table-bordered"> {{ character.inspiration }}</td><td> Inspiration </td></tr>
+						<tr><td class="table-bordered"> +{{ character.proficiencyBonus }}</td><td> Proficiency Bonus </td></tr>
+					</table>
+					<br/>
+					<table class="table-bordered">
+						<tr><td>Prof.</td><td>Mod</td><td>Ability</td></tr>
+						{% for stDict in savingThrows %}
+						<tr>
+							<td>
+								{% if stDict.isProficient %}X{% else %}O{% endif %}
+							</td>
+							<td>
+								{% if stDict.value > 0 %}+{% elif stDict.value < 0 %}-{% endif %}{{ stDict.value }}
+							</td>
+							<td>{{ stDict.displayname }}</td>
+						</tr>
+						{% endfor %}
+					</table>
+					<br/>
+					<table class="table-bordered">
+						<tr><td>Prof.</td><td>Mod</td><td>Ability</td></tr>
+						{% for aDict in abilities %}
+						<tr>
+							<td>
+								{% if aDict.isProficient %}X{% else %}O{% endif %}
+							</td>
+							<td>
+								{% if aDict.value > 0 %}+{% elif aDict.value < 0 %}-{% endif %}{{ aDict.value }}
+							</td>
+							<td>{{ aDict.displayname }} <small>({{ aDict.parentStat }})</small></td>
+						</tr>
+					{% endfor %}
+					</table>
+				</div></td>
+			</tr>
+			</table>
+		</td></tr>
+		<tr><td>
+			<table class="table-bordered">
+			<tr><td>Passive Wisdom (Perception)</td><td>4</td></tr>
+			<tr><td colspan=2><div name="spacer">&nbsp;<br></div></td></tr>
+			<tr><td colspan=2>
+				<div name="proficiencies">
+					<table class="table-bordered">
+						<tr><td>Proficiencies</td></tr>
+						<tr>
+							<td>{{ character.proficienciesNotes|safe|linebreaksbr }}</td>
+						</tr>
+					</table>
+				</div>
+			</td></tr>
+			</table>
+		</td></tr>
+		</table>
+	</td><!--end column1-->
+	<td><div name="spacer">&nbsp;<br></div></td>
+	<td style="width:33%"><!--column2-->
+		<table class="table-bordered">
+			<tr><td>
+			<div name"battle">
+				<table class="table-bordered">
+					<tr><td>AC</td><td>Initiative</td><td>Speed</td></tr>
+					<tr><td> {{ character.ac }}</td><td>{{ character.initiative }}</td><td>{{ character.speed }}</td></tr>
+				</table>
+				<table class="table-bordered">
+					<tr><td colspan=3>Current HP</td></tr>
+					<tr><td colspan=3>{{ character.currentHP }}</td></tr>
+					<tr><td colspan=3>Temp HP</td></tr>
+					<tr><td colspan=3>{{ character.tempHP }}</td></tr>
+					<tr><td colspan=3>Hit Dice</td></tr>
+					<tr><td colspan=3>{{ character.hitDiceType }}</td></tr>
+					<tr><td colspan=3>{{ character.hitDice }}</td></tr>
+				</table>
+			</div>
+			</tr></td>
+			<tr><td><div name="spacer">&nbsp;<br></div></td></tr>
+			<tr><td>
+			<div name="weapons">
+				<table class="table-bordered">
+				<tr><td>Weapon</td><td>Attack Bonus</td><td>Damage</td></tr>
+				{% for w in weapons %}
+				<tr>
+					<td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ w.displayName }}" data-content="{{ w.longDescription|safe|linebreaksbr }}">{{ w.displayName }}</a></td>
+					<td>{{ w.attackBonus }}</td>
+					<td>{{ w.damage }}</td>
+				</tr>
+				{% endfor %}
+				<tr><td colspan=3> {{ character.weaponsNotes|safe|linebreaksbr }}</td></tr>
+				</table>
+			</div>
+			</td></tr>
+			<tr><td><div name="spacer">&nbsp;<br></div></td></tr>
+			<tr><td>
+			<div name="money">
+				<table class="table-bordered">
+				<tr><td>CP</td><td>{{ money.cp }}</td><td>100</td></tr>
+				<tr><td>SP</td><td>{{ money.sp }}</td><td>10</td></tr>
+				<tr><td>EP</td><td>{{ money.ep }}</td><td>2</td></tr>
+				<tr><td>GP</td><td>{{ money.gp }}</td><td>1</td></tr>
+				<tr><td>PP</td><td>{{ money.pp }}</td><td>1/10</td></tr>
+				</table>
+			</div>
+			</td></tr>
+			<tr><td><div name="spacer">&nbsp;<br></div></td></tr>
+			<tr><td>
+			<div name="equipment">
+				<table class="table-bordered">
+				<tr><td>Equipment</td></tr>
+				{% for e in equipment %}
+				<tr>
+					<td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ e.displayName }}" data-content="{{ e.longDescription|safe|linebreaksbr }}">{{ e.displayName }}</a></td>
+				</tr>
+				{% endfor %}
+				<tr>
+					<td>{{ character.equipmentNotes|safe|linebreaksbr }}</td>
+				</tr>
+				</table>
+			</div>
+			</td></tr>
+		</table>
+	</td><!--end column2-->
+	<td><div name="spacer">&nbsp;<br></div></td>
+	<td style="width:33%,vertical-align:top"><!--column3-->
+		<table class="table-bordered">
+			<tr><td>
+			<div name="personality">
+				<table class="table-bordered">
+				<tr><td>Personality Notes</td></tr>
+				<tr><td>{{ character.personalityNotes|safe|linebreaksbr }}</td></tr>
+				</table>
+			</div>
+			</td></tr>
+			<tr><td>
+			<div name="skills">
+				<table>
+				<tr><td class="table-bordered">Skills</td></tr>
+				{% for s in skills %}
+				<tr><td> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+				{% endfor %}
+				</table>
+			</div>
+			</td></tr>
+		</table>
+	</td><!---end column3-->
+	</tr><!--end mainArea-->
+</table>
+</div>
+<div name="spacer">&nbsp;<br></div>
+{% endblock %}
