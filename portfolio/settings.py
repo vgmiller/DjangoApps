@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     'naga',
 ]
 
+MIDDLEWARE_CLASSES = [
+    'sslify.middleware.SSLifyMiddleware',
+        ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
