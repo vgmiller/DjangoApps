@@ -1,13 +1,5 @@
-{% extends "base.html" %}
+{% extends "naga_base.html" %}
 {% block page_content %}
-<div class="col-md-9 offset-md-1">
-	<div class="col-md-2" style="float:right">
-		<img class="card-img-top" src="{{ character.headshot.url }}" alt="" width="5%">
-	</div>
-	<h1>{{ character.name }}</h1>
-	<p> <a href="{% url 'naga_index' %}">Back to Character List</a></p>
-	<br/><br/>
-</div>
 <script>
 function openPage(evt, pageName) {
 	  // Declare all variables
@@ -25,17 +17,27 @@ window.onload = function() {
 	document.getElementById("defaultOpen").click();
 };
 </script>
-<div class="col-md-9 offset-md-1">
-	<button class="tablinks" onclick="openPage(event, 'pg1')" id="defaultOpen">Page 1</button>
-	<button class="tablinks" onclick="openPage(event, 'pg2')">Page 2</button>
-	{% if character.useSpellPage %}
-	<button class="tablinks" onclick="openPage(event, 'pg3')">Spells</button>
-	{% endif %}
-	{% for page in customPages %}
-	<button class="tablinks" onclick="openPage(event, '{{ page.orderindex }}')">{{ page.displayName }}</button>
-	{% endfor %}
-	<button class="tablinks" onclick="openPage(event, 'pg4')">Campaign Journal</button>
-	<button class="tablinks" onclick="openPage(event, 'pg5')">Ref</button>
+<div class="col-md-10 offset-md-1">
+	<div>
+		<div class="col-md-2" style="float:right">
+			<img class="card-img-top" src="{{ character.headshot.url }}" alt="" width="5%">
+		</div>
+		<h1>{{ character.name }}</h1>
+		<p> <a href="{% url 'naga_index' %}">Back to Character List</a></p>
+		<br/><br/>
+	</div>
+	<div name="tabs" style="padding:5px">
+		<button class="tablinks" onclick="openPage(event, 'pg1')" id="defaultOpen">Page 1</button>
+		<button class="tablinks" onclick="openPage(event, 'pg2')">Page 2</button>
+		{% if character.useSpellPage %}
+		<button class="tablinks" onclick="openPage(event, 'pg3')">Spells</button>
+		{% endif %}
+		{% for page in customPages %}
+		<button class="tablinks" onclick="openPage(event, '{{ page.orderindex }}')">{{ page.displayName }}</button>
+		{% endfor %}
+		<button class="tablinks" onclick="openPage(event, 'pg4')">Campaign Journal</button>
+		<button class="tablinks" onclick="openPage(event, 'pg5')">Ref</button>
+	</div>
 </div>
 <div id="pg1" class="tabcontent" style="display:none">
 {% include "naga_charPg1.html" %}

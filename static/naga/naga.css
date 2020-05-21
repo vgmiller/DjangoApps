@@ -1,0 +1,16 @@
+.charPgTriColumn {
+	display: inline-block;
+	margin: auto auto;
+	width: 33%;
+	vertical-align: top;
+}
+.charPg1ColumnSection {
+	margin: 10px auto;
+	width: 99%;
+	vertical-align: top;
+}
+.charPg1ColumnInnerTable {
+	margin: auto;
+	vertical-align: top;
+}
+

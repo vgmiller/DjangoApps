@@ -1,63 +1,46 @@
-{% extends "base.html" %}
+{% extends "naga_base.html" %}
 {% block page_content %}
-<div name="pageArea" class="col-md-9 offset-md-1" style="background-color:lightgreen">
-	<table class="table-bordered">
-	<tr><td>{{ character.age }}</td><td>{{ character.height }}</td><td>{{ character.weight }}</td></tr>
-	<tr><td><small>Age</small></td><td><small>Height</small></td><td><small>Weight</small></td></tr>
-	<tr><td>{{ character.eyes }}</td><td>{{ character.skin }}</td><td>{{ character.hair }}</td></tr>
-	<tr><td><small>Eyes</small></td><td><small>Skin</small></td><td><small>Hair</small></td></tr>
-	</td>
-	</tr>
-	</table>
-	<div name="spacer">&nbsp;<br></div>
-	<table>
-	<tr>
-	<td>
-		<div name="backstory">
-			<table class="table-bordered">
-			<tr><td>Backstory</td></tr>
-			<tr>
-				<td>{{ character.backstoryNotes|safe|linebreaksbr }}</td>
-			</tr>
-			</table>
-		</div>
-	</td>
-	<td>
-		<div name="allies">
-			<table class="table-bordered">
-			<tr><td>Allies</td></tr>
-			<tr>
-				<td>{{ character.alliesNotes|safe|linebreaksbr }}</td>
-			</tr>
-			</table>
-		</div>
-	</td>
-	</tr>
-	</table>
-	<div name="spacer">&nbsp;<br></div>
-	<table><tr><td>
-		<div name="additionalNotes">
-			<table class="table-bordered">
-			<tr><td>Additional Notes</td></tr>
-			<tr>
-				<td>{{ character.additionalNotes|safe|linebreaksbr }}</td>
-			</tr>
-			</table>
-		</div>
-	</td></tr></table>
-	<div name="spacer">&nbsp;<br></div>
-	<table>
-	<tr><td>
-		<div name="treasure">
-			<table class="table-bordered">
-			<tr><td>Treasure</td></tr>
-			<tr>
-				<td>{{ character.treasureNotes|safe|linebreaksbr }}</td>
-			</tr>
-			</table>
-		</div>
-	</td></tr>
-	</table>
+<div name="pageArea" class="col-md-10 offset-md-1" style="background-color:AliceBlue">
+	<div name="demographics" class="charPgTriColumn">
+		<table class="table-bordered">
+			<tr><td>{{ character.age }}</td><td>{{ character.height }}</td><td>{{ character.weight }}</td></tr>
+			<tr><td><small>Age</small></td><td><small>Height</small></td><td><small>Weight</small></td></tr>
+			<tr><td>{{ character.eyes }}</td><td>{{ character.skin }}</td><td>{{ character.hair }}</td></tr>
+			<tr><td><small>Eyes</small></td><td><small>Skin</small></td><td><small>Hair</small></td></tr>
+		</table>
+	</div>
+	<div name="backstory"  class="charPgTriColumn">
+		<table class="table-bordered">
+		<tr><td>Backstory</td></tr>
+		<tr>
+			<td>{{ character.backstoryNotes|safe|linebreaksbr }}</td>
+		</tr>
+		</table>
+	</div>
+	<div name="allies"  class="charPgTriColumn">
+		<table class="table-bordered">
+		<tr><td>Allies</td></tr>
+		<tr>
+			<td>{{ character.alliesNotes|safe|linebreaksbr }}</td>
+		</tr>
+		</table>
+	</div>
+	<div name="additionalNotes" style="padding:5px">
+		<table class="table-bordered">
+		<tr><td>Additional Notes</td></tr>
+		<tr>
+			<td>{{ character.additionalNotes|safe|linebreaksbr }}</td>
+		</tr>
+		</table>
+	</div>
+	<div name="treasure">
+		<table class="table-bordered">
+		<tr><td>Treasure</td></tr>
+		<tr>
+			<td>{{ character.treasureNotes|safe|linebreaksbr }}</td>
+		</tr>
+		</table>
+	</div>
 </div>
 <div name="spacer">&nbsp;<br></div>
 {% endblock %}
