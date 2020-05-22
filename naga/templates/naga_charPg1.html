@@ -42,13 +42,13 @@
 				<td>
 				<div name="insp" class="charPg1ColumnSection">
 					<table class="table-bordered charPg1ColumnInnerTable">
-						<tr><td class="table-bordered"> {{ character.inspiration }}</td><td> Inspiration </td></tr>
-						<tr><td class="table-bordered"> +{{ character.proficiencyBonus }}</td><td> Proficiency Bonus </td></tr>
+						<tr><td class="table-bordered"> {{ character.inspiration }}</td><td><b>Inspiration</b></td></tr>
+						<tr><td class="table-bordered"> +{{ character.proficiencyBonus }}</td><td><b>Proficiency Bonus</b></td></tr>
 					</table>
 				</div>
 				<div name="savingThrows" class="charPg1ColumnSection">
 					<table class="table-bordered charPg1ColumnInnerTable">
-						<tr><td>Prof.</td><td>Mod</td><td>Ability</td></tr>
+						<tr><td><b>Prof.</b></td><td><b>Mod</b></td><td><b>Ability</b></td></tr>
 						{% for stDict in savingThrows %}
 						<tr>
 							<td>
@@ -64,7 +64,7 @@
 				</div>
 				<div name="abilityChecks" class="charPg1ColumnSection">
 					<table class="table-bordered charPg1ColumnInnerTable">
-						<tr><td>Prof.</td><td>Mod</td><td>Ability</td></tr>
+						<tr><td><b>Prof.</b></td><td><b>Mod</b></td><td><b>Ability</b></td></tr>
 						{% for aDict in abilities %}
 						<tr>
 							<td>
@@ -83,12 +83,12 @@
 		</div>
 		<div name="passivePerception" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
-				<tr><td>Passive Wisdom (Perception)</td><td>4</td></tr>
+				<tr><td><b>Passive Wisdom (Perception)</b></td><td>{{ passivePerception }}</td></tr>
 			</table>
 		</div>
 		<div name="proficiencies" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
-				<tr><td>Proficiencies</td></tr>
+				<tr><td><b>Proficiencies</b></td></tr>
 				<tr>
 					<td>{{ character.proficienciesNotes|safe|linebreaksbr }}</td>
 				</tr>
@@ -98,24 +98,24 @@
 	<div name="col2" class="charPgTriColumn"><!--column2-->
 		 <div name"battleTop" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
-				<tr><td>AC</td><td>Initiative</td><td>Speed</td></tr>
+				<tr><td><b>AC</b></td><td><b>Initiative</b></td><td><b>Speed</b></td></tr>
 				<tr><td> {{ character.ac }}</td><td>{{ character.initiative }}</td><td>{{ character.speed }}</td></tr>
 			</table>
 		</div>
 		<div name="hp" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
-				<tr><td colspan=3>Current HP</td></tr>
+				<tr><td colspan=3><b>Current HP</b></td></tr>
 				<tr><td colspan=3>{{ character.currentHP }}</td></tr>
-				<tr><td colspan=3>Temp HP</td></tr>
+				<tr><td colspan=3><b>Temp HP</b></td></tr>
 				<tr><td colspan=3>{{ character.tempHP }}</td></tr>
-				<tr><td colspan=3>Hit Dice</td></tr>
+				<tr><td colspan=3><b>Hit Dice</b></td></tr>
 				<tr><td colspan=3>{{ character.hitDiceType }}</td></tr>
 				<tr><td colspan=3>{{ character.hitDice }}</td></tr>
 			</table>
 		</div>
 		<div name="weapons" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
-			<tr><td>Weapon</td><td>Attack Bonus</td><td>Damage</td></tr>
+			<tr><td><b>Weapon</b></td><td><b>Attack Bonus</b></td><td><b>Damage</b></td></tr>
 			{% for w in weapons %}
 			<tr>
 				<td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ w.displayName }}" data-content="{{ w.longDescription|safe|linebreaksbr }}">{{ w.displayName }}</a></td>
@@ -128,16 +128,16 @@
 		</div>
 		<div name="money" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
-			<tr><td>CP</td><td>{{ money.cp }}</td><td>100</td></tr>
-			<tr><td>SP</td><td>{{ money.sp }}</td><td>10</td></tr>
-			<tr><td>EP</td><td>{{ money.ep }}</td><td>2</td></tr>
-			<tr><td>GP</td><td>{{ money.gp }}</td><td>1</td></tr>
-			<tr><td>PP</td><td>{{ money.pp }}</td><td>1/10</td></tr>
+				<tr><td><small>100</small></td><td><b>CP:</b></td><td>{{ money.cp }}</td></tr>
+				<tr><td><small>10</small></td><td><b>SP:</b></td><td>{{ money.sp }}</td></tr>
+				<tr><td><small>2</small></td><td><b>EP:</b></td><td>{{ money.ep }}</td></tr>
+				<tr><td><small>1</small></td><td><b>GP:</b></td><td>{{ money.gp }}</td></tr>
+				<tr><td><small>1/10</small></td><td><b>PP:</b></td><td>{{ money.pp }}</td></tr>
 			</table>
 		</div>
 		<div name="equipment" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
-			<tr><td>Equipment</td></tr>
+			<tr><td><b>Equipment</b></td></tr>
 			{% for e in equipment %}
 			<tr>
 				<td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ e.displayName }}" data-content="{{ e.longDescription|safe|linebreaksbr }}">{{ e.displayName }}</a></td>
@@ -152,13 +152,13 @@
 	<div name="col3" class="charPgTriColumn"><!--column3-->
 		<div name="personality" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
-			<tr><td>Personality Notes</td></tr>
+			<tr><td><b>Personality Notes</b></td></tr>
 			<tr><td>{{ character.personalityNotes|safe|linebreaksbr }}</td></tr>
 			</table>
 		</div>
 		<div name="skills" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
-			<tr><td>Skills</td></tr>
+			<tr><td><b>Skills</b></td></tr>
 			{% for s in skills %}
 			<tr><td> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
 			{% endfor %}

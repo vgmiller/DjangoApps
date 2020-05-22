@@ -13,4 +13,7 @@
 	margin: auto;
 	vertical-align: top;
 }
+td {
+	padding: 5px;
+}
 

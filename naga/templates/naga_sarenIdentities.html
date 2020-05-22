@@ -1,14 +1,14 @@
 {% extends "naga_base.html" %}
 {% block page_content %}
 <div name="pageArea" class="col-md-10 offset-md-1" style="background-color:AliceBlue">
-	<p>Saren's Identities</p>
-	<table>
+	<h4>Saren's Identities</h4>
 	{% for i in imageWithTexts %}
-	<tr>
-		<td><div class="col-md-4"><img class="card-img-top" src="{{ i.image.url }}" alt=""></div></td>
-		<td><b>{{ i.displayName }}</b><br/> {{ i.text }}</td>
-	</tr>
+	<div style="display:inline-block; max-width:25%">
+			<img style="width:100%" src="{{ i.image.url }}" alt="">
+	</div>
+	<div style="display:inline-block; width:20%">
+			<b>{{ i.displayName }}</b><br/> {{ i.text|safe|linebreaksbr }}
+	</div>
 	{% endfor %}
-	</table>
 </div>
 {% endblock %}

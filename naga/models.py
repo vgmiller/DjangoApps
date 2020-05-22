@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Case, When
+import numexpr
 
 class Character(models.Model):
     name = models.CharField(max_length=255)
@@ -172,7 +173,7 @@ class Character(models.Model):
         for s in self.savingThrows.all():
             sDict = {
                     "displayname": s.name, 
-                    "value": s.calculateDisplayValue(), 
+                    "value": calculateDisplayValue(s), 
                     "isProficient": s.isProficient,
                     }
             sList.append(sDict)
@@ -180,15 +181,15 @@ class Character(models.Model):
 
     def createDefaultSavingThrows(self):
         startingSet = [
-            ("Strength", self.getStrMod(),1),
-            ("Dexterity", self.getDexMod(),2),
-            ("Constitution", self.getConMod(),3),
-            ("Intelligence", self.getIntMod(),4),
-            ("Wisdom", self.getWisMod(),5),
-            ("Charisma", self.getChaMod(),6),
+            ("Strength", None, "Str", 1),
+            ("Dexterity", None, "Dex", 2),
+            ("Constitution", None, "Con", 3),
+            ("Intelligence", None, "Int", 4),
+            ("Wisdom", None, "Wis", 5),
+            ("Charisma", None, "Cha", 6),
         ]
-        for (name, fieldValue, orderindex) in startingSet:
-            sthrow = SavingThrow(name=name, fieldValue=fieldValue, orderindex=orderindex, character=self)
+        for (name, fieldValue, parentStat, orderindex) in startingSet:
+            sthrow = SavingThrow(name=name, fieldValue=fieldValue, parentStat=parentStat, orderindex=orderindex, character=self)
             sthrow.save()
     
     def getAbilities(self):
@@ -196,33 +197,37 @@ class Character(models.Model):
         for a in self.abilities.all():
             aDict = {
                     "displayname": a.name, 
-                    "value": a.calculateDisplayValue(), 
+                    "value": calculateDisplayValue(a), 
                     "isProficient": a.isProficient,
                     "parentStat": a.parentStat,
                     }
             aList.append(aDict)
         return aList
 
+    def getPassivePerception(self):
+        p = self.abilities.filter(name='Perception')
+        return (10 + int(calculateDisplayValue(p[0])))
+
     def createDefaultAbilities(self):
         startingSet = [
-            ("Acrobatics", self.getDexMod(), "Dex"),
-            ("Animal Handling", self.getWisMod(), "Wis"),
-            ("Arcana", self.getIntMod(), "Int"),
-            ("Athletics", self.getStrMod(), "Str"),
-            ("Deception", self.getChaMod(), "Cha"),
-            ("History", self.getIntMod(), "Int"),
-            ("Insight", self.getWisMod(), "Wis"),
-            ("Intimidation", self.getChaMod(), "Cha"),
-            ("Investigation", self.getIntMod(), "Int"),
-            ("Medicine", self.getWisMod(), "Wis"),
-            ("Nature", self.getIntMod(), "Int"),
-            ("Perception", self.getWisMod(), "Wis"),
-            ("Performance", self.getChaMod(), "Cha"),
-            ("Persuasion", self.getChaMod(), "Cha"),
-            ("Religion", self.getIntMod(), "Int"),
-            ("Sleight of Hand", self.getDexMod(), "Dex"),
-            ("Stealth", self.getDexMod(), "Dex"),
-            ("Survival", self.getWisMod(), "Wis"),
+            ("Acrobatics", None, "Dex"),
+            ("Animal Handling", None, "Wis"),
+            ("Arcana", None, "Int"),
+            ("Athletics", None, "Str"),
+            ("Deception", None, "Cha"),
+            ("History", None, "Int"),
+            ("Insight", None, "Wis"),
+            ("Intimidation", None, "Cha"),
+            ("Investigation", None, "Int"),
+            ("Medicine", None, "Wis"),
+            ("Nature", None, "Int"),
+            ("Perception", None, "Wis"),
+            ("Performance", None, "Cha"),
+            ("Persuasion", None, "Cha"),
+            ("Religion", None, "Int"),
+            ("Sleight of Hand", None, "Dex"),
+            ("Stealth", None, "Dex"),
+            ("Survival", None, "Wis"),
         ]
         for (name, fieldValue, parentStat) in startingSet:
             abil = AbilityScore(name=name, fieldValue=fieldValue, parentStat=parentStat, character=self)
@@ -295,24 +300,37 @@ class Character(models.Model):
 class SavingThrow(models.Model):
     character = models.ForeignKey('Character', related_name='savingThrows', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    fieldValue = models.CharField(max_length=255)
+    fieldValue = models.CharField(max_length=255, blank=True, null=True)
     isProficient = models.BooleanField(default=False)
+    parentStat = models.CharField(max_length=255)
     orderindex = models.IntegerField()
-
-    def calculateDisplayValue(self):
-        #tbd more here later for formulas
-        return int(self.fieldValue)
 
 class AbilityScore(models.Model):
     character = models.ForeignKey('Character', related_name='abilities', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
-    fieldValue = models.CharField(max_length=255)
+    fieldValue = models.CharField(max_length=255, blank=True, null=True)
     parentStat = models.CharField(max_length=255)
     isProficient = models.BooleanField(default=False)
 
-    def calculateDisplayValue(self):
-        #tbd more here later for formulas
-        return int(self.fieldValue)
+#used by SavingThrow and AbilityScore
+def calculateDisplayValue(obj):
+    getMod = getattr(obj.character, 'get%sMod'%(obj.parentStat))
+    baseStat = getMod()
+
+    if obj.fieldValue:
+        if obj.fieldValue[0] == "=":
+            #they've filled in a formula
+            formattedVal = obj.fieldValue[1:]
+            formattedVal = formattedVal.replace('P', str(obj.character.proficiencyBonus))
+            formattedVal = formattedVal.replace('M', str(baseStat))
+            return numexpr.evaluate(formattedVal).item()
+        else:
+            #they've filled in an override
+            return obj.fieldValue
+    
+    if obj.isProficient:
+        return (baseStat + obj.character.proficiencyBonus)
+    return baseStat
 
 class CustomPage(models.Model):
     character = models.ForeignKey('Character', related_name='customPages', on_delete=models.CASCADE)

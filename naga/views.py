@@ -22,6 +22,7 @@ def naga_characterHome(request, name):
         "stats": character.getStats(),
         "savingThrows": character.getSavingThrows(),
         "abilities": character.getAbilities(),
+        "passivePerception": character.getPassivePerception(),
         "weapons": character.getWeapons(),
         "equipment": character.getEquipment(),
         "skills": character.getSkills(),
