@@ -12,6 +12,7 @@ class DndClass(models.Model):
             ('5', 'Druid'),
         )
     name = models.CharField(max_length=20, choices=CLASS_CHOICES, unique=True)
+    school = models.CharField(max_length=255, blank=True, null=True)
     level = models.IntegerField(blank=True, null=True)
     character = models.ForeignKey('Character', related_name='dndClasses', on_delete=models.CASCADE)
     isPrimaryAtkClass = models.BooleanField(default=False) #usually your main class
@@ -136,7 +137,10 @@ class Character(models.Model):
     def getDndClassDisplay(self):
         displayStr=''
         for c in self.dndClasses.all():
-            displayStr+=c.get_name_display() + '/'
+            if c.school:
+                displayStr+=c.get_name_display() + ' (' + c.school + ')/'
+            else:
+                displayStr+=c.get_name_display() + '/'
         displayStr = displayStr[:-1]
         return displayStr
 
@@ -294,7 +298,7 @@ class Character(models.Model):
             wDict = {
                     "displayName": w.displayName, 
                     "longDescription": w.longDescription, 
-                    "damage": w.damage,
+                    "damage": str(w.damage) + ' (+' + str(w.getDamageBonus()) + ')',
                     "attackBonus": w.getAttackBonus(),
                     }
             wList.append(wDict)
@@ -403,14 +407,21 @@ class WeaponNode(Node):
     character = models.ForeignKey('Character', related_name='weaponNodes', on_delete=models.CASCADE)
     damage = models.CharField(max_length=255, blank=True, null=True)
     abilityModifier = models.CharField(max_length=255, blank=True, null=True) #Str or Dex, usually
+    proficient = models.BooleanField(default=True) #usually you don't choose weapons that you aren't proficient with
     
-    def getAttackBonus(self):
+    def getDamageBonus(self):
         mod = 0
         if self.abilityModifier=="Str":
             mod = self.character.getStrMod()
         elif self.abilityModifier=="Dex":
             mod = self.character.getDexMod()
-        return (self.character.proficiencyBonus+mod)
+        return mod
+
+    def getAttackBonus(self):
+        if self.proficient:
+            return ( self.character.proficiencyBonus+self.getDamageBonus() )
+        else:
+            return self.getDamageBonus()
 
 
 class SkillNode(Node):
