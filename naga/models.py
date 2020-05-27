@@ -2,10 +2,56 @@ from django.db import models
 from django.db.models import Case, When
 import numexpr
 
+class DndClass(models.Model):
+    CLASS_CHOICES = (
+            ('1', 'Rogue'),
+            ('2', 'Wizard'),
+            ('3', 'Bard'),
+            ('4', 'Artificer'),
+            ('5', 'Fighter'),
+            ('5', 'Druid'),
+        )
+    name = models.CharField(max_length=20, choices=CLASS_CHOICES, unique=True)
+    level = models.IntegerField(blank=True, null=True)
+    character = models.ForeignKey('Character', related_name='dndClasses', on_delete=models.CASCADE)
+    isPrimaryAtkClass = models.BooleanField(default=False) #usually your main class
+    isPrimarySpellClass = models.BooleanField(default=False) #usually your main class
+    isSpellcastingClass = models.BooleanField(default=False) #e.g. Fighter no, Wizard yes
+    
+    def getSpellcastingAbilityMod(self):
+        #tbd make better
+        switcher = {
+            "Wizard": self.character.getIntMod(),
+            "Bard": self.character.getChaMod(),
+            "Druid": self.character.getWisMod(),
+            }
+        return switcher.get(self.get_name_display(), self.character.getIntMod())
+
+    def getSpellSaveDC(self):
+        return (8+self.getSpellcastingAbilityMod()+self.character.proficiencyBonus)
+
+    def getSpellAtkBonus(self):
+        return (self.getSpellcastingAbilityMod()+self.character.proficiencyBonus)
+
+    def getSpells(self):
+        sDict = {}
+        levelList = []
+        for i in range(10):
+            for s in self.spellNodes.filter(level=i): #cantrips should be level 0
+                spD = {
+                        "displayName": s.getDisplayName(),
+                        "level": s.level,
+                        "prepared": s.prepared,
+                        "longDescription": s.longDescription,
+                    }
+                levelList.append(spD)
+            sDict[i] = levelList
+            levelList = []
+        return sDict
+
+
 class Character(models.Model):
     name = models.CharField(max_length=255)
-    dndClass = models.CharField(max_length=255)
-    level = models.CharField(max_length=255)
     xp = models.IntegerField(blank=True, null=True)
     race = models.CharField(max_length=255)
     alignment = models.CharField(max_length=255)
@@ -55,9 +101,10 @@ class Character(models.Model):
     gp = models.IntegerField(blank=True, null=True)
     pp = models.IntegerField(blank=True, null=True)
 
+    campaignJournal = models.TextField(blank=True, null=True)
+    externalReferences = models.TextField(blank=True, null=True) #Out of character, links to stuff or player notes
+
     useSpellPage = models.BooleanField(default=True)
-    spellcastingClass = models.CharField(max_length=255, blank=True, null=True)
-    spellcastingAbility = models.CharField(max_length=255, blank=True, null=True)
     lvl1slotsTotal = models.IntegerField(blank=True, null=True)
     lvl1slotsUsed = models.IntegerField(blank=True, null=True)
     lvl2slotsTotal = models.IntegerField(blank=True, null=True)
@@ -76,9 +123,6 @@ class Character(models.Model):
     lvl8slotsUsed = models.IntegerField(blank=True, null=True)
     lvl9slotsTotal = models.IntegerField(blank=True, null=True)
     lvl9slotsUsed = models.IntegerField(blank=True, null=True)
-    
-    campaignJournal = models.TextField(blank=True, null=True)
-    externalReferences = models.TextField(blank=True, null=True) #Out of character, links to stuff or player notes
 
     def save(self, *args, **kwargs):
         isNew = False
@@ -87,12 +131,38 @@ class Character(models.Model):
         super().save(*args, **kwargs)
         if isNew:
             self.createDefaultAbilities()
-            self.createSavingThrows()
+            self.createDefaultSavingThrows()
+
+    def getDndClassDisplay(self):
+        displayStr=''
+        for c in self.dndClasses.all():
+            displayStr+=c.get_name_display() + '/'
+        displayStr = displayStr[:-1]
+        return displayStr
+
+    def getLevelDisplay(self):
+        displayStr=''
+        for c in self.dndClasses.all():
+            displayStr+=str(c.level) + '/'
+        displayStr = displayStr[:-1]
+        return displayStr
+
+    def getPrimaryAtkClass(self):
+        c = list(self.dndClasses.filter(isPrimaryAtkClass=True))
+        return c[0]
+    def getPrimarySpellClass(self):
+        c = list(self.dndClasses.filter(isPrimarySpellClass=True))
+        if c:
+            return c[0]
+        return None
+    def getSpellcastingClasses(self):
+        c = list(self.dndClasses.filter(isSpellcastingClass=True))
+        return c
 
     def getTopAttrs(self):
         attrs = [
-                {"displayname":"Class", "value":self.dndClass},
-                {"displayname":"Level", "value":self.level},
+                {"displayname":"Class", "value":self.getDndClassDisplay()},
+                {"displayname":"Level", "value":self.getLevelDisplay()},
                 {"displayname":"Race", "value":self.race},
                 {"displayname":"Background", "value":self.background},
                 {"displayname":"Alignment", "value":self.alignment},
@@ -122,22 +192,7 @@ class Character(models.Model):
             "Bard": self.getDexMod(),
             "Fighter": self.getStrMod(),
             }
-        return switcher.get(self.dndClass, self.getStrMod())
-
-    def getSpellcastingAbilityMod(self):
-        #tbd make better
-        switcher = {
-            "Wizard": self.getIntMod(),
-            "Bard": self.getChaMod(),
-            "Druid": self.getWisMod(),
-            }
-        return switcher.get(self.spellcastingClass, self.getIntMod())
-
-    def getSpellSaveDC(self):
-        return (8+self.getIntMod()+self.proficiencyBonus)
-
-    def getSpellAtkBonus(self):
-        return (self.getSpellcastingAbilityMod()+self.proficiencyBonus)
+        return switcher.get(self.getPrimaryAtkClass().get_name_display(), self.getStrMod())
 
     def getMod(self, stat):
         base = stat-10
@@ -265,15 +320,16 @@ class Character(models.Model):
             eList.append(eDict)
         return eList
 
-    def getSpells(self):
-        sDict = {}
-        levelList = []
-        for i in range(10):
-            for s in self.spellNodes.filter(level=i): #cantrips should be level 0
-                levelList.append(s)
-            sDict[i] = levelList
-            levelList = []
-        return sDict
+    def getAllSpells(self):
+        sps = self.getPrimarySpellClass().getSpells()
+        for c in self.dndClasses.all():
+            if c.isSpellcastingClass and not c.isPrimarySpellClass:
+                addSps = c.getSpells()
+                newSps = {}
+                for key in sps.keys():
+                    newSps[key] = sps[key] + addSps[key]
+                sps = newSps
+        return sps
     
     def getCustomPages(self):
         pList = []
@@ -364,11 +420,16 @@ class EquipmentNode(Node):
     character = models.ForeignKey('Character', related_name='equipmentNodes', on_delete=models.CASCADE)
 
 class SpellNode(Node):
-    character = models.ForeignKey('Character', related_name='spellNodes', on_delete=models.CASCADE)
+    #attached to a class, which is attached to a character
+    dndClass = models.ForeignKey('DndClass', related_name='spellNodes', on_delete=models.CASCADE)
     prepared = models.BooleanField()
     level = models.IntegerField() #cantrips should be level 0
-    #tbd make better
-    dndClass = models.CharField(max_length=255)
+
+    def getDisplayName(self):
+        if self.dndClass.isPrimarySpellClass:
+            return self.displayName
+        else:
+            return self.displayName + ' (%s)' % (self.dndClass.get_name_display())
 
 class ImageWithText(models.Model):
     #e.g. Saren Identities

@@ -2,6 +2,6 @@
 {% block page_content %}
 <div name="pageArea" class="col-md-10 offset-md-1" style="background-color:AliceBlue">
 	<h4>The Horde of the Saren</h4>
-	<p> {{ character.customNotesSlot1 }}</p>
+	<p> {{ character.customNotesSlot1|safe|linebreaksbr }}</p>
 </div>
 {% endblock %}

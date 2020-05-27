@@ -6,6 +6,14 @@ class CharacterAdmin(admin.ModelAdmin):
 
 admin.site.register(Character, CharacterAdmin)
 
+class DndClassAdmin(admin.ModelAdmin):
+    list_display = ('get_charName', 'name')
+    def get_charName(self, obj):
+        return obj.character.name
+    get_charName.short_description = "Character"
+
+admin.site.register(DndClass, DndClassAdmin)
+
 class SavingThrowAdmin(admin.ModelAdmin):
     list_display = ('get_charName', 'name', 'fieldValue', 'isProficient')
     def get_charName(self, obj):
@@ -47,10 +55,13 @@ class EquipmentNodeAdmin(admin.ModelAdmin):
 admin.site.register(EquipmentNode, EquipmentNodeAdmin)
 
 class SpellNodeAdmin(admin.ModelAdmin):
-    list_display = ('get_charName', 'displayName')
+    list_display = ('displayName', 'get_charName','get_className')
     def get_charName(self, obj):
-        return obj.character.name
+        return obj.dndClass.character.name
     get_charName.short_description = "Character"
+    def get_className(self, obj):
+        return obj.dndClass.get_name_display()
+    get_className.short_description = "Dnd Class"
 
 admin.site.register(SpellNode, SpellNodeAdmin)
 

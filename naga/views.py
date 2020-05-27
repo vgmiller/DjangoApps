@@ -23,15 +23,20 @@ def naga_characterHome(request, name):
         "savingThrows": character.getSavingThrows(),
         "abilities": character.getAbilities(),
         "passivePerception": character.getPassivePerception(),
+        "carryingWeight": (character.strength*15),
         "weapons": character.getWeapons(),
         "equipment": character.getEquipment(),
         "skills": character.getSkills(),
-        "spells": character.getSpells(),
         "imageWithTexts": character.getImageWithTexts(),
         "money": character.getMoney(),
-        "spellSaveDC": character.getSpellSaveDC(),
-        "spellAtkBonus": character.getSpellAtkBonus(),
     }
+    if character.getPrimarySpellClass():
+        cls = character.getPrimarySpellClass()
+        context['spells'] = character.getAllSpells()
+        context['spellcastingClass'] = cls.get_name_display()
+        context['spellcastingAbility'] = cls.getSpellcastingAbilityMod()
+        context['spellSaveDC'] = cls.getSpellSaveDC()
+        context['spellAtkBonus'] = cls.getSpellAtkBonus()
     return render(request, "naga_characterHome.html", context)
 
 """
