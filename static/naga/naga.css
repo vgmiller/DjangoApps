@@ -13,7 +13,13 @@
 	margin: auto;
 	vertical-align: top;
 }
+.charPg1ColumnInnerTable td {
+	text-align: center;
+}
 td {
 	padding: 5px;
+}
+.popover{
+	max-width: 50% !important;
 }
 

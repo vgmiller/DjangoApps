@@ -29,11 +29,11 @@
 					<table class="table-bordered charPg1ColumnInnerTable">
 					{% for sDict in stats %}
 					<p class="stat"> 
-					<tr><td style="text-align:center"><b>{{ sDict.displayname }}</b></td></tr>
-					<tr><td style="text-align:center"><big><b>
+					<tr><td><b>{{ sDict.displayname }}</b></td></tr>
+					<tr><td><big><b>
 						{% if sDict.mod > 0 %}+{% endif %}{{ sDict.mod }}
 					</b></big></td></tr>
-					<tr><td style="text-align:center"><small>{{ sDict.value }}</small></td></tr>
+					<tr><td><small>{{ sDict.value }}</small></td></tr>
 					</p>
 					{% endfor %}
 					</table>
@@ -90,7 +90,7 @@
 			<table class="table-bordered charPg1ColumnInnerTable">
 				<tr><td><b>Proficiencies</b></td></tr>
 				<tr>
-					<td>{{ character.proficienciesNotes|safe|linebreaksbr }}</td>
+					<td style="text-align: left">{{ character.proficienciesNotes|safe|linebreaksbr }}</td>
 				</tr>
 			</table>
 		</div>
@@ -144,7 +144,7 @@
 			</tr>
 			{% endfor %}
 			<tr>
-				<td>{{ character.equipmentNotes|safe|linebreaksbr }}</td>
+				<td style="text-align: left">{{ character.equipmentNotes|safe|linebreaksbr }}</td>
 			</tr>
 			</table>
 		</div>
@@ -153,7 +153,7 @@
 		<div name="personality" class="charPg1ColumnSection">
 			<table class="table-bordered charPg1ColumnInnerTable">
 			<tr><td><b>Personality Notes</b></td></tr>
-			<tr><td>{{ character.personalityNotes|safe|linebreaksbr }}</td></tr>
+			<tr><td style="text-align: left">{{ character.personalityNotes|safe|linebreaksbr }}</td></tr>
 			</table>
 		</div>
 		<div name="skills" class="charPg1ColumnSection">
