@@ -34,11 +34,15 @@ class DndClass(models.Model):
     def getSpellAtkBonus(self):
         return (self.getSpellcastingAbilityMod()+self.character.proficiencyBonus)
 
-    def getSpells(self):
+    def getSpells(self, preparedOnly=False):
         sDict = {}
         levelList = []
         for i in range(10):
-            for s in self.spellNodes.filter(level=i): #cantrips should be level 0
+            if preparedOnly:
+                spellNodes = self.spellNodes.filter(level=i, prepared=True) #cantrips should be level 0
+            else:
+                spellNodes = self.spellNodes.filter(level=i) #cantrips should be level 0
+            for s in spellNodes:
                 spD = {
                         "displayName": s.getDisplayName(),
                         "level": s.level,
@@ -49,6 +53,17 @@ class DndClass(models.Model):
             sDict[i] = levelList
             levelList = []
         return sDict
+    
+    def getNumSpellsPrepare(self):
+        import math
+        switcher = {
+            "Wizard": (self.character.getIntMod() + self.level),
+            "Artificer": (self.character.getIntMod() + max(1, math.floor(self.level/2)) ),
+            }
+        return switcher.get(self.get_name_display(), (self.character.getIntMod()+self.level))
+
+    def generalSpellLookup(self, className):
+        return None
 
 
 class Character(models.Model):
@@ -324,11 +339,11 @@ class Character(models.Model):
             eList.append(eDict)
         return eList
 
-    def getAllSpells(self):
+    def getAllSpells(self, secondaryPreparedOnly=False):
         sps = self.getPrimarySpellClass().getSpells()
         for c in self.dndClasses.all():
             if c.isSpellcastingClass and not c.isPrimarySpellClass:
-                addSps = c.getSpells()
+                addSps = c.getSpells(preparedOnly=True)
                 newSps = {}
                 for key in sps.keys():
                     newSps[key] = sps[key] + addSps[key]
@@ -356,6 +371,19 @@ class Character(models.Model):
                     }
             iList.append(iDict)
         return iList
+
+    def getSpecialCharacterDict(self):
+        #space to fill in custom things for character custom pages
+        myDict = {}
+        if self.name == "Merb":
+            c = list(self.dndClasses.filter(name=4))#bleh
+            artificer = c[0]
+            myDict = {
+                    "artificerNumPrepare": artificer.getNumSpellsPrepare(),
+                    "artificerSpells": artificer.generalSpellLookup("Artificer"),
+                    }
+        return myDict
+
 
 class SavingThrow(models.Model):
     character = models.ForeignKey('Character', related_name='savingThrows', on_delete=models.CASCADE)

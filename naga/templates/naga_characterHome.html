@@ -18,12 +18,10 @@ window.onload = function() {
 };
 </script>
 <title>{{ character.name }}</title>
-<div class="col-md-10 offset-md-1">
-	<div>
+<div class="topBar">
+	<div name="header">
 		{% if character.headshot %}
-		<div class="col-md-2" style="float:right">
-			<img class="card-img-top" src="{{ character.headshot.url }}" alt="" width="5%">
-		</div>
+		<img src="{{ character.headshot.url }}" alt="" class="headshot">
 		{% endif %}
 		<h1>{{ character.name }}</h1>
 		<p> <a href="{% url 'naga_index' %}">Back to Character List</a></p>

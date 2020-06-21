@@ -11,9 +11,9 @@
 		trigger: 'focus'
 	})
 </script>
-<div name="pageArea" class="col-md-10 offset-md-1" style="background-color:AliceBlue">
-	<div name="topAttrs" style="margin: auto auto; width=90%">
-		<table class="table-bordered">
+<div class="pageArea">
+	<div name="topAttrs" style="margin: auto auto; width=99%">
+		<table class="table-bordered" style="width:99% !important;margin: 0 auto">
 		<tr>
 		{% for aDict in topAttrs %}
 		<td style="padding:10px"><b> {{ aDict.displayname }}:</b> {{ aDict.value }} <br></td>
@@ -86,14 +86,6 @@
 				<tr><td><b>Passive Wisdom (Perception)</b></td><td>{{ passivePerception }}</td></tr>
 			</table>
 		</div>
-		<div name="proficiencies" class="charPg1ColumnSection">
-			<table class="table-bordered charPg1ColumnInnerTable">
-				<tr><td><b>Proficiencies</b></td></tr>
-				<tr>
-					<td style="text-align: left">{{ character.proficienciesNotes|safe|linebreaksbr }}</td>
-				</tr>
-			</table>
-		</div>
 	</div><!--end column1-->
 	<div name="col2" class="charPgTriColumn"><!--column2-->
 		 <div name"battleTop" class="charPg1ColumnSection">
@@ -162,6 +154,14 @@
 			{% for s in skills %}
 			<tr><td> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
 			{% endfor %}
+			</table>
+		</div>
+		<div name="proficiencies" class="charPg1ColumnSection">
+			<table class="table-bordered charPg1ColumnInnerTable">
+				<tr><td><b>Proficiencies</b></td></tr>
+				<tr>
+					<td style="text-align: left">{{ character.proficienciesNotes|safe|linebreaksbr }}</td>
+				</tr>
 			</table>
 		</div>
 	</div><!---end column3-->

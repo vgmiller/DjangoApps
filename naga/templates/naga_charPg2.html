@@ -1,6 +1,6 @@
 {% extends "naga_base.html" %}
 {% block page_content %}
-<div name="pageArea" class="col-md-10 offset-md-1" style="background-color:AliceBlue">
+<div class="pageArea">
 	<div name="demographics" class="charPgTriColumn">
 		<table class="table-bordered" style="width:100%">
 			<tr><td>{{ character.age }}</td><td>{{ character.height }}</td><td>{{ character.weight }}</td></tr>
@@ -26,16 +26,16 @@
 		</tr>
 		</table>
 	</div>
-	<div name="additionalNotes" style="padding:10px">
-		<table class="table-bordered">
+	<div name="additionalNotes" style="padding:10px; width:99%; margin:auto;">
+		<table class="table-bordered" style="margin:auto">
 		<tr><td><b>Additional Notes</b></td></tr>
 		<tr>
 			<td>{{ character.additionalNotes|safe|linebreaksbr }}</td>
 		</tr>
 		</table>
 	</div>
-	<div name="treasure">
-		<table class="table-bordered">
+	<div name="treasure" style="padding:10px; width:99%; margin:auto;">
+		<table class="table-bordered" style="margin:auto">
 		<tr><td><b>Treasure</b></td></tr>
 		<tr>
 			<td>{{ character.treasureNotes|safe|linebreaksbr }}</td>

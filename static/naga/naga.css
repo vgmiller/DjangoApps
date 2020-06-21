@@ -1,3 +1,16 @@
+.headshot {
+	margin: 0px 5px 0px 5%;
+	width: auto;
+	height: 180px;
+	float: right;
+}
+.topBar {
+	margin: 0 5%;
+}
+.pageArea {
+	background-color: AliceBlue;
+	margin: 0 5%;
+}
 .charPgTriColumn {
 	display: inline-block;
 	margin: auto auto;
@@ -22,4 +35,3 @@ td {
 .popover{
 	max-width: 50% !important;
 }
-

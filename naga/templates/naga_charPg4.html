@@ -1,7 +1,7 @@
 {% extends "naga_base.html" %}
 {% block page_content %}
-<div name="pageArea" class="col-md-10 offset-md-1" style="background-color:AliceBlue">
-	<div name="journal">
+<div class="pageArea">
+	<div name="journal" style="overflow: auto; width:100%; height:600px;">
 		<p>{{ character.campaignJournal|safe|linebreaksbr }}</p>
 	</div>
 </div>

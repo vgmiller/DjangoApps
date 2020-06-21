@@ -55,7 +55,7 @@ class EquipmentNodeAdmin(admin.ModelAdmin):
 admin.site.register(EquipmentNode, EquipmentNodeAdmin)
 
 class SpellNodeAdmin(admin.ModelAdmin):
-    list_display = ('displayName', 'get_charName','get_className')
+    list_display = ('displayName', 'get_charName','get_className', 'level', 'prepared')
     def get_charName(self, obj):
         return obj.dndClass.character.name
     get_charName.short_description = "Character"

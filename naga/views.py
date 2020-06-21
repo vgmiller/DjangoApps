@@ -29,14 +29,18 @@ def naga_characterHome(request, name):
         "skills": character.getSkills(),
         "imageWithTexts": character.getImageWithTexts(),
         "money": character.getMoney(),
+        "specialCharacterDict": character.getSpecialCharacterDict(),
     }
+    
     if character.getPrimarySpellClass():
         cls = character.getPrimarySpellClass()
-        context['spells'] = character.getAllSpells()
+        context['spells'] = character.getAllSpells(secondaryPreparedOnly=True)
         context['spellcastingClass'] = cls.get_name_display()
         context['spellcastingAbility'] = cls.getSpellcastingAbilityMod()
         context['spellSaveDC'] = cls.getSpellSaveDC()
         context['spellAtkBonus'] = cls.getSpellAtkBonus()
+        context['numPrepare'] = cls.getNumSpellsPrepare()
+
     return render(request, "naga_characterHome.html", context)
 
 """

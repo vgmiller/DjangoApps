@@ -11,9 +11,9 @@
 		trigger: 'focus'
 	})
 </script>
-<div name="pageArea" class="col-md-10 offset-md-1" style="background-color:AliceBlue">
+<div class="pageArea">
 	<div name="topSection">
-	<table class="table-bordered">
+	<table class="table-bordered" style="display:line-block">
 	<tr>
 		<td>{{ spellcastingClass }}</td><td>{{ spellcastingAbility }}</td><td>{{ spellSaveDC }}</td><td>{{ spellAtkBonus }}</td>
 	</tr>
@@ -21,6 +21,7 @@
 		<td><small>Spellcasting Class</small></td><td><small>Spellcasting Ability</small></td><td><small>Spell Save DC</small></td><td><small>Spell Attack Bonus</small></td>
 	</tr>
 	</table>
+	<p style="float:right">Can prepare {{ numPrepare }} {{ spellcastingClass }} spells a day</p>
 	</div>
 	<div name="spacer">&nbsp;<br></div>
 	<div name="spellSection">
