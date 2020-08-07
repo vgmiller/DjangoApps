@@ -1,3 +1,11 @@
+body {
+	background-image: url("/static/naga/img/floral_parchment.jpg");
+	background-color: #cccccc;
+}
+a {
+	color: Sienna !important;
+	font-weight: bold !important;
+}
 .headshot {
 	margin: 0px 5px 0px 5%;
 	width: auto;
@@ -8,7 +16,7 @@
 	margin: 0 5%;
 }
 .pageArea {
-	background-color: AliceBlue;
+	background-color: OldLace;
 	margin: 0 5%;
 }
 .charPgTriColumn {
@@ -29,7 +37,8 @@
 .charPg1ColumnInnerTable td {
 	text-align: center;
 }
-td {
+table.tableBordered td {
+	border: 1px solid Tan;
 	padding: 5px;
 }
 .popover{

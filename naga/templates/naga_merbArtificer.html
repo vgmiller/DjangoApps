@@ -6,7 +6,7 @@
 	<p>Can prepare {{ specialCharacterDict.artificerNumPrepare }} Artificer spells a day</p>
 	<div name="spellSection">
 		<div name="cantrips">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td colspan=3> Cantrips</td></tr>
 			{% for s in artificerSpells.0 %}
 			<tr><td colspan=3><a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
@@ -16,7 +16,7 @@
 		<div name="spacer">&nbsp;<br></div>
 		<!---These sections are mostly copypasta because Django templates are grumpy about cool code -->
 		<div name="1spells">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>1</td><td> {{ character.lvl1slotsTotal }}</td><td> {{ character.lvl1slotsUsed }}</td></tr>
 			{% for s in artificerSpells.1 %}
@@ -26,7 +26,7 @@
 		</div>
 		<div name="spacer">&nbsp;<br></div>
 		<div name="2spells">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>2</td><td> {{ character.lvl2slotsTotal }}</td><td> {{ character.lvl2slotsUsed }}</td></tr>
 			{% for s in artificerSpells.2 %}
@@ -36,7 +36,7 @@
 		</div>
 		<div name="spacer">&nbsp;<br></div>
 		<div name="3spells">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>3</td><td> {{ character.lvl3slotsTotal }}</td><td> {{ character.lvl3slotsUsed }}</td></tr>
 			{% for s in artificerSpells.3 %}
@@ -46,7 +46,7 @@
 		</div>
 		<div name="spacer">&nbsp;<br></div>
 		<div name="4spells">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>4</td><td> {{ character.lvl4slotsTotal }}</td><td> {{ character.lvl4slotsUsed }}</td></tr>
 			{% for s in artificerSpells.4 %}
@@ -56,7 +56,7 @@
 		</div>
 		<div name="spacer">&nbsp;<br></div>
 		<div name="5spells">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>5</td><td> {{ character.lvl5slotsTotal }}</td><td> {{ character.lvl5slotsUsed }}</td></tr>
 			{% for s in artificerSpells.5 %}
@@ -66,7 +66,7 @@
 		</div>
 		<div name="spacer">&nbsp;<br></div>
 		<div name="6spells">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>6</td><td> {{ character.lvl6slotsTotal }}</td><td> {{ character.lvl6slotsUsed }}</td></tr>
 			{% for s in artificerSpells.6 %}
@@ -76,7 +76,7 @@
 		</div>
 		<div name="spacer">&nbsp;<br></div>
 		<div name="7spells">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>7</td><td> {{ character.lvl7slotsTotal }}</td><td> {{ character.lvl7slotsUsed }}</td></tr>
 			{% for s in artificerSpells.7 %}
@@ -86,7 +86,7 @@
 		</div>
 		<div name="spacer">&nbsp;<br></div>
 		<div name="8spells">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>8</td><td> {{ character.lvl8slotsTotal }}</td><td> {{ character.lvl8slotsUsed }}</td></tr>
 			{% for s in artificerSpells.8 %}
@@ -96,7 +96,7 @@
 		</div>
 		<div name="spacer">&nbsp;<br></div>
 		<div name="9spells">
-		<table class="table-bordered">
+		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>9</td><td> {{ character.lvl9slotsTotal }}</td><td> {{ character.lvl9slotsUsed }}</td></tr>
 			{% for s in artificerSpells.9 %}
