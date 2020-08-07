@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block page_content %}
 <script>
-	var numImages = 29;
+	var numImages = 30;
 	var imageNo = (Math.floor(Math.random() * Math.floor(numImages))) + 1;
 	document.querySelector('body').style.backgroundImage = 'url(/static/landingPhotos/' + imageNo + '.jpg)';
 </script>
