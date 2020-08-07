@@ -26,6 +26,9 @@ h1 {
     margin-inline-end: 0px;
     font-weight: bold;
 }
+.icon:hover {
+	opacity: .75;
+}
 .col-md-2, .col-md-8 {
 	position: relative;
 	width: 100%;
