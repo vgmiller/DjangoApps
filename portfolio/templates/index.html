@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 {% block page_content %}
-This is Vanessa's website landing page.<br/><br/>
-Click <a href='/naga'>here</a> to go to Naga!<br/><br/>
+<script>
+	var numImages = 29;
+	var imageNo = (Math.floor(Math.random() * Math.floor(numImages))) + 1;
+	document.querySelector('body').style.backgroundImage = 'url(/static/landingPhotos/' + imageNo + '.jpg)';
+</script>
+<div style="width: 50%; margin: 10% auto; background-color: white; opacity: 0.75; padding:5px;">
+<h1 style="text-align:center;">Welcome to the Dragon's Lair</h1>
+<br/><br/>
+Click <a href='/naga'>here</a> to go to Naga!<br/>
+<br/>
 Click <a href='/projectGallery'>here</a> for project gallery<br/>
+<br/>
+</div>
 {% endblock %}
