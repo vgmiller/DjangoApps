@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'projectGallery',
     'blog',
     'naga',
+    'music',
 ]
 
 MIDDLEWARE_CLASSES = [
