@@ -21,25 +21,33 @@ a {
 }
 .charPgTriColumn {
 	display: inline-block;
-	margin: auto auto;
-	width: 33%;
+	margin: auto;
+	width: 32%;
 	vertical-align: top;
+}
+@media only screen and (max-width: 1200px) and (min-width: 721px) {
+  .charPgTriColumn {
+    width: 49%;
+  }
+}
+@media only screen and (max-width: 720px) {
+  .charPgTriColumn {
+    width: 99%;
+  }
 }
 .charPg1ColumnSection {
 	margin: 10px auto;
 	width: 99%;
 	vertical-align: top;
 }
-.charPg1ColumnInnerTable {
+table.tableBordered {
+	border-collapse: collapse;
 	margin: auto;
-	vertical-align: top;
-}
-.charPg1ColumnInnerTable td {
-	text-align: center;
 }
 table.tableBordered td {
 	border: 1px solid Tan;
 	padding: 5px;
+	text-align: center;
 }
 .popover{
 	max-width: 50% !important;

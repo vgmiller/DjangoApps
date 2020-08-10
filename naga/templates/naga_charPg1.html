@@ -2,7 +2,6 @@
 {% block page_content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 <script>
 	$(document).ready(function(){
 		  $('[data-toggle="popover"]').popover();
@@ -23,31 +22,28 @@
 	</div>
 	<div name="col1" class="charPgTriColumn">
 		<div name="statsAndAbils" class="charPg1ColumnSection">
-			<table class="charPg1ColumnInnerTable"><tr>
-				<td style="vertical-align:top; padding-right: 20px;">
-				<div name="stats" class="charPg1ColumnSection">
-					<table class="tableBordered charPg1ColumnInnerTable">
-					{% for sDict in stats %}
-					<p class="stat"> 
-					<tr><td><b>{{ sDict.displayname }}</b></td></tr>
-					<tr><td><big><b>
-						{% if sDict.mod > 0 %}+{% endif %}{{ sDict.mod }}
-					</b></big></td></tr>
-					<tr><td><small>{{ sDict.value }}</small></td></tr>
-					</p>
-					{% endfor %}
-					</table>
-				</div>
-				</td>
-				<td>
+			<div name="stats" class="charPg1ColumnSection" style="display:inline-block !important; width:30% !important;">
+				<table class="tableBordered">
+				{% for sDict in stats %}
+				<p class="stat"> 
+				<tr><td><b>{{ sDict.displayname }}</b></td></tr>
+				<tr><td><big><b>
+					{% if sDict.mod > 0 %}+{% endif %}{{ sDict.mod }}
+				</b></big></td></tr>
+				<tr><td><small>{{ sDict.value }}</small></td></tr>
+				</p>
+				{% endfor %}
+				</table>
+			</div>
+			<div name="abils" class="charPg1ColumnSection" style="display:inline-block !important; width:65% !important;">
 				<div name="insp" class="charPg1ColumnSection">
-					<table class="tableBordered charPg1ColumnInnerTable">
+					<table class="tableBordered">
 						<tr><td> {{ character.inspiration }}</td><td><b>Inspiration</b></td></tr>
 						<tr><td> +{{ character.proficiencyBonus }}</td><td><b>Proficiency Bonus</b></td></tr>
 					</table>
 				</div>
 				<div name="savingThrows" class="charPg1ColumnSection">
-					<table class="tableBordered charPg1ColumnInnerTable">
+					<table class="tableBordered">
 						<tr><td><b>Prof.</b></td><td><b>Mod</b></td><td><b>Ability</b></td></tr>
 						{% for stDict in savingThrows %}
 						<tr>
@@ -63,7 +59,7 @@
 					</table>
 				</div>
 				<div name="abilityChecks" class="charPg1ColumnSection">
-					<table class="tableBordered charPg1ColumnInnerTable">
+					<table class="tableBordered">
 						<tr><td><b>Prof.</b></td><td><b>Mod</b></td><td><b>Ability</b></td></tr>
 						{% for aDict in abilities %}
 						<tr>
@@ -78,24 +74,23 @@
 					{% endfor %}
 					</table>
 				</div>
-				</td>
-			</tr></table>
+			</div>
 		</div>
 		<div name="passivePerception" class="charPg1ColumnSection">
-			<table class="tableBordered charPg1ColumnInnerTable">
+			<table class="tableBordered">
 				<tr><td><b>Passive Wisdom (Perception)</b></td><td>{{ passivePerception }}</td></tr>
 			</table>
 		</div>
 	</div><!--end column1-->
 	<div name="col2" class="charPgTriColumn"><!--column2-->
 		 <div name"battleTop" class="charPg1ColumnSection">
-			<table class="tableBordered charPg1ColumnInnerTable">
+			<table class="tableBordered">
 				<tr><td><b>AC</b></td><td><b>Initiative</b></td><td><b>Speed</b></td></tr>
 				<tr><td> {{ character.ac }}</td><td>{{ character.initiative }}</td><td>{{ character.speed }}</td></tr>
 			</table>
 		</div>
 		<div name="hp" class="charPg1ColumnSection">
-			<table class="tableBordered charPg1ColumnInnerTable">
+			<table class="tableBordered">
 				<tr><td colspan=3><b>Current HP</b></td></tr>
 				<tr><td colspan=3>{{ character.currentHP }}</td></tr>
 				<tr><td colspan=3><b>Temp HP</b></td></tr>
@@ -106,7 +101,7 @@
 			</table>
 		</div>
 		<div name="weapons" class="charPg1ColumnSection">
-			<table class="tableBordered charPg1ColumnInnerTable">
+			<table class="tableBordered">
 			<tr><td><b>Weapon</b></td><td><b>Attack Bonus</b></td><td><b>Damage</b></td></tr>
 			{% for w in weapons %}
 			<tr>
@@ -119,7 +114,7 @@
 			</table>
 		</div>
 		<div name="money" class="charPg1ColumnSection">
-			<table class="tableBordered charPg1ColumnInnerTable">
+			<table class="tableBordered">
 				<tr><td><small>100</small></td><td><b>CP:</b></td><td>{{ money.cp }}</td></tr>
 				<tr><td><small>10</small></td><td><b>SP:</b></td><td>{{ money.sp }}</td></tr>
 				<tr><td><small>2</small></td><td><b>EP:</b></td><td>{{ money.ep }}</td></tr>
@@ -128,28 +123,24 @@
 			</table>
 		</div>
 		<div name="equipment" class="charPg1ColumnSection">
-			<table class="tableBordered charPg1ColumnInnerTable">
+			<table class="tableBordered">
 			<tr><td><b>Equipment</b></td></tr>
 			{% for e in equipment %}
-			<tr>
-				<td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ e.displayName }}" data-content="{{ e.longDescription|safe|linebreaksbr }}">{{ e.displayName }}</a></td>
-			</tr>
+			<tr><td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ e.displayName }}" data-content="{{ e.longDescription|safe|linebreaksbr }}">{{ e.displayName }}</a></td></tr>
 			{% endfor %}
-			<tr>
-				<td style="text-align: left">{{ character.equipmentNotes|safe|linebreaksbr }}</td>
-			</tr>
+			<tr><td style="text-align: left">{{ character.equipmentNotes|safe|linebreaksbr }}</td></tr>
 			</table>
 		</div>
 	</div><!--end column2-->
 	<div name="col3" class="charPgTriColumn"><!--column3-->
 		<div name="personality" class="charPg1ColumnSection">
-			<table class="tableBordered charPg1ColumnInnerTable">
+			<table class="tableBordered">
 			<tr><td><b>Personality Notes</b></td></tr>
 			<tr><td style="text-align: left">{{ character.personalityNotes|safe|linebreaksbr }}</td></tr>
 			</table>
 		</div>
 		<div name="skills" class="charPg1ColumnSection">
-			<table class="tableBordered charPg1ColumnInnerTable">
+			<table class="tableBordered">
 			<tr><td><b>Skills</b></td></tr>
 			{% for s in skills %}
 			<tr><td> <a href="javacript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
@@ -157,7 +148,7 @@
 			</table>
 		</div>
 		<div name="proficiencies" class="charPg1ColumnSection">
-			<table class="tableBordered charPg1ColumnInnerTable">
+			<table class="tableBordered">
 				<tr><td><b>Proficiencies</b></td></tr>
 				<tr>
 					<td style="text-align: left">{{ character.proficienciesNotes|safe|linebreaksbr }}</td>
