@@ -5,10 +5,10 @@
     <h1>Character Index</h1>
     {% for character in characters %}
 	<div>
-		<h2><a href="{% url 'naga_characterHome' character.name %}">{{ character.name }}</a></h2>
+		<h2 style="text-align:left;"><a href="{% url 'naga_characterHome' character.name %}">{{ character.name }}</a></h2>
 		{% if character.headshot %}
 		<div class="col-md-2" style="horizontal-align:right">
-			<img class="card-img-top" src="{{ character.headshot.url }}" alt="" width="5%">
+			<a href="{% url 'naga_characterHome' character.name %}"><img class="card-img-top" src="{{ character.headshot.url }}" alt="" width="5%"></a>
 		</div>
 		<br/><br/>
 		{% endif %}

@@ -12,7 +12,7 @@
 </script>
 <div class="pageArea">
 	<div name="topSection">
-	<table class="tableBordered" style="display:line-block">
+	<table class="tableBordered" style="display:inline-block">
 	<tr>
 		<td>{{ spellcastingClass }}</td><td>{{ spellcastingAbility }}</td><td>{{ spellSaveDC }}</td><td>{{ spellAtkBonus }}</td>
 	</tr>
@@ -20,11 +20,11 @@
 		<td><small>Spellcasting Class</small></td><td><small>Spellcasting Ability</small></td><td><small>Spell Save DC</small></td><td><small>Spell Attack Bonus</small></td>
 	</tr>
 	</table>
-	<p style="float:right">Can prepare {{ numPrepare }} {{ spellcastingClass }} spells a day</p>
+	<p class="normal" style="float:right">Can prepare {{ numPrepare }} {{ spellcastingClass }} spells a day</p>
 	</div>
 	<div name="spacer">&nbsp;<br></div>
-	<div name="spellSection">
-		<div name="cantrips">
+	<div name="spells">
+		<div name="cantrips" class="spellSection">
 		<table class="tableBordered">
 			<tr><td colspan=3> Cantrips</td></tr>
 			{% for s in spells.0 %}
@@ -32,9 +32,8 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
 		<!---These sections are mostly copypasta because Django templates are grumpy about cool code -->
-		<div name="1spells">
+		<div name="1spells" class="spellSection">
 		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>1</td><td> {{ character.lvl1slotsTotal }}</td><td> {{ character.lvl1slotsUsed }}</td></tr>
@@ -43,8 +42,7 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
-		<div name="2spells">
+		<div name="2spells" class="spellSection">
 		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>2</td><td> {{ character.lvl2slotsTotal }}</td><td> {{ character.lvl2slotsUsed }}</td></tr>
@@ -53,8 +51,7 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
-		<div name="3spells">
+		<div name="3spells" class="spellSection">
 		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>3</td><td> {{ character.lvl3slotsTotal }}</td><td> {{ character.lvl3slotsUsed }}</td></tr>
@@ -63,8 +60,7 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
-		<div name="4spells">
+		<div name="4spells" class="spellSection">
 		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>4</td><td> {{ character.lvl4slotsTotal }}</td><td> {{ character.lvl4slotsUsed }}</td></tr>
@@ -73,8 +69,7 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
-		<div name="5spells">
+		<div name="5spells" class="spellSection">
 		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>5</td><td> {{ character.lvl5slotsTotal }}</td><td> {{ character.lvl5slotsUsed }}</td></tr>
@@ -83,8 +78,7 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
-		<div name="6spells">
+		<div name="6spells" class="spellSection">
 		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>6</td><td> {{ character.lvl6slotsTotal }}</td><td> {{ character.lvl6slotsUsed }}</td></tr>
@@ -93,8 +87,7 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
-		<div name="7spells">
+		<div name="7spells" class="spellSection">
 		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>7</td><td> {{ character.lvl7slotsTotal }}</td><td> {{ character.lvl7slotsUsed }}</td></tr>
@@ -103,8 +96,7 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
-		<div name="8spells">
+		<div name="8spells" class="spellSection">
 		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>8</td><td> {{ character.lvl8slotsTotal }}</td><td> {{ character.lvl8slotsUsed }}</td></tr>
@@ -113,8 +105,7 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
-		<div name="9spells">
+		<div name="9spells" class="spellSection">
 		<table class="tableBordered">
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td>9</td><td> {{ character.lvl9slotsTotal }}</td><td> {{ character.lvl9slotsUsed }}</td></tr>
@@ -123,7 +114,6 @@
 			{% endfor %}
 		</table>
 		</div>
-		<div name="spacer">&nbsp;<br></div>
 
 	</div>
 </div>

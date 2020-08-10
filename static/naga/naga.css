@@ -6,6 +6,12 @@ a {
 	color: Sienna !important;
 	font-weight: bold !important;
 }
+p.normal {
+	padding: 5px;
+}
+h2 {
+	text-align: center;
+}
 .headshot {
 	margin: 0px 5px 0px 5%;
 	width: auto;
@@ -25,6 +31,12 @@ a {
 	width: 32%;
 	vertical-align: top;
 }
+.charPgBiColumn {
+	display: inline-block;
+	margin: auto;
+	width: 48%;
+	vertical-align: top;
+}
 @media only screen and (max-width: 1200px) and (min-width: 721px) {
   .charPgTriColumn {
     width: 49%;
@@ -33,6 +45,12 @@ a {
 @media only screen and (max-width: 720px) {
   .charPgTriColumn {
     width: 99%;
+  }
+  .charPgBiColumn {
+    width: 99%;
+  }
+  table.topBar tr, td {
+	  display: block;
   }
 }
 .charPg1ColumnSection {
@@ -49,6 +67,17 @@ table.tableBordered td {
 	padding: 5px;
 	text-align: center;
 }
-.popover{
+.popover {
 	max-width: 50% !important;
+}
+.spellSection {
+	display: inline-block;
+	vertical-align: top;
+	padding: 5px;
+	margin: auto;
+	min-width: 18%;
+}
+table.topBar {
+	width: 99%;
+	margin: 0 auto;
 }

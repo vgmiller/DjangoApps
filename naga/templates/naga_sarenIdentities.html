@@ -1,13 +1,15 @@
 {% extends "naga_base.html" %}
 {% block page_content %}
 <div class="pageArea">
-	<h4>Saren's Identities</h4>
+	<h2>Saren's Identities</h2>
 	{% for i in imageWithTexts %}
-	<div style="display:inline-block; max-width:25%">
-			<img style="width:100%" src="{{ i.image.url }}" alt="">
-	</div>
-	<div style="display:inline-block; width:20%">
-			<b>{{ i.displayName }}</b><br/> {{ i.text|safe|linebreaksbr }}
+	<div class="charPgBiColumn">
+		<div class="charPg1ColumnSection" style="display:inline-block; width:48%; padding:5px">
+				<img style="width:99%;" src="{{ i.image.url }}" alt="">
+		</div>
+		<div class="charPg1ColumnSection" style="display:inline-block; width:49%;">
+				<b>{{ i.displayName }}</b><br/> {{ i.text|safe|linebreaksbr }}
+		</div>
 	</div>
 	{% endfor %}
 </div>
