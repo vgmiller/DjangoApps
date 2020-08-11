@@ -49,11 +49,11 @@ h2 {
   .charPgBiColumn {
     width: 99%;
   }
-  table.topBar tr, td {
+  table.topBar, table.topBar tr, table.topBar td {
 	  display: block;
   }
 }
-.charPg1ColumnSection {
+.charPgColumnSection {
 	margin: 10px auto;
 	width: 99%;
 	vertical-align: top;

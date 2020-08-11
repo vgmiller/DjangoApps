@@ -21,8 +21,8 @@
 		</table>
 	</div>
 	<div name="col1" class="charPgTriColumn">
-		<div name="statsAndAbils" class="charPg1ColumnSection">
-			<div name="stats" class="charPg1ColumnSection" style="display:inline-block !important; width:30% !important;">
+		<div name="statsAndAbils" class="charPgColumnSection">
+			<div name="stats" class="charPgColumnSection" style="display:inline-block !important; width:30% !important;">
 				<table class="tableBordered">
 				{% for sDict in stats %}
 				<p class="stat"> 
@@ -35,14 +35,14 @@
 				{% endfor %}
 				</table>
 			</div>
-			<div name="abils" class="charPg1ColumnSection" style="display:inline-block !important; width:65% !important;">
-				<div name="insp" class="charPg1ColumnSection">
+			<div name="abils" class="charPgColumnSection" style="display:inline-block !important; width:65% !important;">
+				<div name="insp" class="charPgColumnSection">
 					<table class="tableBordered">
 						<tr><td> {{ character.inspiration }}</td><td><b>Inspiration</b></td></tr>
 						<tr><td> +{{ character.proficiencyBonus }}</td><td><b>Proficiency Bonus</b></td></tr>
 					</table>
 				</div>
-				<div name="savingThrows" class="charPg1ColumnSection">
+				<div name="savingThrows" class="charPgColumnSection">
 					<table class="tableBordered">
 						<tr><td><b>Prof.</b></td><td><b>Mod</b></td><td><b>Ability</b></td></tr>
 						{% for stDict in savingThrows %}
@@ -58,7 +58,7 @@
 						{% endfor %}
 					</table>
 				</div>
-				<div name="abilityChecks" class="charPg1ColumnSection">
+				<div name="abilityChecks" class="charPgColumnSection">
 					<table class="tableBordered">
 						<tr><td><b>Prof.</b></td><td><b>Mod</b></td><td><b>Ability</b></td></tr>
 						{% for aDict in abilities %}
@@ -76,20 +76,20 @@
 				</div>
 			</div>
 		</div>
-		<div name="passivePerception" class="charPg1ColumnSection">
+		<div name="passivePerception" class="charPgColumnSection">
 			<table class="tableBordered">
 				<tr><td><b>Passive Wisdom (Perception)</b></td><td>{{ passivePerception }}</td></tr>
 			</table>
 		</div>
 	</div><!--end column1-->
 	<div name="col2" class="charPgTriColumn"><!--column2-->
-		 <div name"battleTop" class="charPg1ColumnSection">
+		 <div name"battleTop" class="charPgColumnSection">
 			<table class="tableBordered">
 				<tr><td><b>AC</b></td><td><b>Initiative</b></td><td><b>Speed</b></td></tr>
 				<tr><td> {{ character.ac }}</td><td>{{ character.initiative }}</td><td>{{ character.speed }}</td></tr>
 			</table>
 		</div>
-		<div name="hp" class="charPg1ColumnSection">
+		<div name="hp" class="charPgColumnSection">
 			<table class="tableBordered">
 				<tr><td colspan=3><b>Current HP</b></td></tr>
 				<tr><td colspan=3>{{ character.currentHP }}</td></tr>
@@ -100,7 +100,7 @@
 				<tr><td colspan=3>{{ character.hitDice }}</td></tr>
 			</table>
 		</div>
-		<div name="weapons" class="charPg1ColumnSection">
+		<div name="weapons" class="charPgColumnSection">
 			<table class="tableBordered">
 			<tr><td><b>Weapon</b></td><td><b>Attack Bonus</b></td><td><b>Damage</b></td></tr>
 			{% for w in weapons %}
@@ -113,7 +113,7 @@
 			<tr><td colspan=3> {{ character.weaponsNotes|safe|linebreaksbr }}</td></tr>
 			</table>
 		</div>
-		<div name="money" class="charPg1ColumnSection">
+		<div name="money" class="charPgColumnSection">
 			<table class="tableBordered">
 				<tr><td><small>100</small></td><td><b>CP:</b></td><td>{{ money.cp }}</td></tr>
 				<tr><td><small>10</small></td><td><b>SP:</b></td><td>{{ money.sp }}</td></tr>
@@ -122,7 +122,7 @@
 				<tr><td><small>1/10</small></td><td><b>PP:</b></td><td>{{ money.pp }}</td></tr>
 			</table>
 		</div>
-		<div name="equipment" class="charPg1ColumnSection">
+		<div name="equipment" class="charPgColumnSection">
 			<table class="tableBordered">
 			<tr><td><b>Equipment</b></td></tr>
 			{% for e in equipment %}
@@ -133,13 +133,13 @@
 		</div>
 	</div><!--end column2-->
 	<div name="col3" class="charPgTriColumn"><!--column3-->
-		<div name="personality" class="charPg1ColumnSection">
+		<div name="personality" class="charPgColumnSection">
 			<table class="tableBordered">
 			<tr><td><b>Personality Notes</b></td></tr>
 			<tr><td style="text-align: left">{{ character.personalityNotes|safe|linebreaksbr }}</td></tr>
 			</table>
 		</div>
-		<div name="skills" class="charPg1ColumnSection">
+		<div name="skills" class="charPgColumnSection">
 			<table class="tableBordered">
 			<tr><td><b>Skills</b></td></tr>
 			{% for s in skills %}
@@ -147,7 +147,7 @@
 			{% endfor %}
 			</table>
 		</div>
-		<div name="proficiencies" class="charPg1ColumnSection">
+		<div name="proficiencies" class="charPgColumnSection">
 			<table class="tableBordered">
 				<tr><td><b>Proficiencies</b></td></tr>
 				<tr>

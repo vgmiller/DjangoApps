@@ -4,10 +4,10 @@
 	<h2>Saren's Identities</h2>
 	{% for i in imageWithTexts %}
 	<div class="charPgBiColumn">
-		<div class="charPg1ColumnSection" style="display:inline-block; width:48%; padding:5px">
+		<div class="charPgColumnSection" style="display:inline-block; width:48%; padding:5px">
 				<img style="width:99%;" src="{{ i.image.url }}" alt="">
 		</div>
-		<div class="charPg1ColumnSection" style="display:inline-block; width:49%;">
+		<div class="charPgColumnSection" style="display:inline-block; width:49%;">
 				<b>{{ i.displayName }}</b><br/> {{ i.text|safe|linebreaksbr }}
 		</div>
 	</div>
