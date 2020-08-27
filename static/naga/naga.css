@@ -13,10 +13,11 @@ h2 {
 	text-align: center;
 }
 .headshot {
-	margin: 0px 5px 0px 5%;
+	margin: auto;
 	width: auto;
 	height: 180px;
 	float: right;
+	padding: 5px;
 }
 .topBar {
 	margin: 0 5%;
@@ -24,6 +25,7 @@ h2 {
 .pageArea {
 	background-color: OldLace;
 	margin: 0 5%;
+	padding: 5px;
 }
 .charPgTriColumn {
 	display: inline-block;
@@ -63,7 +65,7 @@ table.tableBordered {
 	margin: auto;
 }
 table.tableBordered td {
-	border: 1px solid Tan;
+	border: 2px ridge Tan;
 	padding: 5px;
 	text-align: center;
 }

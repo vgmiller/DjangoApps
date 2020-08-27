@@ -19,15 +19,15 @@ window.onload = function() {
 </script>
 <title>{{ character.name }}</title>
 <div class="topBar">
-	<div name="header">
+	<div name="header" style="overflow: hidden">
 		{% if character.headshot %}
-		<img src="{{ character.headshot.url }}" alt="" class="headshot">
+		<img src="{{ character.headshot.url }}" alt="{{ character.name }}" class="headshot">
 		{% endif %}
 		<h1>{{ character.name }}</h1>
 		<p> <a href="{% url 'naga_index' %}">Back to Character List</a></p>
 		<br/><br/>
 	</div>
-	<div name="tabs" style="padding:5px">
+	<div name="tabs" style="padding:2px">
 		<button class="tablinks" onclick="openPage(event, 'pg1')" id="defaultOpen">Page 1</button>
 		<button class="tablinks" onclick="openPage(event, 'pg2')">Page 2</button>
 		{% if character.useSpellPage %}
