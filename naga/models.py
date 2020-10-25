@@ -19,6 +19,14 @@ class DndClass(models.Model):
     isPrimarySpellClass = models.BooleanField(default=False) #usually your main class
     isSpellcastingClass = models.BooleanField(default=False) #e.g. Fighter no, Wizard yes
     
+    def save(self, *args, **kwargs):
+        isNew = False
+        if not self.pk: #new object
+            isNew = True
+        super().save(*args, **kwargs)
+        if isNew and self.get_name_display() in ['Druid']:
+            self.createDefaultSpellNodes()
+    
     def getSpellcastingAbilityMod(self):
         #tbd make better
         switcher = {
@@ -59,12 +67,24 @@ class DndClass(models.Model):
         switcher = {
             "Wizard": (self.character.getIntMod() + self.level),
             "Artificer": (self.character.getIntMod() + max(1, math.floor(self.level/2)) ),
+            "Druid": (self.character.getWisMod() + self.level),
             }
         return switcher.get(self.get_name_display(), (self.character.getIntMod()+self.level))
 
     def generalSpellLookup(self, className):
-        return None
-
+        return None #revist with below idea... but might not be necessary
+    
+    def createDefaultSpellNodes(self):
+        import json, os
+        from django.conf import settings
+        filename = os.path.join(settings.STATIC_ROOT, "naga/spelldata.json")
+        with open(filename, "r") as f:
+            spellsToCopy = json.load(f)
+        for key, spell in spellsToCopy.items():
+            if self.get_name_display() in spell['lists']:
+                newSpell = SpellNode()
+                newSpell.copyFromRefNode(self, spell)
+                newSpell.save()
 
 class Character(models.Model):
     name = models.CharField(max_length=255)
@@ -121,6 +141,8 @@ class Character(models.Model):
     externalReferences = models.TextField(blank=True, null=True) #Out of character, links to stuff or player notes
 
     useSpellPage = models.BooleanField(default=True)
+    lvl0slotsTotal = models.IntegerField(blank=True, null=True)
+    lvl0slotsUsed = models.IntegerField(blank=True, null=True)
     lvl1slotsTotal = models.IntegerField(blank=True, null=True)
     lvl1slotsUsed = models.IntegerField(blank=True, null=True)
     lvl2slotsTotal = models.IntegerField(blank=True, null=True)
@@ -463,12 +485,37 @@ class SpellNode(Node):
     dndClass = models.ForeignKey('DndClass', related_name='spellNodes', on_delete=models.CASCADE)
     prepared = models.BooleanField()
     level = models.IntegerField() #cantrips should be level 0
+    castingTime = models.CharField(max_length=255, blank=True, null=True)
+    ritual = models.CharField(max_length=255, blank=True, null=True)
+    duration = models.CharField(max_length=255, blank=True, null=True)
+    school = models.CharField(max_length=255, blank=True, null=True)
+    components = models.CharField(max_length=255, blank=True, null=True)
+    concentration = models.CharField(max_length=255, blank=True, null=True)
+    areaOfEffect = models.CharField(max_length=255, blank=True, null=True)
+    areaShape = models.CharField(max_length=255, blank=True, null=True)
+    range = models.CharField(max_length=255, blank=True, null=True)
 
     def getDisplayName(self):
         if self.dndClass.isPrimarySpellClass:
             return self.displayName
         else:
             return self.displayName + ' (%s)' % (self.dndClass.get_name_display())
+
+    def copyFromRefNode(self, dndClass, refNode):
+        self.dndClass = dndClass
+        self.prepared = False
+        self.level = refNode['level']
+        self.displayName = refNode['name']
+        self.longDescription = refNode['description']
+        self.castingTime = refNode['casting-time']
+        self.ritual = refNode['ritual']
+        self.duration = refNode['duration']
+        self.school = refNode['school']
+        self.components = refNode['components']
+        self.concentration = refNode['concentration']
+        self.areaOfEffect = refNode.get('aoe')
+        self.areaShape = refNode.get('aoe_shape')
+        self.range = refNode['range-area']
 
 class ImageWithText(models.Model):
     #e.g. Saren Identities
