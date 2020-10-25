@@ -110,7 +110,9 @@
 				<td>{{ w.damage }}</td>
 			</tr>
 			{% endfor %}
+			{% if character.weaponsNotes %}
 			<tr><td colspan=3> {{ character.weaponsNotes|safe|linebreaksbr }}</td></tr>
+			{% endif %}
 			</table>
 		</div>
 		<div name="money" class="charPgColumnSection">
