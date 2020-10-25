@@ -1,4 +1,7 @@
 {% extends "naga_base.html" %}
+{% load index %}
+{% load slotsTotal %}
+{% load slotsUsed %}
 {% block page_content %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -14,107 +17,34 @@
 	<div name="topSection">
 	<table class="tableBordered" style="display:inline-block">
 	<tr>
-		<td>{{ spellcastingClass }}</td><td>{{ spellcastingAbility }}</td><td>{{ spellSaveDC }}</td><td>{{ spellAtkBonus }}</td>
+		<td>{{ spellcastingClass }}</td><td>{{ spellcastingLevel }}</td><td>{{ spellcastingAbility }}</td><td>{{ spellSaveDC }}</td><td>{{ spellAtkBonus }}</td>
 	</tr>
 	<tr>
-		<td><small>Spellcasting Class</small></td><td><small>Spellcasting Ability</small></td><td><small>Spell Save DC</small></td><td><small>Spell Attack Bonus</small></td>
+		<td><small>Spellcasting Class</small></td><td><small>Level</small></td><td><small>Spellcasting Ability</small></td><td><small>Spell Save DC</small></td><td><small>Spell Attack Bonus</small></td>
 	</tr>
 	</table>
 	<p class="normal" style="float:right">Can prepare {{ numPrepare }} {{ spellcastingClass }} spells a day</p>
 	</div>
 	<div name="spacer">&nbsp;<br></div>
 	<div name="spells">
-		<div name="cantrips" class="spellSection">
+		{% for i in '0123456789'|make_list %}
+		{% if character|slotsTotal:forloop.counter0 %}
+		<div name="{{ forloop.counter0 }}" class="spellSection">
 		<table class="tableBordered">
-			<tr><td colspan=3> Cantrips</td></tr>
-			{% for s in spells.0 %}
-			<tr><td colspan=3><a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
-			{% endfor %}
-		</table>
-		</div>
-		<!---These sections are mostly copypasta because Django templates are grumpy about cool code -->
-		<div name="1spells" class="spellSection">
-		<table class="tableBordered">
+			{% if forloop.counter0 == 0 %}
+			<tr><td colspan=3>Cantrips (Knows {{ character|slotsTotal:forloop.counter0 }})</td></tr>
+			<tr><td colspan=3><small>Preparation cannot be removed, only added</small</td></tr>
+			{% else %}
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td>1</td><td> {{ character.lvl1slotsTotal }}</td><td> {{ character.lvl1slotsUsed }}</td></tr>
-			{% for s in spells.1 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			<tr><td><small>{{ forloop.counter0 }}</small></td><td><small>{{ character|slotsTotal:forloop.counter0 }}</small></td><td><small>{{ character|slotsUsed:forloop.counter0 }}</small></td></tr>
+			{% endif %}
+			{% for s in spells|index:forloop.counter0 %}
+			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2><a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|escape|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
 			{% endfor %}
 		</table>
 		</div>
-		<div name="2spells" class="spellSection">
-		<table class="tableBordered">
-			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td>2</td><td> {{ character.lvl2slotsTotal }}</td><td> {{ character.lvl2slotsUsed }}</td></tr>
-			{% for s in spells.2 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
-			{% endfor %}
-		</table>
-		</div>
-		<div name="3spells" class="spellSection">
-		<table class="tableBordered">
-			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td>3</td><td> {{ character.lvl3slotsTotal }}</td><td> {{ character.lvl3slotsUsed }}</td></tr>
-			{% for s in spells.3 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
-			{% endfor %}
-		</table>
-		</div>
-		<div name="4spells" class="spellSection">
-		<table class="tableBordered">
-			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td>4</td><td> {{ character.lvl4slotsTotal }}</td><td> {{ character.lvl4slotsUsed }}</td></tr>
-			{% for s in spells.4 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
-			{% endfor %}
-		</table>
-		</div>
-		<div name="5spells" class="spellSection">
-		<table class="tableBordered">
-			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td>5</td><td> {{ character.lvl5slotsTotal }}</td><td> {{ character.lvl5slotsUsed }}</td></tr>
-			{% for s in spells.5 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
-			{% endfor %}
-		</table>
-		</div>
-		<div name="6spells" class="spellSection">
-		<table class="tableBordered">
-			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td>6</td><td> {{ character.lvl6slotsTotal }}</td><td> {{ character.lvl6slotsUsed }}</td></tr>
-			{% for s in spells.6 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
-			{% endfor %}
-		</table>
-		</div>
-		<div name="7spells" class="spellSection">
-		<table class="tableBordered">
-			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td>7</td><td> {{ character.lvl7slotsTotal }}</td><td> {{ character.lvl7slotsUsed }}</td></tr>
-			{% for s in spells.7 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
-			{% endfor %}
-		</table>
-		</div>
-		<div name="8spells" class="spellSection">
-		<table class="tableBordered">
-			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td>8</td><td> {{ character.lvl8slotsTotal }}</td><td> {{ character.lvl8slotsUsed }}</td></tr>
-			{% for s in spells.8 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
-			{% endfor %}
-		</table>
-		</div>
-		<div name="9spells" class="spellSection">
-		<table class="tableBordered">
-			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td>9</td><td> {{ character.lvl9slotsTotal }}</td><td> {{ character.lvl9slotsUsed }}</td></tr>
-			{% for s in spells.9 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2> <a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
-			{% endfor %}
-		</table>
-		</div>
-
+		{% endif %}
+		{% endfor %}
 	</div>
 </div>
 <div name="spacer">&nbsp;<br></div>

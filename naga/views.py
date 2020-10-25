@@ -36,6 +36,7 @@ def naga_characterHome(request, name):
         cls = character.getPrimarySpellClass()
         context['spells'] = character.getAllSpells(secondaryPreparedOnly=True)
         context['spellcastingClass'] = cls.get_name_display()
+        context['spellcastingLevel'] = cls.level
         context['spellcastingAbility'] = cls.getSpellcastingAbilityMod()
         context['spellSaveDC'] = cls.getSpellSaveDC()
         context['spellAtkBonus'] = cls.getSpellAtkBonus()
