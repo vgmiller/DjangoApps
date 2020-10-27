@@ -43,7 +43,7 @@ class DndClass(models.Model):
     def getSpellAtkBonus(self):
         return (self.getSpellcastingAbilityMod()+self.character.proficiencyBonus)
 
-    def getSpells(self, preparedOnly=False, known=True):
+    def getSpells(self, preparedOnly=False, known=True, showClassInName=False):
         sDict = {}
         levelList = []
         for i in range(10):
@@ -56,7 +56,7 @@ class DndClass(models.Model):
             else:
                 spellNodes = self.spellNodes.filter(level=i, known=known)
             for s in spellNodes:
-                displayName = s.getDisplayName()
+                displayName = s.getDisplayName(showClassInName=showClassInName)
                 if s.ritual == "True":
                     displayName+= " (Ritual)"
                 popupContent = "<b>Casting Time: </b>%s<br><b>Duration: </b>%s<br><b>Components: </b>%s<br><b>Concentration: </b>%s<br><b>Area of Effect: </b>%s (%s shape)<br><b>Range: </b>%s<br><br>%s<br><br><i><small>%s</small></i>" % (s.castingTime, s.duration, s.components, s.concentration, s.areaOfEffect, s.areaShape, s.range, s.longDescription, s.source)
@@ -205,6 +205,11 @@ class Character(models.Model):
         return c[0]
     def getPrimarySpellClass(self):
         c = list(self.dndClasses.filter(isPrimarySpellClass=True))
+        if c:
+            return c[0]
+        return None
+    def getSecondarySpellClass(self):
+        c = list(self.dndClasses.filter(isPrimarySpellClass=False))
         if c:
             return c[0]
         return None
@@ -373,11 +378,11 @@ class Character(models.Model):
             eList.append(eDict)
         return eList
 
-    def getAllSpells(self, includeSecondary=True, secondaryPreparedOnly=False, known=True):
-        sps = self.getPrimarySpellClass().getSpells(known=known)
+    def getAllSpells(self, includeSecondary=True, preparedOnly=False, secondaryPreparedOnly=False, known=True, showClassInName=False):
+        sps = self.getPrimarySpellClass().getSpells(known=known, preparedOnly=preparedOnly, showClassInName=showClassInName)
         for c in self.dndClasses.all():
             if c.isSpellcastingClass and not c.isPrimarySpellClass and includeSecondary:
-                addSps = c.getSpells(preparedOnly=True, known=known)
+                addSps = c.getSpells(preparedOnly=(preparedOnly or secondaryPreparedOnly), known=known, showClassInName=showClassInName)
                 newSps = {}
                 for key in sps.keys():
                     newSps[key] = sps[key] + addSps[key]
@@ -393,6 +398,7 @@ class Character(models.Model):
                     "orderindex": p.orderindex,
                     }
             pList.append(pDict)
+        pList = sorted(pList, key=lambda page:  page['orderindex'])
         return pList
     
     def getImageWithTexts(self):
@@ -410,11 +416,8 @@ class Character(models.Model):
         #space to fill in custom things for character custom pages
         myDict = {}
         if self.name == "Merb":
-            c = list(self.dndClasses.filter(name=4))#bleh
-            artificer = c[0]
             myDict = {
-                    "artificerNumPrepare": artificer.getNumSpellsPrepare(),
-                    "artificerSpells": artificer.generalSpellLookup("Artificer"),
+                    "combinedPreparedSpells": self.getAllSpells(preparedOnly=True, showClassInName=True),
                     }
         return myDict
 
@@ -519,11 +522,11 @@ class SpellNode(Node):
     htmlDescription = models.TextField(blank=True, null=True)
     known = models.BooleanField(default=False, null=True)
 
-    def getDisplayName(self):
-        if self.dndClass.isPrimarySpellClass:
-            return self.displayName
-        else:
+    def getDisplayName(self, showClassInName=False):
+        if showClassInName:
             return self.displayName + ' (%s)' % (self.dndClass.get_name_display())
+        else:
+            return self.displayName
 
     def copyFromRefNode(self, dndClass, refNode):
         self.dndClass = dndClass

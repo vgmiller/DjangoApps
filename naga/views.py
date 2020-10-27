@@ -34,13 +34,23 @@ def naga_characterHome(request, name):
     
     if character.getPrimarySpellClass():
         cls = character.getPrimarySpellClass()
-        context['spells'] = character.getAllSpells(secondaryPreparedOnly=True)
+        context['spells'] = cls.getSpells()
         context['spellcastingClass'] = cls.get_name_display()
         context['spellcastingLevel'] = cls.level
         context['spellcastingAbility'] = cls.getSpellcastingAbilityMod()
         context['spellSaveDC'] = cls.getSpellSaveDC()
         context['spellAtkBonus'] = cls.getSpellAtkBonus()
         context['numPrepare'] = cls.getNumSpellsPrepare()
+    if character.getSecondarySpellClass():
+        cls = character.getSecondarySpellClass()
+        context['s_spells'] = cls.getSpells()
+        context['s_spellcastingClass'] = cls.get_name_display()
+        context['s_spellcastingLevel'] = cls.level
+        context['s_spellcastingAbility'] = cls.getSpellcastingAbilityMod()
+        context['s_spellSaveDC'] = cls.getSpellSaveDC()
+        context['s_spellAtkBonus'] = cls.getSpellAtkBonus()
+        context['s_numPrepare'] = cls.getNumSpellsPrepare()
+
 
     return render(request, "naga_characterHome.html", context)
 

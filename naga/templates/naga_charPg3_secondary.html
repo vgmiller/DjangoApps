@@ -1,0 +1,56 @@
+{% extends "naga_base.html" %}
+{% load index %}
+{% load slotsTotal %}
+{% load slotsUsed %}
+{% block page_content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script>
+	$(document).ready(function(){
+		  $('[data-toggle="popover"]').popover();
+	});
+	$('.popover-dismiss').popover({
+		trigger: 'focus'
+	})
+</script>
+<div class="pageArea">
+	<div name="topSection">
+	<table class="tableBordered" style="display:inline-block">
+	<tr>
+		<td>{{ s_spellcastingClass }}</td><td>{{ s_spellcastingLevel }}</td><td>{{ s_spellcastingAbility }}</td><td>{{ s_spellSaveDC }}</td><td>{{ s_spellAtkBonus }}</td>
+	</tr>
+	<tr>
+		<td><small>Spellcasting Class</small></td><td><small>Level</small></td><td><small>Spellcasting Ability</small></td><td><small>Spell Save DC</small></td><td><small>Spell Attack Bonus</small></td>
+	</tr>
+	</table>
+	<p class="normal" style="float:right">Can prepare {{ s_numPrepare }} {{ s_spellcastingClass }} spells a day</p>
+	</div>
+	<div name="spacer">&nbsp;<br></div>
+	<div name="spells">
+		{% for i in '0123456789'|make_list %}
+		{% if character|slotsTotal:forloop.counter0 %}
+		<div name="{{ forloop.counter0 }}" class="spellSection">
+		<table class="tableBordered">
+			{% if forloop.counter0 == 0 %}
+			<tr><td colspan=3>Cantrips</td></tr>
+			{% else %}
+			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
+			<tr><td><small>{{ forloop.counter0 }}</small></td><td><small>{{ character|slotsTotal:forloop.counter0 }}</small></td><td><small>{{ character|slotsUsed:forloop.counter0 }}</small></td></tr>
+			{% endif %}
+			{% for s in s_spells|index:forloop.counter0 %}
+			<tr>
+			{% if forloop.parentloop.counter0 == 0 %}
+			<td colspan=3>
+			{% else %}
+			<td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2>
+			{% endif %}
+			<a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.popupContent|escape|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			{% endfor %}
+		</table>
+		</div>
+		{% endif %}
+		{% endfor %}
+	</div>
+</div>
+<div name="spacer">&nbsp;<br></div>
+{% endblock %}
