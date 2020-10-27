@@ -24,8 +24,9 @@ class DndClass(models.Model):
         if not self.pk: #new object
             isNew = True
         super().save(*args, **kwargs)
-        if isNew and self.get_name_display() in ['Druid']:
-            self.createDefaultSpellNodes()
+        if isNew:
+            knowsAllFromStart = self.get_name_display() in ['Druid', 'Artificer']
+            self.createDefaultSpellNodes(known=knowsAllFromStart)
     
     def getSpellcastingAbilityMod(self):
         #tbd make better
@@ -42,22 +43,32 @@ class DndClass(models.Model):
     def getSpellAtkBonus(self):
         return (self.getSpellcastingAbilityMod()+self.character.proficiencyBonus)
 
-    def getSpells(self, preparedOnly=False):
+    def getSpells(self, preparedOnly=False, known=True):
         sDict = {}
         levelList = []
         for i in range(10):
-            if preparedOnly:
-                spellNodes = self.spellNodes.filter(level=i, prepared=True) #cantrips should be level 0
+        #cantrips are level 0
+            if i == 0:
+                #only show prepared cantrips, known irrelevant. For cantrips, prepared is the real known
+                spellNodes = self.spellNodes.filter(level=i, prepared=True, known=True) 
+            elif preparedOnly:
+                spellNodes = self.spellNodes.filter(level=i, prepared=True, known=known)
             else:
-                spellNodes = self.spellNodes.filter(level=i) #cantrips should be level 0
+                spellNodes = self.spellNodes.filter(level=i, known=known)
             for s in spellNodes:
+                displayName = s.getDisplayName()
+                if s.ritual == "True":
+                    displayName+= " (Ritual)"
+                popupContent = "<b>Casting Time: </b>%s<br><b>Duration: </b>%s<br><b>Components: </b>%s<br><b>Concentration: </b>%s<br><b>Area of Effect: </b>%s (%s shape)<br><b>Range: </b>%s<br><br>%s<br><br><i><small>%s</small></i>" % (s.castingTime, s.duration, s.components, s.concentration, s.areaOfEffect, s.areaShape, s.range, s.longDescription, s.source)
                 spD = {
-                        "displayName": s.getDisplayName(),
+                        "displayName": displayName,
                         "level": s.level,
                         "prepared": s.prepared,
-                        "longDescription": s.longDescription,
+                        "popupContent": popupContent,
                     }
                 levelList.append(spD)
+            levelList = sorted(levelList, key=lambda spell:  spell['displayName'])
+            levelList = sorted(levelList, key=lambda spell:  spell['prepared'], reverse=True)
             sDict[i] = levelList
             levelList = []
         return sDict
@@ -74,7 +85,7 @@ class DndClass(models.Model):
     def generalSpellLookup(self, className):
         return None #revist with below idea... but might not be necessary
     
-    def createDefaultSpellNodes(self):
+    def createDefaultSpellNodes(self, known=False):
         import json, os
         from django.conf import settings
         filename = os.path.join(settings.STATIC_ROOT, "naga/spelldata.json")
@@ -84,6 +95,7 @@ class DndClass(models.Model):
             if self.get_name_display() in spell['lists']:
                 newSpell = SpellNode()
                 newSpell.copyFromRefNode(self, spell)
+                newSpell.known = known
                 newSpell.save()
 
 class Character(models.Model):
@@ -361,11 +373,11 @@ class Character(models.Model):
             eList.append(eDict)
         return eList
 
-    def getAllSpells(self, secondaryPreparedOnly=False):
-        sps = self.getPrimarySpellClass().getSpells()
+    def getAllSpells(self, includeSecondary=True, secondaryPreparedOnly=False, known=True):
+        sps = self.getPrimarySpellClass().getSpells(known=known)
         for c in self.dndClasses.all():
-            if c.isSpellcastingClass and not c.isPrimarySpellClass:
-                addSps = c.getSpells(preparedOnly=True)
+            if c.isSpellcastingClass and not c.isPrimarySpellClass and includeSecondary:
+                addSps = c.getSpells(preparedOnly=True, known=known)
                 newSps = {}
                 for key in sps.keys():
                     newSps[key] = sps[key] + addSps[key]
@@ -494,6 +506,18 @@ class SpellNode(Node):
     areaOfEffect = models.CharField(max_length=255, blank=True, null=True)
     areaShape = models.CharField(max_length=255, blank=True, null=True)
     range = models.CharField(max_length=255, blank=True, null=True)
+    source = models.CharField(max_length=255, blank=True, null=True)
+    pageNumber = models.CharField(max_length=255, blank=True, null=True)
+    meleeWeaponAttack = models.CharField(max_length=255, blank=True, null=True)
+    rangedWeaponAttack = models.CharField(max_length=255, blank=True, null=True)
+    meleeSpellAttack = models.CharField(max_length=255, blank=True, null=True)
+    rangedSpellAttack = models.CharField(max_length=255, blank=True, null=True)
+    url = models.CharField(max_length=255, blank=True, null=True)
+    school = models.CharField(max_length=255, blank=True, null=True)
+    lists = models.CharField(max_length=255, blank=True, null=True)
+    dataSource = models.CharField(max_length=255, blank=True, null=True)
+    htmlDescription = models.TextField(blank=True, null=True)
+    known = models.BooleanField(default=False, null=True)
 
     def getDisplayName(self):
         if self.dndClass.isPrimarySpellClass:
@@ -504,18 +528,29 @@ class SpellNode(Node):
     def copyFromRefNode(self, dndClass, refNode):
         self.dndClass = dndClass
         self.prepared = False
-        self.level = refNode['level']
-        self.displayName = refNode['name']
-        self.longDescription = refNode['description']
-        self.castingTime = refNode['casting-time']
-        self.ritual = refNode['ritual']
-        self.duration = refNode['duration']
-        self.school = refNode['school']
-        self.components = refNode['components']
-        self.concentration = refNode['concentration']
+        self.level = refNode.get('level')
+        self.displayName = refNode.get('name')
+        self.longDescription = refNode.get('description')
+        self.castingTime = refNode.get('casting-time')
+        self.ritual = refNode.get('ritual')
+        self.duration = refNode.get('duration')
+        self.school = refNode.get('school')
+        self.components = refNode.get('components')
+        self.concentration = refNode.get('concentration')
         self.areaOfEffect = refNode.get('aoe')
         self.areaShape = refNode.get('aoe_shape')
-        self.range = refNode['range-area']
+        self.range = refNode.get('range-area')
+        self.source = refNode.get('source')
+        self.pageNumber = refNode.get('page_number')
+        self.meleeWeaponAttack = refNode.get('melee-weapon-attack')
+        self.rangedWeaponAttack = refNode.get('ranged-weapon-attack')
+        self.meleeSpellAttack = refNode.get('melee-spell-attack')
+        self.rangedSpellAttack = refNode.get('ranged-spell-attack')
+        self.url = refNode.get('url')
+        self.school = refNode.get('school')
+        self.lists = refNode.get('lists')
+        self.dataSource = refNode.get('datasource')
+        self.htmlDescription = refNode.get('html_description')
 
 class ImageWithText(models.Model):
     #e.g. Saren Identities

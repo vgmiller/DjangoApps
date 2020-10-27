@@ -32,14 +32,19 @@
 		<div name="{{ forloop.counter0 }}" class="spellSection">
 		<table class="tableBordered">
 			{% if forloop.counter0 == 0 %}
-			<tr><td colspan=3>Cantrips (Knows {{ character|slotsTotal:forloop.counter0 }})</td></tr>
-			<tr><td colspan=3><small>Preparation cannot be removed, only added</small</td></tr>
+			<tr><td colspan=3>Cantrips</td></tr>
 			{% else %}
 			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
 			<tr><td><small>{{ forloop.counter0 }}</small></td><td><small>{{ character|slotsTotal:forloop.counter0 }}</small></td><td><small>{{ character|slotsUsed:forloop.counter0 }}</small></td></tr>
 			{% endif %}
 			{% for s in spells|index:forloop.counter0 %}
-			<tr><td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2><a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|escape|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			<tr>
+			{% if forloop.parentloop.counter0 == 0 %}
+			<td colspan=3>
+			{% else %}
+			<td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2>
+			{% endif %}
+			<a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.popupContent|escape|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
 			{% endfor %}
 		</table>
 		</div>

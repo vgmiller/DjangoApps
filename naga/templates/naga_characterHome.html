@@ -23,7 +23,7 @@ window.onload = function() {
 		{% if character.headshot %}
 		<img src="{{ character.headshot.url }}" alt="{{ character.name }}" class="headshot">
 		{% endif %}
-		<h1>{{ character.name }}</h1>
+		<h1 style="font-family: Caslon, Plantin, Garamond, serif">{{ character.name }}</h1>
 		<p> <a href="{% url 'naga_index' %}">Back to Character List</a></p>
 		<br/><br/>
 	</div>
