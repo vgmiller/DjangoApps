@@ -48,9 +48,9 @@ class DndClass(models.Model):
         levelList = []
         for i in range(10):
         #cantrips are level 0
-            if i == 0:
-                #only show prepared cantrips, known irrelevant. For cantrips, prepared is the real known
-                spellNodes = self.spellNodes.filter(level=i, prepared=True, known=True) 
+            if i == 0: 
+                #only ever shown known cantrips (note, they should always be prepared)
+                spellNodes = self.spellNodes.filter(level=i, known=True)
             elif preparedOnly:
                 spellNodes = self.spellNodes.filter(level=i, prepared=True, known=known)
             else:
@@ -95,7 +95,11 @@ class DndClass(models.Model):
             if self.get_name_display() in spell['lists']:
                 newSpell = SpellNode()
                 newSpell.copyFromRefNode(self, spell)
-                newSpell.known = known
+                if newSpell.level == 0: #cantrips come in prepared but unknown
+                    newSpell.prepared = True
+                    newSpell.known = False
+                else:
+                    newSpell.known = known
                 newSpell.save()
 
 class Character(models.Model):
@@ -209,7 +213,7 @@ class Character(models.Model):
             return c[0]
         return None
     def getSecondarySpellClass(self):
-        c = list(self.dndClasses.filter(isPrimarySpellClass=False))
+        c = list(self.dndClasses.filter(isPrimarySpellClass=False, isSpellcastingClass=True))
         if c:
             return c[0]
         return None
@@ -498,7 +502,7 @@ class EquipmentNode(Node):
 class SpellNode(Node):
     #attached to a class, which is attached to a character
     dndClass = models.ForeignKey('DndClass', related_name='spellNodes', on_delete=models.CASCADE)
-    prepared = models.BooleanField()
+    prepared = models.BooleanField() #cantrips are always prepared, but not always known
     level = models.IntegerField() #cantrips should be level 0
     castingTime = models.CharField(max_length=255, blank=True, null=True)
     ritual = models.CharField(max_length=255, blank=True, null=True)
@@ -520,7 +524,7 @@ class SpellNode(Node):
     lists = models.CharField(max_length=255, blank=True, null=True)
     dataSource = models.CharField(max_length=255, blank=True, null=True)
     htmlDescription = models.TextField(blank=True, null=True)
-    known = models.BooleanField(default=False, null=True)
+    known = models.BooleanField(default=False)
 
     def getDisplayName(self, showClassInName=False):
         if showClassInName:
