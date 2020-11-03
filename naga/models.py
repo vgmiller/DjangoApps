@@ -9,7 +9,7 @@ class DndClass(models.Model):
             ('3', 'Bard'),
             ('4', 'Artificer'),
             ('5', 'Fighter'),
-            ('5', 'Druid'),
+            ('6', 'Druid'),
         )
     name = models.CharField(max_length=20, choices=CLASS_CHOICES, unique=True)
     school = models.CharField(max_length=255, blank=True, null=True)
@@ -253,6 +253,7 @@ class Character(models.Model):
             "Wizard": self.getDexMod(),
             "Bard": self.getDexMod(),
             "Fighter": self.getStrMod(),
+            "Druid": self.getDexMod(),
             }
         return switcher.get(self.getPrimaryAtkClass().get_name_display(), self.getStrMod())
 

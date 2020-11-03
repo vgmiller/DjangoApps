@@ -130,7 +130,9 @@
 			{% for e in equipment %}
 			<tr><td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ e.displayName }}" data-content="{{ e.longDescription|safe|linebreaksbr }}">{{ e.displayName }}</a></td></tr>
 			{% endfor %}
+			{% if character.equipmentNotes %}
 			<tr><td style="text-align: left">{{ character.equipmentNotes|safe|linebreaksbr }}</td></tr>
+			{% endif %}
 			</table>
 		</div>
 	</div><!--end column2-->
