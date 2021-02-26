@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from naga.models import Character, Node
 from django.views.generic import UpdateView, ListView
 from django.http import HttpResponse
@@ -13,7 +13,7 @@ def naga_index(request):
     return render(request, "naga_index.html", context)
 
 def naga_characterHome(request, name):
-    character = Character.objects.get(name=name)
+    character = get_object_or_404(Character, name=name)
 
     context = {
         "character": character,
