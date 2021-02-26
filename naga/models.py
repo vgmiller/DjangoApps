@@ -145,7 +145,7 @@ class Character(models.Model):
     treasureNotes = models.TextField(blank=True, null=True)
     customNotesSlot1 = models.TextField(blank=True, null=True)
 
-    headshot = models.ImageField(upload_to='naga/uploads/%s/'%name, blank=True, null=True)
+    headshot = models.ImageField(upload_to='naga/uploads/characterHeadshots/', blank=True, null=True, default='naga/blankUser.png')
 
     cp = models.IntegerField(blank=True, null=True)
     sp = models.IntegerField(blank=True, null=True)
@@ -564,5 +564,5 @@ class ImageWithText(models.Model):
     #e.g. Saren Identities
     character = models.ForeignKey('Character', related_name='imageWithTexts', on_delete=models.CASCADE)
     displayName = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='naga/uploads/%s/'%character.name)
+    image = models.ImageField(upload_to='naga/uploads/imageWithText/', default='naga/blankUser.png')
     text = models.TextField()
