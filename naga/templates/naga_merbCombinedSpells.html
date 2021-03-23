@@ -1,18 +1,8 @@
-{% extends "naga_base.html" %}
+{% extends "naga_charPg_base.html" %}
 {% load index %}
 {% load slotsTotal %}
 {% load slotsUsed %}
 {% block page_content %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script>
-	$(document).ready(function(){
-		  $('[data-toggle="popover"]').popover();
-	});
-	$('.popover-dismiss').popover({
-		trigger: 'focus'
-	})
-</script>
 <div class="pageArea">
 	<div name="topSection">
 	<table class="tableBordered" style="display:inline-block">

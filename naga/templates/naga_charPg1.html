@@ -1,15 +1,5 @@
-{% extends "naga_base.html" %}
+{% extends "naga_charPg_base.html" %}
 {% block page_content %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script>
-	$(document).ready(function(){
-		  $('[data-toggle="popover"]').popover();
-	});
-	$('.popover-dismiss').popover({
-		trigger: 'focus'
-	})
-</script>
 <div class="pageArea">
 	<div name="topAttrs" style="margin: auto auto; width=99%">
 		<table class="tableBordered topBar">
@@ -91,13 +81,10 @@
 		</div>
 		<div name="hp" class="charPgColumnSection">
 			<table class="tableBordered">
-				<tr><td colspan=3><b>Current HP</b></td></tr>
-				<tr><td colspan=3>{{ character.currentHP }}</td></tr>
-				<tr><td colspan=3><b>Temp HP</b></td></tr>
-				<tr><td colspan=3>{{ character.tempHP }}</td></tr>
-				<tr><td colspan=3><b>Hit Dice</b></td></tr>
-				<tr><td colspan=3><small>{{ character.hitDiceType }}</small></td></tr>
-				<tr><td colspan=3>{{ character.hitDice }}</td></tr>
+				<tr><td colspan=2><b>Total HP</b></td><td colspan=2><b>Temp HP</b></td></tr>
+				<tr><td colspan=2>{{ character.currentHP }}</td><td colspan=2>{{ character.tempHP }}</td></tr>
+				<tr><td colspan=4><b>Hit Dice</b></td></tr>
+				<tr><td colspan=2><small>{{ character.hitDiceType }}</small></td><td colspan=2>{{ character.hitDice }}</td></tr>
 			</table>
 		</div>
 		<div name="weapons" class="charPgColumnSection">
