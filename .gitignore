@@ -1,3 +1,4 @@
 djenv
 */migrations
 __pycache__/
+*.pyc
