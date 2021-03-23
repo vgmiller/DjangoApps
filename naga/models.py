@@ -134,6 +134,7 @@ class Character(models.Model):
     hitDiceType = models.CharField(max_length=255)
     hitDice = models.CharField(max_length=255)
 
+    statusNotes = models.TextField(blank=True, null=True)
     personalityNotes = models.TextField(blank=True, null=True)
     proficienciesNotes = models.TextField(blank=True, null=True)
     weaponsNotes = models.TextField(blank=True, null=True)
