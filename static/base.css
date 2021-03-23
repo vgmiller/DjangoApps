@@ -26,6 +26,10 @@ h1 {
     margin-inline-end: 0px;
     font-weight: bold;
 }
+.errorlist {
+    font-weight: bold;
+    color: DarkRed;
+}
 .icon:hover {
 	opacity: .75;
 }

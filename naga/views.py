@@ -1,13 +1,16 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from naga.models import Character, Node
 from django.views.generic import UpdateView, ListView
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from naga.forms import NodeForm
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 
 def naga_index(request):
     characters = Character.objects.all()
     context = {
+        "user": request.user,
         "characters": characters,
     }
     return render(request, "naga_index.html", context)
@@ -16,6 +19,7 @@ def naga_characterHome(request, name):
     character = get_object_or_404(Character, name=name)
 
     context = {
+        "user": request.user,
         "character": character,
         "customPages": character.getCustomPages(),
         "topAttrs": character.getTopAttrs(),
@@ -53,6 +57,26 @@ def naga_characterHome(request, name):
 
 
     return render(request, "naga_characterHome.html", context)
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('myProfile')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form})
+
+def myProfile(request):
+    context = {
+        "user": request.user,
+    }
+    return render(request, 'registration/profile.html', context)
 
 """
 Nodes list

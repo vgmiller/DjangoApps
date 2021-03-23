@@ -63,6 +63,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'portfolio.urls'
 
+LOGIN_REDIRECT_URL = "myProfile"
+LOGOUT_REDIRECT_URL = "/naga"
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
