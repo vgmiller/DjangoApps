@@ -1,0 +1,37 @@
+<link rel="stylesheet" type="text/css" href="/static/music/music.css">
+<link rel="stylesheet" type="text/css" href="/static/base.css">
+<link rel="shortcut icon" href="/static/favicon.ico"/>
+<head><title>Vanessa Miller</title></head>
+<body>
+<div class="siteContainerOuter">
+<div class="siteContainerInner">
+	{% block top_content %} 
+	<div class="navBar">
+	<a class="navItem" href="/music">Vanessa Miller</a>
+	<a class="navItem" href="/music/about">About</a>
+	<a class="navItem" href="/music/recordings">Recordings</a>
+	<a class="navItem" href="/music/repertoire">Repertoire</a>
+	<a class="navItem" href="/music/samplePrograms">Sample Programs</a>
+	<a class="navItem" href="/music/news">News</a>
+	<a class="navItem" href="/music/contact">Contact</a>
+	</div>
+	{% endblock %}
+	{% block page_content %} {% endblock %}
+	{% block bottom_content %} 
+	<div class="bottomSocialMediaIcons">
+		<div class="bottomSocialMediaInner">
+			<a target="_blank" href="https://www.linkedin.com/in/vanessagmiller/">
+			 <img class="icon" alt="LinkedIn" src="/static/icons/linkedin.png"
+			 width=25" height="25">
+		      </a>
+			<a target="_blank" href="https://soundcloud.com/vmillermusic">
+			 <img class="icon" alt="SoundCloud" src="/static/icons/soundcloud.png"
+			 width=25" height="25">
+		      </a>
+		</div>
+	</div>
+	{% endblock %}
+</div> <!-- siteContainer -->
+</div> <!-- siteContainer -->
+</body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
