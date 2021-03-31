@@ -3,17 +3,36 @@
 <link rel="shortcut icon" href="/static/favicon.ico"/>
 <head><title>Vanessa Miller</title></head>
 <body>
+<script type="text/javascript">
+function navHighlight() {
+    var url = location.href.split('/');
+    var loc = url[url.length -1];
+    var home = "music_index";
+    Array.from(document.getElementsByClassName("navItem")).forEach(function(item){
+    var path = item.href.split('/');
+    var page = path[path.length -1];
+    if (page == loc || page == home && loc == '') {
+        item.className += ' on';
+	}
+    });
+}
+window.onload = function(){
+	navHighlight();
+};
+</script>
 <div class="siteContainerOuter">
 <div class="siteContainerInner">
 	{% block top_content %} 
 	<div class="navBar">
-	<a class="navItem" href="/music">Vanessa Miller</a>
-	<a class="navItem" href="/music/about">About</a>
-	<a class="navItem" href="/music/recordings">Recordings</a>
-	<a class="navItem" href="/music/repertoire">Repertoire</a>
-	<a class="navItem" href="/music/samplePrograms">Sample Programs</a>
-	<a class="navItem" href="/music/news">News</a>
-	<a class="navItem" href="/music/contact">Contact</a>
+		<span class="navSpan">
+		<a class="navItem" href="/music">Vanessa Miller</a>
+		<a class="navItem" href="/music/about">About</a>
+		<a class="navItem" href="/music/recordings">Recordings</a>
+		<a class="navItem" href="/music/repertoire">Repertoire</a>
+		<a class="navItem" href="/music/samplePrograms">Sample Programs</a>
+		<a class="navItem" href="/music/news">News</a>
+		<a class="navItem" href="/music/contact">Contact</a>
+		</span>
 	</div>
 	{% endblock %}
 	{% block page_content %} {% endblock %}

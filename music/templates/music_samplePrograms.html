@@ -1,43 +1,40 @@
 {% extends "music_base.html" %}
 {% load order_by %}
 {% block page_content %}
-<script>
-window.onload = function(){
-	showDiv(0);
-}
+<script type="text/javascript">
 function showDiv(id) {
 	Array.from(document.getElementsByClassName("activeProgramItem")).forEach(function(item){item.className = "programItem"});
 	Array.from(document.getElementsByClassName("activeProgramNavItem")).forEach(function(item){item.className = "programNavItem"});
-	document.getElementById("div_"+id).className="activeProgramItem";
+	document.getElementById("div_"+id).className+=" activeProgramItem";
 	if (id!=0){
-		document.getElementById("nav_"+id).className="activeProgramNavItem";
+		document.getElementById("nav_"+id).className+=" activeProgramNavItem";
 	}
 }
 </script>
 <p style="text-align:center">Click each title for a sample program.<br/></p>
-<div style="text-align:center; padding:10px">
-	{% for program in programs %}
-	<button class="programNavItem" href="_self" id="nav_{{ program.pageOrder}}" onClick="showDiv({{ program.pageOrder}})">{{ program.name }}</button> 
-	{% endfor %}
+<div style="width:80%; margin:auto; position:relative">
+<div class="programNav">
+{% for program in programs %}
+<button class="programNavItem" href="_self" id="nav_{{ program.pageOrder}}" onClick="showDiv({{ program.pageOrder}})">{{ program.name }}</button> 
+{% endfor %}
 </div>
-<div style="text-align:center">
-	<div class="programItem" id="div_0">
-	<img src="/static/music/flute_bwProfile.jpg" style="max-width:50%; height:auto">
-	</div>
-	{% for program in programs %}
-		<div class="programItem" id="div_{{ program.pageOrder }}">
-		<h3>{{ program.name }}</h3>
-		{{ program.description }}<br/>
-		<br/>
-		<table style="width:50%; margin:auto">
-		{% for slot in program.programSlots.all|order_by:'order' %}
-			<tr class="programPiece"><td colspan=3>{{ slot.piece.name }}</td><td style="text-align:right;">{{ slot.piece.composer.firstName }} {{ slot.piece.composer.lastName }} ({{ slot.piece.composer.birthYear|default_if_none:"" }} - {{ slot.piece.composer.deathYear|default_if_none:"" }})</td></tr>
-			{% for mvt in slot.piece.movements|order_by:'order' %}
-			<tr class="programMovement"><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>{{ mvt.order }}.</td><td>{{ mvt.name }}</td><td></td></tr>
-			{% endfor %}
+<div class="programItem activeProgramItem" id="div_0">
+<img src="/static/music/flute_bwProfile.jpg" style="max-width:100%; height:auto">
+</div>
+{% for program in programs %}
+	<div class="programItem" id="div_{{ program.pageOrder }}">
+	<h3>{{ program.name }}</h3>
+	{{ program.description }}<br/>
+	<br/>
+	<table style="width:100%; margin:auto">
+	{% for slot in program.programSlots.all|order_by:'order' %}
+		<tr class="programPiece"><td colspan=3>{{ slot.piece.name }}</td><td style="text-align:right;">{{ slot.piece.composer.firstName }} {{ slot.piece.composer.lastName }} ({{ slot.piece.composer.birthYear|default_if_none:"" }} - {{ slot.piece.composer.deathYear|default_if_none:"" }})</td></tr>
+		{% for mvt in slot.piece.movements|order_by:'order' %}
+		<tr class="programMovement"><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td>{{ mvt.order }}.</td><td>{{ mvt.name }}</td><td></td></tr>
 		{% endfor %}
-		</table>
-		</div>
 	{% endfor %}
+	</table>
+	</div>
+{% endfor %}
 </div>
 {% endblock %}

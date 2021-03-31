@@ -2,7 +2,7 @@
 {% load index %}
 {% block page_content %}
 The listing below is a representative sample, and Vanessa is always open to new repertoire!
-<p style="text-align:right"><font color="purple">Flute</font> <font color="green">Piccolo</font></p>
+<p style="text-align:center"><font class="flute">Flute</font> <font class="picc">Piccolo</font></p>
 <div class="repContainer">
 {% for heading in repertoire %}
 	<div class="repSection">
@@ -10,9 +10,9 @@ The listing below is a representative sample, and Vanessa is always open to new 
 	<table class="repertoire">
 	{% for d in repertoire|index:heading %}
 		{% if d.instrument == "1" %}
-		<tr style="color:purple">
+		<tr class="flute">
 		{% else %}
-		<tr style="color:green">
+		<tr class="picc">
 		{% endif %}
 		<td>{{ d.composer.lastName }}, {{ d.composer.firstName }}</td><td>{{ d.name }}</td></tr>
 	{% endfor %}
