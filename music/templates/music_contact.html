@@ -2,11 +2,24 @@
 {% block page_content %}
 <div style="display:flex">
 	<div class="flexItem">
-	<img src="/static/music/picc_sideSmile.JPG" style="max-width:50%; height:auto">
+	<img src="/static/music/picc_sideSmile.JPG" class="halfPagePicture">
 	</div>
-	<div class="flexItem">
-	Contact Form Coming Soon!
-	<br/>
+	<div class="flexItem" style="text-align:left; padding: 10%">
+	<h2>Contact Vanessa</h2>
+	<form method="post">
+	    {% csrf_token %}
+	    {{ form.as_p }}
+	    <div class="form-actions">
+	      <button type="submit">Send</button>
+	    </div>
+	</form>
+	{% if messages %}
+	<ul class="messages">
+	    {% for message in messages %}
+	    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+	    {% endfor %}
+	</ul>
+	{% endif %}
 	</div>
 </div>
 {% endblock %}
