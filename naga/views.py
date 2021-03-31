@@ -78,6 +78,25 @@ def myProfile(request):
     }
     return render(request, 'registration/profile.html', context)
 
+def naga_publicCharacterSummary(request):
+	from django.http import JsonResponse
+	characters = Character.objects.all()
+	charList = []
+	for char in characters:
+		cDict = {
+			"Name": char.name,
+			"Race": char.race,
+			"Alignment": char.alignment,
+			"AC": char.ac,
+			"HP": char.currentHP,
+			"Speed": char.speed,
+			"Class": char.getDndClassDisplay(),
+			"Level": char.getLevelDisplay(),
+			"Passive Perception": char.getPassivePerception(),
+		}
+		charList.append(cDict)
+	return JsonResponse(charList, safe=False)
+
 """
 Nodes list
 """
