@@ -5,15 +5,20 @@
 	var imageNo = (Math.floor(Math.random() * Math.floor(numImages))) + 1;
 	document.querySelector('body').style.backgroundImage = 'url(/static/landingPhotos/' + imageNo + '.jpg)';
 </script>
-<div style="width: 50%; margin: 10% auto; background-color: white; opacity: 0.75; padding:5px;">
-<h1 style="text-align:center;">Welcome to the Dragon's Lair</h1>
-<br/><br/>
-Click <a href='/naga'>here</a> to go to Naga!<br/>
-<br/>
-Click <a href='/projectGallery'>here</a> for project gallery<br/>
-<br/>
-Coming soon: <a href='/music'>Music</a><br/>
-<br/>
+<div style="width: 50%; margin: 10% auto; background-color: rgba(255,255,255,0.75); padding:5px;">
+	<h1 style="text-align:center;">Welcome to the Dragon's Lair</h1>
+	<br/><br/>
+	<div style="display:flex; text-align:center">
+		<div style="flex:1; padding:5px">
+		<h2> <a href='/naga'>Naga</a></h2><br/>
+		<a href='/naga'><img src='/static/naga/naga_sil.png' style="height:20vh; width:auto;"></a>
+		</div>
+		<div style="flex:1; padding:5px">
+		<h2> <a href='/music'>Music</a></h2><br/>
+		<a href='/music'><img src='/static/music/VMiller_Picc.jpg' style="height:20vh; width:auto;"></a>
+		</div>
+	</div>
+	<p style="text-align:center">Click <a href='/projectGallery'>here</a> for project gallery</p>
 </div>
 <div style="float:bottom; margin:0 auto;text-align:center;">
 	<div style="display:inline-block; background-color: white; opacity: 0.60; padding:5px">
