@@ -29,7 +29,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
         'vgmraspberrypi',
-        '172.4.38.14',
+        '192.168.1.24',
+		'184.152.46.24',
+		'localhost',
         '.larvalnemesis.com',
         ]
 
