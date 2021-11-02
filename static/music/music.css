@@ -1,17 +1,18 @@
 body {
-	background-image: url("/static/music/siteBackground.png");
+	overflow-x: hidden;
+	background-image: url("/static/music/white_wall_hash.png");
 }
 div.siteContainerOuter {
-	max-width: 100%;
-	height: 100vh;
-	overflow: scroll;
+	overflow-x: hidden;
+	max-width: 99%;
+	height: 99vh;
+	overflow-y: scroll;
 	vertical-align: middle;
 	margin: auto;
 }
 div.siteContainerInner {
 	position: relative;
 	margin: 0 auto;
-	padding: 10px;
 	width: 70%;
 	height: auto;
 	text-align: center;
@@ -82,6 +83,8 @@ div.activeProgramItem {
 	display: block;
 	padding: 20px;
 	text-align: center;
+	height: 70%;
+	width: auto;
 }
 tr.programPiece td {
 	padding: 20px;
@@ -91,25 +94,27 @@ tr.programMovement td {
 	text-align: left;
 }
 div.bottomSocialMediaIcons {
-	float: bottom;
 	margin: 0 auto;
 	text-align: center;
 }
 div.bottomSocialMediaInner {	
 	display: inline-block;
-	background-color: white;
-	opacity: 0.60;
+	background-color: rgba(255,255,255,0.70);
 	padding: 5px;
 }
 p.nextToPicture {
 	text-align: left;
 	height: 100%;
 	max-width: 100%;
-	padding: 20% 5%;
+	padding: 10% 5%;
 }
 img.halfPagePicture {
 	height: 80vh;
 	width: auto;
+}
+ul {
+	display: inline-block;
+	text-align: left;
 }
 ul.messages {
 	font-size:large;

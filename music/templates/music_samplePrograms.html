@@ -19,14 +19,14 @@ function showDiv(id) {
 {% endfor %}
 </div>
 <div class="programItem activeProgramItem" id="div_0">
-<img src="/static/music/flute_bwProfile.jpg" style="max-width:100%; height:auto">
+<img src="/static/music/flute_bwProfile.jpg" style="max-width:100%; max-height:100%;">
 </div>
 {% for program in programs %}
 	<div class="programItem" id="div_{{ program.pageOrder }}">
 	<h3>{{ program.name }}</h3>
 	{{ program.description }}<br/>
 	<br/>
-	<table style="width:100%; margin:auto">
+	<table style="width:100%; max-height:100%; margin:auto">
 	{% for slot in program.programSlots.all|order_by:'order' %}
 		<tr class="programPiece"><td colspan=3>{{ slot.piece.name }}</td><td style="text-align:right;">{{ slot.piece.composer.firstName }} {{ slot.piece.composer.lastName }} ({{ slot.piece.composer.birthYear|default_if_none:"" }} - {{ slot.piece.composer.deathYear|default_if_none:"" }})</td></tr>
 		{% for mvt in slot.piece.movements|order_by:'order' %}
