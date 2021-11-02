@@ -1,11 +1,14 @@
 {% extends "base.html" %}
+{% block top_content %}
+<p style="float:top; text-align:right;margin:10"><a href="/static/contentlist.txt">Movies and TV</a></p>
+{% endblock %}
 {% block page_content %}
 <script>
 	var numImages = 30;
 	var imageNo = (Math.floor(Math.random() * Math.floor(numImages))) + 1;
 	document.querySelector('body').style.backgroundImage = 'url(/static/landingPhotos/' + imageNo + '.jpg)';
 </script>
-<div style="width: 50%; margin: 10% auto; background-color: rgba(255,255,255,0.75); padding:5px;">
+<div style="width: 50%; margin: 10% auto; background-color: rgba(255,255,255,0.70); padding:5px;">
 	<h1 style="text-align:center;">Welcome to the Dragon's Lair</h1>
 	<br/><br/>
 	<div style="display:flex; text-align:center">
@@ -20,8 +23,8 @@
 	</div>
 	<p style="text-align:center">Click <a href='/projectGallery'>here</a> for project gallery</p>
 </div>
-<div style="float:bottom; margin:0 auto;text-align:center;">
-	<div style="display:inline-block; background-color: white; opacity: 0.60; padding:5px">
+<div class="iconFooter">
+	<div class="iconFooterInner">
 		<a target="_blank" href="https://www.facebook.com/vanessa.miller">
 		 <img class="icon" alt="Facebook" src="/static/icons/facebook.png"
 		 width=25" height="25">
