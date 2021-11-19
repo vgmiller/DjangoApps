@@ -1,0 +1,2 @@
+#Naga is a D&D character sheet application. It is grounded in 5e, and uses data sources from that edition, but is designed to be flexible enough for homebrew variations/multiclass exceptions allowed by my regular DM, and thus is not fully automated nor perfectly aligned with 5e rules.
+#A future goal for this project is to allow other users (besides myself) to login and create their own character sheets - but for now, this is written as a personal utility for my own playing use.

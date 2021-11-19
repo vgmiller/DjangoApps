@@ -1,1 +1,1 @@
-# DjangoApps
+# DjangoApps is a portfolio of demo applications I created as I was learning to use the Django framework. Two of these are more fleshed-out: Naga, a D&D character sheet application which hosts my personal character sheets, and Music, a website which displays and promotes my work as a professional flutist.
