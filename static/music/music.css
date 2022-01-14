@@ -19,16 +19,15 @@ div.siteContainerInner {
 }
 div.navBar {
 	float:top;
-	margin: 10px auto;
+	margin: 10px auto 10px 0;
 	text-align: center;
 	padding: 20px;
 }
 span.navSpan {
-	background-color: DarkSeaGreen;
 }
 a.navItem {
-	background-color: DarkSeaGreen;
-	border-color: SeaGreen;
+	background-color: WhiteSmoke;
+	border-color: WhiteSmoke;
 	border-radius: 10px;
 	padding: 10px 10px;
 	color: black;
@@ -36,7 +35,7 @@ a.navItem {
 	font-size: large;
 }
 a.navItem:hover {
-	background-color: MediumSeaGreen;
+	background-color: Lavender;
 }
 a.on {
 	background-color: MediumPurple;
@@ -104,7 +103,7 @@ p.nextToPicture {
 	padding: 10% 5%;
 }
 img.halfPagePicture {
-	height: 80vh;
+	height: 75vh;
 	width: auto;
 }
 ul {
@@ -119,8 +118,13 @@ li.success {
 	color: green;
 }
 .flute {
-	color: RebeccaPurple;
+	color: Indigo;
 }
 .picc {
-	color: ForestGreen;
+	color: DarkGreen;
+}
+.formField {
+	margin: 5px;
+	padding: 2px;
+	display: block;
 }

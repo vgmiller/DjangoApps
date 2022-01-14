@@ -8,7 +8,9 @@
 	<h2>Contact Vanessa</h2>
 	<form method="post">
 	    {% csrf_token %}
-	    {{ form.as_p }}
+	    <div class="form-group">
+		{{ form }}
+		</div>
 	    <div class="form-actions">
 	      <button type="submit">Send</button>
 	    </div>

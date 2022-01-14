@@ -6,7 +6,7 @@ The listing below is a representative sample, and Vanessa is always open to new 
 <div class="repContainer">
 {% for heading in repertoire %}
 	<div class="repSection">
-	<h3>{{ heading }}</h3>
+	<h3><u>{{ heading }}</u></h3>
 	<table class="repertoire">
 	{% for d in repertoire|index:heading %}
 		{% if d.instrument == "1" %}
