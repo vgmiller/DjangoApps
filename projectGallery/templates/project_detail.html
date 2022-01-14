@@ -3,19 +3,18 @@
 
 {% block page_content %}
 <a href="{% url 'project_index' %}">Back to Index</a>
-<h1>{{ project.title }}</h1>
-<h4>{{ project.summary }}</h4>
-<div class="row">
-	<div class="col-md-4">
-		<img src="{{ project.image.url }}" alt="" width="30%">
+<h1 class="normal">{{ project.title }}</h1>
+<p class="normal"><i>{{ project.summary }}</i></p>
+<div class="normal" style="display:flex; width:90%;">
+	<div class="normal" style="flex:1; max-width:30%">
+		<img src="{{ project.image.url }}" alt="{{ project.title }}" width="100%" height="100%">
 	</div>
-	<div class="col-md-4">
-		<h5>About the project:</h5>
-		<p>{{ project.description }}</p>
-		<br>
-		<h5>Technology used:</h5>
-		<p>{{ project.technology }}</p>
-		<h5><a href="{{ project.url }}">Link to project</a></h5>
+	<div class="normal" style="flex:1; border:1px solid rgba(0,0,0,.125); border-radius:0.25rem">
+		<h5 class="normal">About the project:</h5>
+		<p class="normal">{{ project.description }}</p>
+		<h5 class="normal">Technology used:</h5>
+		<p class="normal">{{ project.technology }}</p>
+		<h5 class="normal"><a href="{{ project.url }}">Go to project</a></h5>
 	</div>
 </div>
 {% endblock %}
