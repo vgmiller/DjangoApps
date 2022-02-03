@@ -5,11 +5,11 @@
 <a href="{% url 'project_index' %}">Back to Index</a>
 <h1 class="normal">{{ project.title }}</h1>
 <p class="normal"><i>{{ project.summary }}</i></p>
-<div class="normal" style="display:flex; width:90%;">
-	<div class="normal" style="flex:1; max-width:30%">
+<div class="normal projectDetailContainer">
+	<div class="normal projectDetailImage">
 		<img src="{{ project.image.url }}" alt="{{ project.title }}" width="100%" height="100%">
 	</div>
-	<div class="normal" style="flex:1; border:1px solid rgba(0,0,0,.125); border-radius:0.25rem">
+	<div class="normal projectDetailBox">
 		<h5 class="normal">About the project:</h5>
 		<p class="normal">{{ project.description }}</p>
 		<h5 class="normal">Technology used:</h5>

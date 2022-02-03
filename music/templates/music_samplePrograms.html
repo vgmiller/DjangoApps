@@ -12,7 +12,7 @@ function showDiv(id) {
 }
 </script>
 <p style="text-align:center">Click each title for a sample program.<br/></p>
-<div style="width:80%; margin:auto; position:relative; max-height:73%">
+<div class="programContainer">
 <div class="programNav">
 {% for program in programs %}
 <button class="programNavItem" href="_self" id="nav_{{ program.pageOrder}}" onClick="showDiv({{ program.pageOrder}})">{{ program.name }}</button> 
