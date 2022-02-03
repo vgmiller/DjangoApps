@@ -10,6 +10,7 @@ class DndClass(models.Model):
             ('4', 'Artificer'),
             ('5', 'Fighter'),
             ('6', 'Druid'),
+            ('7', 'Monk'),
         )
     name = models.CharField(max_length=20, choices=CLASS_CHOICES, unique=True)
     school = models.CharField(max_length=255, blank=True, null=True)
