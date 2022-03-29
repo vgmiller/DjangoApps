@@ -8,6 +8,6 @@ urlpatterns = [
     path("api/publicCharacterSummary/", views.naga_publicCharacterSummary, name="naga_publicCharacterSummary"),
     path("<int:pk>/", NodeUpdateView.as_view(), name="naga_node_edit_form"),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('accounts/signup/', views.signup, name='signup'),
+    #path('accounts/signup/', views.signup, name='signup'),
     path('accounts/profile/', views.myProfile, name='myProfile'),
 ]

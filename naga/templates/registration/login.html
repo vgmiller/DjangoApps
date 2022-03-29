@@ -4,6 +4,7 @@
 
 {% block page_content %}
 <h2>Login</h2>
+<p>Please note that public account creation is not yet open. If you do not already have an account, you cannot create one at this time.</p>
 <form method="post">
 	{% csrf_token %}
 	{{ form.as_p }}

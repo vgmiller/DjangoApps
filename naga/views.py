@@ -75,15 +75,19 @@ def signup(request):
 def myProfile(request):
     context = {
         "user": request.user,
+		"characters": request.user.characters.all(),
     }
     return render(request, 'registration/profile.html', context)
 
 def naga_publicCharacterSummary(request):
+	#API 	
 	from django.http import JsonResponse
 	characters = Character.objects.all()
 	charList = []
 	for char in characters:
 		cDict = {
+			"UserId": char.user.id,
+			"CharacterId": char.id,
 			"Name": char.name,
 			"Race": char.race,
 			"Alignment": char.alignment,

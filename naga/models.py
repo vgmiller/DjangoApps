@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Case, When
+from django.contrib.auth.models import User
 import numexpr
 
 class DndClass(models.Model):
@@ -104,6 +105,7 @@ class DndClass(models.Model):
                 newSpell.save()
 
 class Character(models.Model):
+    user = models.ForeignKey(User, related_name='characters', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     xp = models.IntegerField(blank=True, null=True)
     race = models.CharField(max_length=255)
