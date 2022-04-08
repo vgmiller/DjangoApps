@@ -1,4 +1,5 @@
 {% extends "naga_base.html" %}
+{% load thumbnail %}
 {% block page_content %}
 <a href="/">Home</a>
 <div class="offset-md-2" style="max-width:80%">
@@ -8,7 +9,16 @@
 		<h2 style="text-align:left; font-family:Caslon, Plantin, Garamond, serif;"><a href="{% url 'naga_characterHome' character.name %}">{{ character.name }}</a></h2>
 		{% if character.headshot %}
 		<div>
-			<a href="{% url 'naga_characterHome' character.name %}"><img class="card-img-top" src="{{ character.headshot.url }}" alt="" width="5%"></a>
+			<a href="{% url 'naga_characterHome' character.name %}">
+				<img src="{% thumbnail character.headshot '544' as im %}{{ im.url }}{% endthumbnail %}" 
+				srcset="
+					{% for size in breakpoints %}
+					{% thumbnail character.headshot size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+					{% endfor %}
+					"
+				class="card-img-top"
+				alt="" width="5%"/>
+			</a>
 		</div>
 		<br/><br/>
 		{% endif %}

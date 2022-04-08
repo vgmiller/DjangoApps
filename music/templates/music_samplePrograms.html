@@ -1,5 +1,5 @@
 {% extends "music_base.html" %}
-{% load order_by %}
+{% load order_by thumbnail staticthumb %}
 {% block page_content %}
 <script type="text/javascript">
 function showDiv(id) {
@@ -19,7 +19,15 @@ function showDiv(id) {
 {% endfor %}
 </div>
 <div class="programItem activeProgramItem" id="div_0">
-<img src="/static/music/flute_bwProfile.jpg" style="max-width:100%; max-height:100%;">
+	{% with "music/flute_bwProfile.jpg"|static_url as imgPath %}
+	<img src="{% thumbnail imgPath '1200' as im %}{{ im.url }}{% endthumbnail %}"
+	srcset="
+		{% for size in breakpoints %}
+		{% thumbnail imgPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+		{% endfor %}
+		"
+	style="max-width:100%; max-height:100%;"/>
+	{% endwith %}
 </div>
 {% for program in programs %}
 	<div class="programItem" id="div_{{ program.pageOrder }}">

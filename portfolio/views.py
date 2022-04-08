@@ -1,5 +1,11 @@
 from django.shortcuts import render
+from django.conf import settings
 
 def index(request):
-    return render(request, "index.html")
+	context = {
+		"breakpoints": settings.IMAGE_BREAKPOINTS,
+		"nagaImageUrl": "naga/naga_sil.png",
+		"musicImageUrl": "music/VMiller_Picc.jpg",
+	}
+	return render(request, "index.html", context)
 

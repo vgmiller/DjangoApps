@@ -1,10 +1,11 @@
 {% extends "base.html" %}
+{% load thumbnail staticthumb %}
 {% block top_content %}
 <p style="float:top; text-align:right;margin:10"><a href="/static/contentlist.txt">Movies and TV</a></p>
 {% endblock %}
 {% block page_content %}
 <script>
-	var numImages = 30;
+	var numImages = 26;
 	var imageNo = (Math.floor(Math.random() * Math.floor(numImages))) + 1;
 	document.querySelector('body').style.backgroundImage = 'url(/static/landingPhotos/' + imageNo + '.jpg)';
 </script>
@@ -14,11 +15,31 @@
 	<div style="display:flex; text-align:center">
 		<div style="flex:1; padding:5px">
 		<h2> <a href='/naga'>Naga</a></h2><br/>
-		<a href='/naga'><img src='/static/naga/naga_sil.png' class="homepageMainLink"></a>
+		{% with nagaImageUrl|static_url as nagaPath %}
+		<a href='/naga'><img src="{% thumbnail nagaPath '544' as im %}{{ im.url }}{% endthumbnail %}"
+		srcset="
+			{% for size in breakpoints %}
+			{% thumbnail nagaPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% endfor %}
+			"
+		alt="Naga" 
+		class="homepageMainLink"/>
+		</a>
+		{% endwith %}
 		</div>
 		<div style="flex:1; padding:5px">
 		<h2> <a href='/music'>Music</a></h2><br/>
-		<a href='/music'><img src='/static/music/VMiller_Picc.jpg' class="homepageMainLink"></a>
+		{% with musicImageUrl|static_url as musicPath %}
+		<a href='/music'><img src='{% thumbnail musicPath '544' as im %}{{ im.url }}{% endthumbnail %}' 
+		srcset="
+			{% for size in breakpoints %}
+			{% thumbnail musicPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% endfor %}
+			"
+		alt="Music" 
+		class="homepageMainLink"/>
+		</a>
+		{% endwith %}
 		</div>
 	</div>
 	<p style="text-align:center"><a href='/projectGallery'>Project Gallery</a></p>

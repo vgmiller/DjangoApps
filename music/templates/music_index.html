@@ -1,5 +1,14 @@
 {% extends "music_base.html" %}
+{% load thumbnail staticthumb %}
 {% block page_content %}
-	<img src="/static/music/VMiller_Picc.jpg" alt="Vanessa Miller, Piccolo" class="landingImage"> 
-</div>
+	{% with "music/VMiller_Picc.jpg"|static_url as imgPath %}
+	<img src="{% thumbnail imgPath '1200' as im %}{{ im.url }}{% endthumbnail %}"
+	srcset="
+		{% for size in breakpoints %}
+		{% thumbnail imgPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+		{% endfor %}
+		"
+	alt="Vanessa Miller, Piccolo"
+	class="landingImage"/>
+	{% endwith %}
 {% endblock %}

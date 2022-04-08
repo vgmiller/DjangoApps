@@ -22,10 +22,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xs6xml@@ru5nnj@))n!mm+17p_6yoqbs(t6-4^l4-09riy%tko'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
+THUMBNAIL_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [
         'vgmraspberrypi',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'sorl.thumbnail',
     'portfolio',
     'projectGallery',
     'blog',
@@ -136,11 +138,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+SITE_URL = 'vgmraspberrypi'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join( BASE_DIR, 'static/')
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join( BASE_DIR, 'media/')
+THUMBNAIL_PRESERVE_FORMAT = True
+IMAGE_BREAKPOINTS = ["200", "544", "768", "1200", "1920"]
 
 EMAIL_BACKEND = config('EMAIL_BACKEND')
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')

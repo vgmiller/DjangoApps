@@ -6,10 +6,12 @@ from django.template.loader import render_to_string
 from naga.forms import NodeForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
+from django.conf import settings
 
 def naga_index(request):
     characters = Character.objects.all()
     context = {
+		"breakpoints": settings.IMAGE_BREAKPOINTS,
         "user": request.user,
         "characters": characters,
     }
@@ -19,6 +21,7 @@ def naga_characterHome(request, name):
     character = get_object_or_404(Character, name=name)
 
     context = {
+		"breakpoints": settings.IMAGE_BREAKPOINTS,
         "user": request.user,
         "character": character,
         "customPages": character.getCustomPages(),

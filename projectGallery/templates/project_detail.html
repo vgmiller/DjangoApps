@@ -1,4 +1,5 @@
 {% extends "project_base.html" %}
+{% load thumbnail %}
 {% load static %}
 
 {% block page_content %}
@@ -7,7 +8,14 @@
 <p class="normal"><i>{{ project.summary }}</i></p>
 <div class="normal projectDetailContainer">
 	<div class="normal projectDetailImage">
-		<img src="{{ project.image.url }}" alt="{{ project.title }}" width="100%" height="100%">
+		<img src="{% thumbnail project.image '768' as im %}{{ im.url }}{% endthumbnail %}" 
+			srcset="
+				{% for size in breakpoints %}
+				{% thumbnail project.image size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+				{% endfor %}
+				"
+			class="card-img-top" 
+			alt="{{project.title}}"/>
 	</div>
 	<div class="normal projectDetailBox">
 		<h5 class="normal">About the project:</h5>

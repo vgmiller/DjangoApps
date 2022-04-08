@@ -1,11 +1,19 @@
 {% extends "project_base.html" %}
+{% load thumbnail %}
 {% block page_content %}
 <a href="/">Home</a>
 <h1 style="text-align:center">Projects</h1>
 <div class="normal" style="display:flex; justify-content:center">
 {% for project in projects %}
     <div class="project-card">
-		<img class="card-img-top" src="{{ project.image.url }}" alt="" width="30%">
+		<img src="{% thumbnail project.image '768' as im %}{{ im.url }}{% endthumbnail %}" 
+			srcset="
+				{% for size in breakpoints %}
+				{% thumbnail project.image size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+				{% endfor %}
+				"
+			class="card-img-top" 
+			alt="{{project.title}}" width="30%"/>
 		<div class="card-body">
 		    <h5 class="card-title">{{ project.title }}</h5>
 		    <p class="card-text">{{ project.summary }}</p>

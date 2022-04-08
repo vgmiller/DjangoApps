@@ -1,8 +1,17 @@
 {% extends "music_base.html" %}
+{% load thumbnail staticthumb %}
 {% block page_content %}
-<div class="flexContainer">
+<div class="flexContainer" style="flex-wrap:wrap">
 	<div class="flexItem">
-	<img src="/static/music/picc_sideSmile.JPG" class="halfPagePicture">
+	{% with "music/picc_sideSmile.JPG"|static_url as imgPath %}
+	<img src="{% thumbnail imgPath '1200' as im %}{{ im.url }}{% endthumbnail %}"
+	srcset="
+		{% for size in breakpoints %}
+		{% thumbnail imgPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+		{% endfor %}
+		"
+	class="halfPagePicture"/>
+	{% endwith %}
 	</div>
 	<div class="flexItem" style="text-align:left; padding: 10%">
 	<h2>Contact Vanessa</h2>

@@ -1,4 +1,5 @@
 {% extends "naga_base.html" %}
+{% load thumbnail %}
 {% block page_content %}
 <script>
 function openPage(evt, pageName) {
@@ -21,7 +22,14 @@ window.onload = function() {
 <div class="topBar">
 	<div name="header" style="overflow: hidden">
 		{% if character.headshot %}
-		<img src="{{ character.headshot.url }}" alt="{{ character.name }}" class="headshot">
+		<img src="{% thumbnail character.headshot '544' as im %}{{ im.url }}{% endthumbnail %}" 
+		srcset="
+			{% for size in breakpoints %}
+			{% thumbnail character.headshot size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% endfor %}
+			"
+		class="headshot"
+		alt="{{ character.name }}"/>
 		{% endif %}
 		<h1 style="font-family: Caslon, Plantin, Garamond, serif">{{ character.name }}</h1>
 		<p> <a href="{% url 'naga_index' %}">Back to Character List</a></p>

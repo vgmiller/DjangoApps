@@ -4,18 +4,23 @@ from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, HttpResponseRedirect
 from music.forms import ContactForm
 from django.contrib import messages
+from django.conf import settings
 
 def music_index(request):
 	context = {
+		"breakpoints": settings.IMAGE_BREAKPOINTS,
 	}
 	return render(request, "music_index.html", context)
 
 def music_about(request):
-    context = { }
+    context = { 
+		"breakpoints": settings.IMAGE_BREAKPOINTS,
+    }
     return render(request, "music_about.html", context)
 
 def music_recordings(request):
     context = {
+		"breakpoints": settings.IMAGE_BREAKPOINTS,
     }
     return render(request, "music_recordings.html", context)
 
@@ -32,12 +37,14 @@ def music_repertoire(request):
 
 def music_samplePrograms(request):
     context = {
-	"programs": Program.objects.order_by("pageOrder"),
+		"breakpoints": settings.IMAGE_BREAKPOINTS,
+		"programs": Program.objects.order_by("pageOrder"),
     }
     return render(request, "music_samplePrograms.html", context)
 
 def music_news(request):
     context = {
+		"breakpoints": settings.IMAGE_BREAKPOINTS,
     }
     return render(request, "music_news.html", context)
 
@@ -58,4 +65,8 @@ def music_contact(request):
 			except BadHeaderError:
 				return HttpResponse('Invalid header found.')
 			messages.success(request, 'Your message was sent!')
-	return render(request, "music_contact.html", {'form': form})
+	context = { 
+		"breakpoints": settings.IMAGE_BREAKPOINTS,
+		"form": form,
+    }
+	return render(request, "music_contact.html", context)

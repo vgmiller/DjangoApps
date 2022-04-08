@@ -2,3 +2,5 @@ djenv
 */migrations
 __pycache__/
 *.pyc
+.env
+/media/cache/

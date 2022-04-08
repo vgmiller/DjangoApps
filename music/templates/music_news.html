@@ -1,4 +1,5 @@
 {% extends "music_base.html" %}
+{% load thumbnail staticthumb %}
 {% block page_content %}
 <div class="flexContainer">
 	<div class="flexItem">
@@ -9,6 +10,7 @@
 	<li><b>March 26th, 2022, 3:30pm - <a href="https://mmc.band/bkws">Brooklyn Wind Symphony</a></b></li>
 	<li><b>April 2nd, 2022, 7pm - <a href="https://www.nyro.org/">New York Repertory Orchestra</a></b></li>
 	<li><b>May 21st, 2022, 7pm - <a href="https://www.nyro.org/">New York Repertory Orchestra</a></b></li>
+	<li><b>June 17th, 2022, 7:30pm - <a href="https://www.riversideorchestra.org/">The Riverside Orchestra</a></b></li>
 	</ul>
 	<p class="nextToPicture">
 	Vanessa is fully vaccinated and is available to perform in all venues where appropriate precautions are taken.<br/>
@@ -16,7 +18,15 @@
 	</p>
 	</div>
 	<div class="flexItem">
-	<img src="/static/music/flute_frontAngled.jpg" class="halfPagePicture">
+	{% with "music/flute_frontAngled.jpg"|static_url as imgPath %}
+	<img src="{% thumbnail imgPath '1200' as im %}{{ im.url }}{% endthumbnail %}"
+	srcset="
+		{% for size in breakpoints %}
+		{% thumbnail imgPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+		{% endfor %}
+		"
+	class="halfPagePicture"/>
+	{% endwith %}
 	</div>
 </div>
 {% endblock %}
