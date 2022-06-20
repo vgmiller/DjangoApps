@@ -1,0 +1,5 @@
+<a href="watch_movie/test">Test Movie</a>
+<h1>Movies and TV</h1>
+{% for linkPath, linkName in movies %}
+<a href="{{ linkPath }}">{{ linkName }}</a><br/>
+{% endfor %}

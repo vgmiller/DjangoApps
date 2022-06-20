@@ -26,6 +26,8 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('naga/', include('naga.urls')),
     path('music/', include('music.urls')),
+    path('mediaServer/', include('mediaServer.urls')),
+	path('accounts/', include('django.contrib.auth.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

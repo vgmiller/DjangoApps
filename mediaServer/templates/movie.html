@@ -1,0 +1,10 @@
+{% if moviePath %}
+<video controls>
+<source src="{{ moviePath }}" type=video/mp4>
+<source src="{{ moviePath }}" type=video/avi>
+</video>
+{% else %}
+<video controls>
+<source src="/static/mediaServer/small.mp4" type=video/mp4>
+</video>
+{% endif %}

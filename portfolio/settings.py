@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'blog',
     'naga',
     'music',
+	'mediaServer',
 ]
 
 MIDDLEWARE_CLASSES = [
