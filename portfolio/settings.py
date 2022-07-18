@@ -53,12 +53,18 @@ INSTALLED_APPS = [
     'naga',
     'music',
 	'mediaServer',
+	'todo',
+	'corsheaders',
+	'rest_framework',
+	'perfume',
+	'webpack_loader',
 ]
 
 MIDDLEWARE_CLASSES = [
     'sslify.middleware.SSLifyMiddleware',
         ]
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -153,3 +159,55 @@ AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 AWS_SES_REGION_NAME = config('AWS_SES_REGION_NAME')
 AWS_SES_REGION_ENDPOINT = config('AWS_SES_REGION_ENDPOINT')
 DEFAULT_FROM_EMAIL = SERVER_EMAIL = EMAIL_HOST_USER = config('DEFAULT_FROM_EMAIL')
+
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+]
+CORS_URLS_REGEX = r'^/api/.*$'
+CORS_ALLOWED_ORIGINS = [
+    "http://192.168.1.24:8000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://0.0.0.0",
+	"http://www.larvalnemesis.com"
+]
+CSRF_TRUSTED_ORIGINS = [
+    "http://192.168.1.24:8000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "http://0.0.0.0",
+	"http://www.larvalnemesis.com"
+]
+
+WEBPACK_LOADER = {
+  'DEFAULT': {
+    'BUNDLE_DIR_NAME': 'perfume/',
+    'STATS_FILE': os.path.join(BASE_DIR, 'perfume/webpack-stats.json')
+  },
+  'PERFUME': {
+    'BUNDLE_DIR_NAME': 'perfume/',
+    'STATS_FILE': os.path.join(BASE_DIR, 'perfume/webpack-stats.json')
+  },
+  'TODO': {
+    'BUNDLE_DIR_NAME': 'todo/',
+    'STATS_FILE': os.path.join(BASE_DIR, 'todo/webpack-stats.json')
+  }
+}
+
+DEFAULT_RENDERER_CLASSES = [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+
+DEFAULT_AUTHENTICATION_CLASSES = [
+    'rest_framework.authentication.BasicAuthentication',
+]
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES += [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES
+}

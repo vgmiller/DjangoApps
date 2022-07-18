@@ -28,6 +28,8 @@ urlpatterns = [
     path('music/', include('music.urls')),
     path('mediaServer/', include('mediaServer.urls')),
 	path('accounts/', include('django.contrib.auth.urls')),
+    path('todo/', include('todo.urls')),
+    path('perfume/', include('perfume.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
