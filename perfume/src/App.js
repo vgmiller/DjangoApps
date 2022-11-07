@@ -81,12 +81,13 @@ class App extends Component {
           key={item.id}
           className="list-group-item d-flex justify-content-between align-items-center"
         >
-          <span className={`perfume-title mr-2`}
+          <p className={`perfume-title mr-2`}
       			title={item.myDescription}
           >
-              {item.name}
-          </span>
-		  <span className="text-right">{parseFloat(item.rating)} stars</span>
+              {item.name}<br/>
+			  <span class="small">{item.myDescription}</span>
+          </p>
+		  <span className="text-right" style={{alignSelf: 'flex-end'}}>{parseFloat(item.rating)} stars</span>
         </li>
       ));
     };
@@ -101,7 +102,11 @@ class App extends Component {
               <div className="">
                 <button onClick={this.randomPerfume} className="btn btn-success" title="Select a random perfume">Generate Today's Perfume!</button>
               </div>
-			    <div className="text-right font-weight-bold" title={this.state.activeItem.myDescription}>{this.state.activeItem.name}</div>
+			    <div className="text-right font-weight-bold" title={this.state.activeItem.myDescription}>
+					{this.state.activeItem.name}<br/>
+                    <small>{this.state.activeItem.myDescription}</small>
+				</div>
+			  <hr/>
 			  <div><span className="text-left">Or, browse by category:</span></div>
               {this.renderTabList()}
               <ul className="list-group list-group-flush">
