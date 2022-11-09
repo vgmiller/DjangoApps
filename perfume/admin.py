@@ -7,7 +7,7 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Tag, TagAdmin)
 
 class PerfumeAdmin(admin.ModelAdmin):
-	list_display = ('name', 'myDescription', 'rating', 'empty')
+	list_display = ('name', 'myDescription', 'rating', 'isEmpty')
 
 admin.site.register(Perfume, PerfumeAdmin)
 

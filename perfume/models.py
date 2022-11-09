@@ -14,7 +14,7 @@ class Perfume(models.Model):
 	myDescription = models.TextField(blank=True, null=True)
 	theirDescription = models.TextField(blank=True, null=True)
 	rating = models.DecimalField(blank=True, null=True, max_digits=10, decimal_places=5)
-	empty = models.BooleanField(default=False)
+	isEmpty = models.BooleanField(default=False)
 	tags = models.ManyToManyField(Tag)
 
 	class Meta:
