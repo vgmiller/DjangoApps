@@ -1,33 +1,33 @@
-<style>
-table, th, td {
-  border: 1px solid black;
-}
-
-th, td {
-  padding: 10px;
-}
-</style>
-<h1>Hello Hobbits!</h1>
-<h3>Quick Stats</h3>
-<p>
-Total Distance Walked: {{ summary.totalDistanceWalked }} miles<br>
-Total Number of Walks: {{ summary.totalNumberOfWalks }}<br>
-First Walk Ever: {{ summary.firstWalk.startDateTime }}<br>
-Latest Walk: {{ summary.lastWalk.startDateTime }}<br>
-</p>
-<h3>Milestones</h3>
-<p>
-<table>
+<link rel="stylesheet" type="text/css" href="/static/hobbits/hobbits.css">
+<link rel="stylesheet" type="text/css" href="/static/base.css">
+<link rel="shortcut icon" href="/static/hobbits/favicon.ico"/>
+<head><title>The Lord of the Dogwalks</title></head>
+<body>
+<h1><span class="pageArea">Hello Hobbits!</span></h1>
+<div>
+<h3><span class="pageArea">Quick Stats</span></h3>
+<span class="pageArea">Total Distance Walked: {{ summary.totalDistanceWalked }} miles<br/></span>
+<span class="pageArea">Total Number of Walks: {{ summary.totalNumberOfWalks }}<br/></span>
+<span class="pageArea">First Walk Ever: {{ summary.firstWalk.startDateTime }}<br/></span>
+<span class="pageArea">Latest Walk: {{ summary.lastWalk.startDateTime }}<br/></span>
+</div>
+<div>
+<h3><span class="pageArea">Milestones</span></h3>
+<table class="tableBordered pageArea">
 <tr><th>Place</th><th>Miles From Shire</th><th>Miles Remaining</th></tr>
 {% for ms in milestones %}
 <tr><td>{{ ms.text }}</td><td>{{ ms.distanceFromShire }}</td><td>{{ ms.distanceRemaining }}</td></tr>
 {% endfor %}
 </table>
-</p>
-<a href="refreshData">Refresh the Data</a>
-<table>
+</div>
+<div>
+<h3><span class="pageArea">Full Walk List</span></h3>
+<span class="pageArea"><a href="refreshData">Refresh the Data</a></span>
+<table class="tableBordered pageArea">
 <tr><th>Date/Time</th><th>Miles</th><th>Duration in Minutes*</th></tr>
 {% for walk in walks %}
 <tr><td>{{ walk.startDateTime }}</td><td>{{ walk.distance }}</td><td>{{ walk.duration }}</td></tr>
 {% endfor %}
 </table>
+</div>
+</body>

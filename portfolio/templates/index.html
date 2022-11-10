@@ -41,6 +41,20 @@
 		</a>
 		{% endwith %}
 		</div>
+		<div style="flex:1; padding:5px">
+		<h2> <a href='/hobbits'>The Lord of the Dogwalks</a></h2><br/>
+		{% with hobbitsImageUrl|static_url as hobbitsPath %}
+		<a href='/hobbits'><img src='{% thumbnail hobbitsPath '544' as im %}{{ im.url }}{% endthumbnail %}' 
+		srcset="
+			{% for size in breakpoints %}
+			{% thumbnail hobbitsPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% endfor %}
+			"
+		alt="Hobbits" 
+		class="homepageMainLink"/>
+		</a>
+		{% endwith %}
+		</div>
 	</div>
 	<p style="text-align:center">See <a href='/projectGallery'>Project Gallery</a> for more</p>
 </div>

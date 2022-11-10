@@ -6,7 +6,7 @@ def hobbits_index(request):
 	summary = currentStatus.summary()
 	context = {
 		"summary": summary,
-		"walks": formatWalks(Walk.objects.order_by('startDateTime')),
+		"walks": formatWalks(Walk.objects.order_by('-startDateTime')),
 		"milestones": formatMilestones(MajorMilestone.objects.order_by('position'), summary.get('totalDistanceWalked'))
 	}
 	return render(request, "hobbits_index.html", context)

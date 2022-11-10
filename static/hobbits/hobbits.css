@@ -1,0 +1,21 @@
+body {
+	background-image: url("/static/hobbits/middleEarthZoomPath.png");
+	background-color: #cccccc;
+}
+table.tableBordered {
+	border-collapse: collapse;
+}
+table.tableBordered td, th {
+	border: 2px ridge Tan;
+	padding: 10px;
+	text-align: left;
+}
+.pageArea {
+	background: OldLace;
+	margin: 1% 5%;
+	padding: 5px;
+}
+div {
+	margin: 1%; 
+	padding:5px;
+}
