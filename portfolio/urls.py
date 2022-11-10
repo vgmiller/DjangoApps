@@ -30,6 +30,7 @@ urlpatterns = [
 	path('accounts/', include('django.contrib.auth.urls')),
     path('todo/', include('todo.urls')),
     path('perfume/', include('perfume.urls')),
+    path('hobbits/', include('hobbits.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

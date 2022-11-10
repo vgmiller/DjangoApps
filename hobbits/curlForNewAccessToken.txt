@@ -1,0 +1,1 @@
+curl -i -X POST https://api.fitbit.com/oauth2/token -H "Authorization: Basic MjM4Tjc1OjVmNDExNjMwMGU5ZTZhM2ZiNDkzZDRiYTk3ZjQ0ZGM1"  -H "Content-Type: application/x-www-form-urlencoded"  --data "grant_type=refresh_token"  --data "refresh_token=[tokenGoesHere]"
