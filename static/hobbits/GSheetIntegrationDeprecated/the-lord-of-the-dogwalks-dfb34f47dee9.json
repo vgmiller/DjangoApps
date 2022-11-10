@@ -1,10 +1,10 @@
 {
   "type": "service_account",
   "project_id": "the-lord-of-the-dogwalks",
-  "private_key_id": "dfb34f47dee9621d23621597f94cfce6f9fca8e1",
-  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCfkWw/DxndWIQR\nmyn5ZPO32uELIq37EzF/Eo9InEuWMAtjbidcj+0PKJJ6vRe7IbXSzLzHumTXguJ+\nnsQC1GMyQvW9O/ugwc9JmGLlf43Kgi/3H9XavhNZxOW4n2TYZWNihDHMoebP1CTr\nhAOT3/PT7BkqSJjiMtldQh8q4GA0nom447IP3QR5UFftkwwjZH7gNOiTlWU2j3V0\nLZGTnz77vBf/W66aqDolGUm1uD88t0u2Th8wjxoFRool6dB38Uik+ejnR7J+sj1x\nCYOm2H89pxCV3+OPg9TOHwJ7RKMgLKdJ6ziB3cqLRtcj/VVQ8fvEcsn7INJktdtd\nRYk7WAUrAgMBAAECggEACHh4zZQopFZplGGvRbz1LyJgZe3uXHC1ZPCASLN7U7qz\nMBEN590AEZjuxbM6CkYM1+bkcpnTdplNGrmk4B2UMnvZfbUsc2k2bsq3HUW7Ki/l\nCfJXsOf8MPzB0R4tBUvEjdtEpX9GuGujlhkI85Wk5PAYmeUGsKNQZKH485a7pK9c\nXOcr2nrj9wkJGHhFq/TYQIcYOeNJuPdpUy/xJRNABXo/kz1gbh0NbGNauApLTSlT\nM7TRV1FdYae8twiexy6OBY7qSoBP87eZsNy3nvXIraYziMWb2d7SkSBpJrmeLsSw\nkjBd/LEPAPM1yOinRDAacu2bNAkaeQBx/p2mrcYZaQKBgQDKc/7Ui/KcBLSROgy8\nzl9M0mZ0pMsw6Y/Iga6hoWwEz65qPEzZCeVeHo8YtPrcGxTsfffK3JCHrw8qb3z4\nC/DrFpI2bZkl1ws7jS0kjB0J+qXiV2j89PxG7PiRxzEb52iRWaarHcxU5eYLxAll\nN7ISmxDzkfFZYN1sJ/zAo14BPwKBgQDJxbNvPOzzY2PE0xC2L6zOLCvZewD60Arp\nnDw+08fcTGkj5wtTlFTPtFzIMJGUU2ef+NUcnWEyYZz3dd31WufF9tNvjnY5Wu/T\nbJ/GqU8YSvXoopos6j7SGI+SZSMih6hkm/HUncFGZ3pZBBZcy17E9LEUBwBXYRU3\nIeJVG8hVFQKBgDx2ujPWfCW2jgsVkDpPVE0IRYsusHSyPLwAZxxkrnMdZ5TY34au\nmu8qJ0iUvJtCB1S+JmRSzWOIl/nvhB48yr4bZp2Uy/luKS+m8UWKBx402pgnzPZH\nYJT6Lx6yo+sWiLdoVAulAaKVasg2yyuMn8VIxJ5KBw/PizHDG4yY/flXAoGAXDCw\no4q62Rn4Y93sLNHrqugTwPKqp+6WjdaM0EgDcWyYPYc7bZzAg4ZtPiqy2YqiNj2D\nYeemmVZwWcDJAWnfrFvyj24QJnSeT4O6HRMOyJK3eOuSdiMxQN1n/AOp4gUJs65s\n+DB8NqbhB/sOHKfvTR5gKj5osYPyJZadyzU+e2ECgYAVCfzZnwpalMz3KnPYHkfI\nCZ7gxe/UntHzW/fUz72UXr6W5eF4wF0bNes1SGLNBQ7Vd3usNuL9OIuxHeemfxSf\nS4YJEDmyaEOlp0Hs7KYlZfy05RPxEue6Y1s3aYrFwCF7lYigLGHILA2lHq0bGKOt\nVlfEfajk32W6GgIbRry/Xg==\n-----END PRIVATE KEY-----\n",
+  "private_key_id": "[redacted]",
+  "private_key": "[redacted]",
   "client_email": "vgmraspberrypi@the-lord-of-the-dogwalks.iam.gserviceaccount.com",
-  "client_id": "112463452895725414766",
+  "client_id": "[redacted]",
   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
   "token_uri": "https://oauth2.googleapis.com/token",
   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
