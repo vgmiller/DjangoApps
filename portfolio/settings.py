@@ -14,7 +14,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 THUMBNAIL_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [
@@ -23,6 +23,10 @@ ALLOWED_HOSTS = [
 		'184.152.46.24',
 		'localhost',
         '.larvalnemesis.com',
+        '.vmillermusic.com',
+        '.vmillerflute.com',
+        '.vanessaflute.com',
+        '.vanessapiccolo.com',
         ]
 
 
@@ -35,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'sorl.thumbnail',
     'portfolio',
     'projectGallery',
@@ -54,6 +59,9 @@ MIDDLEWARE_CLASSES = [
     'sslify.middleware.SSLifyMiddleware',
         ]
 MIDDLEWARE = [
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
+    'portfolio.seturlconfmiddleware.SetURLConfMiddleware',
+    'portfolio.virtualhostmiddleware.VirtualHostMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -65,6 +73,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'portfolio.urls'
+SITE_ID = 1
 
 LOGIN_REDIRECT_URL = "myProfile"
 LOGOUT_REDIRECT_URL = "/naga"

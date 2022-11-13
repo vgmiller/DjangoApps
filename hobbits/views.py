@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from hobbits.models import *
 
 def hobbits_index(request):
@@ -12,9 +12,16 @@ def hobbits_index(request):
 	return render(request, "hobbits_index.html", context)
 
 def hobbits_refreshData(request):
-	activities = fitbitGetData()
+	try:
+		activities = fitbitGetData()
+	except:
+		reauthFitbit()
+		try:
+			activities = fitbitGetData()
+		except:
+			return redirect(hobbits_index)
 	importFromJSON(activities)
-	return hobbits_index(request)
+	return redirect(hobbits_index)
 
 def formatWalks(walkList):
 	#from django.utils import timezone
@@ -42,6 +49,7 @@ def formatMilestones(msList, totalMiles):
 	return formattedMs
 
 def fitbitGetData():
+	# This function should be called within a try block only
 	import fitbit
 	from django.conf import settings
 	from datetime import datetime, timedelta
@@ -49,19 +57,40 @@ def fitbitGetData():
 	consumer_secret = settings.FITBIT_CLIENTSECRET
 	access_token = settings.FITBIT_ACCESS_TOKEN
 	refresh_token = settings.FITBIT_REFRESH_TOKEN
-	try:
-		authd_client = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token)
-	except:
-		return hobbits_reauth(request)
-
 	startDate = (datetime.today()-timedelta(days=10)).strftime("%Y-%m-%d")
+	
+	authd_client = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token)
 	activities = authd_client.activity_logs_list(after_date=startDate, limit=50).get('activities')
 	authd_client.sleep()
 
 	return activities
 
-def hobbits_reauthFitbit(request):
-	return render(request, "hobbits_reauth.html")
+def reauthFitbit():
+	"""
+	curl -i -X POST https://api.fitbit.com/oauth2/token -H "Authorization: Basic [clientsSecretGoesHere]"  \
+	-H "Content-Type: application/x-www-form-urlencoded"  --data "grant_type=refresh_token"  --data "refresh_token=[tokenGoesHere]"
+	"""
+	import requests, dotenv, os
+	from requests.structures import CaseInsensitiveDict
+	from django.conf import settings
+	dotenv_file = dotenv.find_dotenv(settings.BASE_DIR+"/.env")
+	dotenv.load_dotenv(dotenv_file)
+	refreshToken = os.environ['FITBIT_REFRESH_TOKEN']
+	clientSecret = os.environ['FITBIT_CLIENTSECRET']
+	
+	url = "https://api.fitbit.com/oauth2/token"
+	data = "grant_type=refresh_token&refresh_token=%s"% refreshToken
+	headers = CaseInsensitiveDict()
+	headers["Authorization"] = "Basic %s" % clientSecret
+	headers["Content-Type"] = "application/x-www-form-urlencoded"
+	res = requests.post(url, data=data, headers=headers).json()
+	newAuthToken = res.get('access_token')
+	newRefreshToken = res.get('refresh_token')
+	
+	os.environ["FITBIT_ACCESS_TOKEN"] = newAuthToken
+	dotenv.set_key(dotenv_file, "FITBIT_ACCESS_TOKEN", os.environ["FITBIT_ACCESS_TOKEN"])
+	os.environ["FITBIT_REFRESH_TOKEN"] = newRefreshToken
+	dotenv.set_key(dotenv_file, "FITBIT_REFRESH_TOKEN", os.environ["FITBIT_REFRESH_TOKEN"])
 
 def importFromJSON(results):
 	from dateutil import parser
