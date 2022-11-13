@@ -19,3 +19,17 @@ div {
 	margin: 1%; 
 	padding:5px;
 }
+@media only screen and (max-width: 720px) {
+table.tableBordered {
+	border: 2px ridge Tan;
+	padding: 5px;
+	text-align: center;
+	width: 99%;
+	margin: auto;
+}
+h1, h2, h3, h4, div, .pageArea {
+	text-align: center !important;
+	width: 99% !important;
+	margin: 1% auto !important;
+	padding: 5px;
+}
