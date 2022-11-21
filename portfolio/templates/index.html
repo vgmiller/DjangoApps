@@ -12,8 +12,8 @@
 <div class="homepageCenter">
 	<h1 style="text-align:center;">Welcome to the Dragon's Lair</h1>
 	<br/><br/>
-	<div style="display:flex; text-align:center">
-		<div style="flex:1; padding:5px">
+	<div class="homepageDock">
+		<div class="homepageDockEl">
 		<h2> <a href='/naga'>Naga</a></h2><br/>
 		{% with nagaImageUrl|static_url as nagaPath %}
 		<a href='/naga'><img src="{% thumbnail nagaPath '544' as im %}{{ im.url }}{% endthumbnail %}"
@@ -27,7 +27,7 @@
 		</a>
 		{% endwith %}
 		</div>
-		<div style="flex:1; padding:5px">
+		<div class="homepageDockEl">
 		<h2> <a href='/music'>Music</a></h2><br/>
 		{% with musicImageUrl|static_url as musicPath %}
 		<a href='/music'><img src='{% thumbnail musicPath '544' as im %}{{ im.url }}{% endthumbnail %}' 
@@ -41,7 +41,7 @@
 		</a>
 		{% endwith %}
 		</div>
-		<div style="flex:1; padding:5px">
+		<div class="homepageDockEl">
 		<h2> <a href='/hobbits'>The Lord of the Dogwalks</a></h2><br/>
 		{% with hobbitsImageUrl|static_url as hobbitsPath %}
 		<a href='/hobbits'><img src='{% thumbnail hobbitsPath '544' as im %}{{ im.url }}{% endthumbnail %}' 

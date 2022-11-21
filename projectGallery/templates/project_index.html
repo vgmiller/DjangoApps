@@ -3,7 +3,7 @@
 {% block page_content %}
 <a href="/">Home</a>
 <h1 style="text-align:center">Projects</h1>
-<div class="normal" style="display:flex; justify-content:center">
+<div class="normal project-gallery">
 {% for project in projects %}
     <div class="project-card">
 		<img src="{% thumbnail project.image '768' as im %}{{ im.url }}{% endthumbnail %}" 

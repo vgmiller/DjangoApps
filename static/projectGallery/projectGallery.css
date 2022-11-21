@@ -6,6 +6,10 @@ body {
 	margin: 10px;
 	padding: 10px;
 }
+.project-gallery {
+	display: flex;
+	justify-content: center;
+}
 .project-card {
     flex:1; 
 	margin:10px; 
@@ -47,14 +51,29 @@ span.fullCardLink{
 	height: auto !important;
 	aspect-ratio: 8/12 !important;
 }
+@media only screen and (max-width: 1200px) and (min-width: 720px) {
+  .project-gallery {
+	display: block;
+  }
+  .project-card {
+	width: 50%;	
+	max-width: 50%;
+	height: auto;
+	margin: auto;
+  }
+}
 @media only screen and (max-width: 720px) {
   .acknowledgements {
 	width: 99%;
+  }
+  .project-gallery {
+	display: block;
   }
   .project-card {
 	width: 98%;	
 	max-width: 98%;
 	height: auto;
+	margin: auto;
   }
   .projectDetailImage {
 	object-fit: cover;
