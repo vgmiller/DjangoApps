@@ -53,10 +53,11 @@ def fitbitGetData():
 	import fitbit
 	from django.conf import settings
 	from datetime import datetime, timedelta
+	import os
 	consumer_key = settings.FITBIT_CLIENTID
 	consumer_secret = settings.FITBIT_CLIENTSECRET
-	access_token = settings.FITBIT_ACCESS_TOKEN
-	refresh_token = settings.FITBIT_REFRESH_TOKEN
+	access_token = os.environ['FITBIT_ACCESS_TOKEN'] if os.environ['FITBIT_ACCESS_TOKEN'] else settings.FITBIT_ACCESS_TOKEN
+	refresh_token = os.environ['FITBIT_REFRESH_TOKEN'] if os.environ['FITBIT_REFRESH_TOKEN'] else settings.FITBIT_REFRESH_TOKEN
 	startDate = (datetime.today()-timedelta(days=10)).strftime("%Y-%m-%d")
 	
 	authd_client = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token)
