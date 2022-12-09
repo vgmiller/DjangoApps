@@ -13,7 +13,7 @@ div.siteContainerOuter {
 div.siteContainerInner {
 	position: relative;
 	margin: 0 auto;
-	width: 70%;
+	width: 85%;
 	height: auto;
 	text-align: center;
 }
@@ -21,7 +21,7 @@ div.navBar {
 	float:top;
 	margin: 10px auto 10px 0;
 	text-align: center;
-	padding: 20px;
+	padding: 10px;
 }
 span.navSpan {
 }
@@ -69,6 +69,14 @@ div.programNav {
 	text-align: center;
 	margin: auto;
 	display: flex;
+}
+div.contactForm {
+	text-align: left;
+	padding: 2% 5%;
+}
+button.contactSubmit {
+	margin: 10px;
+	border-radius: 8px;
 }
 button.programNavItem {
 	flex: 1;
@@ -136,7 +144,11 @@ li.success {
 .formField {
 	margin: 5px;
 	padding: 2px;
+	min-width: 55%;
 	display: block;
+}
+.formFieldMessage {
+	min-width: 90%;
 }
 .landingImage {
 	height:75vh; 
@@ -210,6 +222,9 @@ iframe.youtubeIframe {
   }
 }
 @media only screen and (max-width: 560px) {
+  div.contactForm {
+	padding: 2% 0%;
+  }
   .programContainer {
 	width: 99% !important;
   }

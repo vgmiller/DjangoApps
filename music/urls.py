@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path("samplePrograms", views.music_samplePrograms, name="music_samplePrograms"),
     path("news", views.music_news, name="music_news"),
     path("contact", views.music_contact, name="music_contact"),
+    path('captcha/', include('captcha.urls')),
 ]

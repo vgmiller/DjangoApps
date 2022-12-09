@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import TextInput, EmailInput
 from django.core.exceptions import ValidationError
+from captcha.fields import CaptchaField
 
 class HoneypotField(forms.BooleanField):
     default_widget = forms.CheckboxInput({'style': 'display:none !important;', 'tabindex': '-1', 'autocomplete': 'off'})
@@ -18,6 +19,6 @@ class ContactForm(forms.Form):
 	name = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'formField', 'placeholder': 'Name'}), required=True)
 	from_email = forms.EmailField(label="", widget=forms.EmailInput(attrs={'class': 'formField', 'placeholder': 'Email'}), required=True)
 	subject = forms.CharField(label="", widget=forms.TextInput(attrs={'class': 'formField', 'placeholder': 'Subject'}), required=True)
-	message = forms.CharField(label="", widget=forms.Textarea(attrs={'class': 'formField', 'placeholder': 'Message'}), required=True)
+	message = forms.CharField(label="", widget=forms.Textarea(attrs={'class': 'formField formFieldMessage', 'placeholder': 'Message'}), required=True)
 	inviteCode  = HoneypotField(label="")
-
+	captcha = CaptchaField()

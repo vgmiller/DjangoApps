@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'blog',
     'naga',
     'music',
+    'captcha',
 	'mediaServer',
 	'todo',
 	'corsheaders',
