@@ -62,7 +62,7 @@ div.flexItem {
 	flex: 1;
 	padding: 5px;
 	height: 100%;
-	margin: auto;
+	margin: auto 5px;
 }
 div.programNav {
 	width: 100%;
@@ -175,6 +175,10 @@ iframe.youtubeIframe {
   .siteContainerInner {
 	width: 90% !important;
   }
+  iframe.youtubeIframe {
+	width: 400;
+	height: 225;
+  }
 }
 @media only screen and (max-width: 1000px) {
   .halfPagePicture {
@@ -218,7 +222,7 @@ iframe.youtubeIframe {
 	width: 90% !important;
   }
 }
-@media only screen and (max-width: 560px) {
+@media only screen and (max-width: 600px) {
   div.contactForm {
 	padding: 2% 0%;
   }
