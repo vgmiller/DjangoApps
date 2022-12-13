@@ -2,7 +2,7 @@
 {% load thumbnail staticthumb %}
 {% block page_content %}
 	{% with "music/VMiller_Picc.jpg"|static_url as imgPath %}
-	<img src="{% thumbnail imgPath '1200' as im %}{{ im.url }}{% endthumbnail %}"
+	<a href='recordings'><img src="{% thumbnail imgPath '1200' as im %}{{ im.url }}{% endthumbnail %}"
 	srcset="
 		{% for size in breakpoints %}
 		{% thumbnail imgPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
@@ -10,5 +10,6 @@
 		"
 	alt="Vanessa Miller, Piccolo"
 	class="landingImage"/>
+	</a>
 	{% endwith %}
 {% endblock %}

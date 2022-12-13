@@ -39,7 +39,7 @@ a.navItem:hover {
 	background-color: Lavender;
 }
 a.on {
-	background-color: MediumPurple;
+	background-color: #CCCCFF;
 }
 div.repContainer {
 	column-count: 2;
@@ -151,7 +151,7 @@ li.success {
 	min-width: 90%;
 }
 .landingImage {
-	height:75vh; 
+	height:70vh; 
 	width:auto; 
 	margin:auto;
 }
@@ -201,9 +201,6 @@ iframe.youtubeIframe {
   }
   .siteContainerInner {
 	width: 98% !important;
-  }
-  .landingImage {
-	height:50vh; 
   }
   .repContainer {
 	column-count: 1 !important;
