@@ -118,10 +118,10 @@ p.nextToPicture {
 	text-align: left;
 	height: 100%;
 	max-width: 100%;
-	padding: 10% 5%;
+	padding: 0% 5%;
 }
 img.halfPagePicture {
-	height: 75vh;
+	height: 70vh;
 	width: auto;
 }
 ul {
@@ -157,7 +157,7 @@ li.success {
 }
 iframe.soundcloudIframe {
 	width: 70%;
-	height: 450;
+	height: 350;
 }
 iframe.youtubeIframe {
 	width: 560;
