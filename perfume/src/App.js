@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import "./App.css";
 
 class App extends Component {
     state = {
@@ -81,7 +82,7 @@ class App extends Component {
           key={item.id}
           className="list-group-item d-flex justify-content-between align-items-center"
         >
-          <p className={`perfume-title mr-2`}
+          <p className={`perfume-description mr-2`}
       			title={item.myDescription}
           >
               {item.name}<br/>
@@ -103,8 +104,10 @@ class App extends Component {
                 <button onClick={this.randomPerfume} className="btn btn-success" title="Select a random perfume">Generate Today's Perfume!</button>
               </div>
 			    <div className="text-right font-weight-bold" title={this.state.activeItem.myDescription}>
-					{this.state.activeItem.name}<br/>
-                    <small>{this.state.activeItem.myDescription}</small>
+					<p className="perfume-description float-right">
+						{this.state.activeItem.name}<br/>
+                    	<small>{this.state.activeItem.myDescription}</small>
+					</p>
 				</div>
 			  <hr/>
 			  <div><span className="text-left">Or, browse by category:</span></div>
