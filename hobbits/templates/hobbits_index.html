@@ -6,10 +6,14 @@
 <h1><span class="pageArea">Hello Hobbits!</span></h1>
 <div style="font-weight:bold">
 <h3><span class="pageArea">Quick Stats</span></h3>
-<span class="pageArea">Total Distance Walked: {{ summary.totalDistanceWalked }} miles<br/></span>
-<span class="pageArea">Total Number of Walks: {{ summary.totalNumberOfWalks }}<br/></span>
-<span class="pageArea">First Walk Ever: {{ summary.firstWalk.startDateTime }}<br/></span>
-<span class="pageArea">Latest Walk: {{ summary.lastWalk.startDateTime }}<br/></span>
+<table class="tableBordered pageArea">
+<tr><td>Total Distance Walked:</td><td>{{ summary.totalDistanceWalked }} miles</td></tr>
+<tr><td>Total Number of Walks:</td><td>{{ summary.totalNumberOfWalks }}</td></tr>
+<tr><td>First Walk Ever:</td><td>{{ summary.firstWalk.startDateTime }}</td></tr>
+<tr><td>Latest Walk:</td><td>{{ summary.lastWalk.startDateTime }}</td></tr>
+<tr><td>Days Since Start:</td><td>{{ summary.daysSinceStart }}</td></tr>
+<tr><td>Days Walked:</td><td>{{ summary.daysWalked }}</td></tr>
+</table>
 </div>
 <div>
 <h3><span class="pageArea">Milestones</span></h3>
@@ -21,12 +25,13 @@
 </table>
 </div>
 <div>
-<h3><span class="pageArea">Full Walk List</span></h3>
-<span class="pageArea"><a href="refreshData">Refresh the Data</a><br/></span>
+<h3><span class="pageArea">Recent Walks</span></h3>
+<span class="pageArea"><a href="log">Full Walk List</a><br/></span>
+<span class="pageArea"><button onclick="window.location.href='refreshData'">Refresh the Data</button><br/></span>
 <table class="tableBordered pageArea">
-<tr><th>Date/Time</th><th>Miles</th><th>Duration in Minutes*</th></tr>
+<tr><th>Date/Time</th><th>Miles</th></tr>
 {% for walk in walks %}
-<tr><td>{{ walk.startDateTime }}</td><td>{{ walk.distance }}</td><td>{{ walk.duration }}</td></tr>
+<tr><td>{{ walk.startDateTime }}</td><td>{{ walk.distance }}</td></tr>
 {% endfor %}
 </table>
 </div>

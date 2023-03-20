@@ -32,7 +32,8 @@ class CurrentStatus(models.Model):
 	lastWalk = models.ForeignKey('Walk', related_name='lastWalk', on_delete=models.SET_NULL, null=True)
 	firstWalk = models.ForeignKey('Walk', related_name='firstWalk', on_delete=models.SET_NULL, null=True)
 	currentEvent = models.ForeignKey('Event', on_delete=models.SET_NULL, null=True)
-	#totalDays
+	daysSinceStart = models.IntegerField(blank=True, null=True)
+	daysWalked = models.IntegerField(blank=True, null=True)
 	#mapProgressPercentage?
 
 	def save(self, *args, **kwargs):
@@ -48,19 +49,31 @@ class CurrentStatus(models.Model):
 		return obj
 
 	def update(self):
+		import datetime
+		import pytz
+
+		def localize(utcDatetime):
+			return utcDatetime.astimezone(pytz.timezone('US/Eastern')).date()
+
 		walks = Walk.objects.all().order_by('startDateTime')
 		totalDistanceWalked = 0
 		totalNumberOfWalks = 0
 		totalTimeWalked = 0
+		daysWalked = 0
+		currWorkingDate = localize(datetime.datetime(1970, 1, 1)) #arbitrary unix epoch start
 
 		for walk in walks:
+			if localize(walk.startDateTime)!=currWorkingDate:
+				currWorkingDate=localize(walk.startDateTime)
+				daysWalked+=1
 			totalDistanceWalked+=walk.distance
 			totalNumberOfWalks+=1
 			totalTimeWalked+=walk.duration	
 		
 		lastWalk = walks.last()
 		firstWalk = walks.first()
-		currentEvent = None 
+		currentEvent = None
+		daysSinceStart = (localize(datetime.datetime.now(pytz.utc)) - localize(firstWalk.startDateTime)).days + 1 #inclusive of today 
 		
 		self.totalDistanceWalked = totalDistanceWalked
 		self.totalNumberOfWalks = totalNumberOfWalks
@@ -68,6 +81,8 @@ class CurrentStatus(models.Model):
 		self.lastWalk = lastWalk
 		self.firstWalk = firstWalk
 		self.currentEvent = currentEvent
+		self.daysSinceStart = daysSinceStart
+		self.daysWalked = daysWalked
 		self.save()
 
 	def summary(self):
@@ -78,4 +93,6 @@ class CurrentStatus(models.Model):
 			'lastWalk': self.lastWalk,
 			'firstWalk': self.firstWalk,
 			'currentEvent': self.currentEvent,
+			'daysSinceStart': self.daysSinceStart,
+			'daysWalked': self.daysWalked,
 		}

@@ -1,0 +1,17 @@
+<link rel="stylesheet" type="text/css" href="/static/hobbits/hobbits.css">
+<link rel="stylesheet" type="text/css" href="/static/base.css">
+<link rel="shortcut icon" href="/static/hobbits/favicon.ico"/>
+<head><title>The Lord of the Dogwalks</title></head>
+<body>
+<span class="pageArea"><a href="/hobbits">Back to Home</a><br/></span>
+<h2><span class="pageArea">Full Walk List</span></h2>
+<span class="pageArea"><button onclick="window.location.href='refreshData'">Refresh the Data</button><br/></span>
+<table class="tableBordered pageArea">
+<tr><th>Date/Time</th><th>Miles</th></tr>
+{% for walk in walks %}
+<tr><td>{{ walk.startDateTime }}</td><td>{{ walk.distance }}</td></tr>
+{% endfor %}
+</table>
+</div>
+</body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
