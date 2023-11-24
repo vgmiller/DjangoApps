@@ -68,3 +68,36 @@ class ProgramSlotAdmin(admin.ModelAdmin):
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
     
 admin.site.register(ProgramSlot, ProgramSlotAdmin)
+
+class ConcertAdmin(admin.ModelAdmin):
+    list_display = ('date', 'get_ensembleName',)
+    def get_ensembleName(self, obj):
+        return obj.ensemble.name
+    get_ensembleName.short_description = "Ensemble"
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'ensemble':
+            return EnsembleChoiceField(queryset=Ensemble.objects.order_by('name'))
+        if db_field.name == 'venue':
+            return VenueChoiceField(queryset=Venue.objects.order_by('name'))
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+admin.site.register(Concert, ConcertAdmin)
+
+class EnsembleChoiceField(ModelChoiceField):
+    def label_from_instance(self, ensemble_instance):
+        return ensemble_instance.name
+
+class VenueChoiceField(ModelChoiceField):
+    def label_from_instance(self, venue_instance):
+        return venue_instance.name
+
+class EnsembleAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+admin.site.register(Ensemble, EnsembleAdmin)
+
+class VenueAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+admin.site.register(Venue, VenueAdmin)

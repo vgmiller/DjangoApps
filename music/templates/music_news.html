@@ -4,16 +4,22 @@
 <div class="flexContainer">
 	<div class="flexItem">
 	<p class="nextToPicture">
-	Due to the Covid-19 pandemic, performances may change, but the following performances are currently scheduled:
-	<p>
+	The following performances are currently scheduled:
+	</p>
 	<ul>
-	<li><b>October 14th, 2023, 8pm - <a href="https://www.nyro.org/">New York Repertory Orchestra</a></b></li>
-	<li><b>December 2nd, 2023, 8pm - <a href="https://www.nyro.org/">New York Repertory Orchestra</a></b></li>
-	<li><b>December 16th, 2023, 6pm - <a href="https://www.mmc.band/bkws">Brooklyn Wind Symphony</a></b></li>
-	<li><b>February 10th, 2024 8pm - <a href="https://www.nyro.org/">New York Repertory Orchestra</a></b></li>
-	<li><b>April 6th, 2024 8pm - <a href="https://www.nyro.org/">New York Repertory Orchestra</a></b></li>
-	<li><b>May 18th, 2024 8pm - <a href="https://www.nyro.org/">New York Repertory Orchestra</a></b></li>
+	{% for c in concerts %}
+	<li>
+		<b>{{ c.date }}, {{ c.time }} - <a href="{{ c.ensemble.orgLink }}">{{ c.ensemble.name }}</a></b> at <a href="{{ c.venue.mapLink}}">{{ c.venue.name }}</a>
+		{% if c.ticketLink %}
+		<b><a href="{{ c.ticketLink}}">(tickets)</a></b>
+		{% endif %}
+	</li>
+	{% endfor %}
 	</ul>
+	<p class="nextToPicture" style="font-size:x-small">
+	If no ticket link is included, then concert is general admission with a suggested donation at the door.<br/>
+	</p>
+
 	<p class="nextToPicture">
 	Vanessa is fully vaccinated and is available to perform in all venues.<br/>
 	<br/>

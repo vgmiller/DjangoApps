@@ -64,10 +64,10 @@ def fitbitGetData():
 	consumer_secret = settings.FITBIT_CLIENTSECRET
 	access_token = os.environ['FITBIT_ACCESS_TOKEN'] if os.environ['FITBIT_ACCESS_TOKEN'] else settings.FITBIT_ACCESS_TOKEN
 	refresh_token = os.environ['FITBIT_REFRESH_TOKEN'] if os.environ['FITBIT_REFRESH_TOKEN'] else settings.FITBIT_REFRESH_TOKEN
-	startDate = (datetime.today()-timedelta(days=10)).strftime("%Y-%m-%d")
+	startDate = (datetime.today()-timedelta(days=20)).strftime("%Y-%m-%d")
 	
 	authd_client = fitbit.Fitbit(consumer_key, consumer_secret, access_token=access_token, refresh_token=refresh_token)
-	activities = authd_client.activity_logs_list(after_date=startDate, limit=50).get('activities')
+	activities = authd_client.activity_logs_list(after_date=startDate, limit=100).get('activities')
 	authd_client.sleep()
 
 	return activities

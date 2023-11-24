@@ -1,10 +1,11 @@
 from django.shortcuts import render
-from music.models import Piece, Program
+from music.models import Piece, Program, Concert
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, HttpResponseRedirect
 from music.forms import ContactForm
 from django.contrib import messages
 from django.conf import settings
+from datetime import datetime
 
 def music_index(request):
 	context = {
@@ -45,6 +46,7 @@ def music_samplePrograms(request):
 def music_news(request):
     context = {
 		"breakpoints": settings.IMAGE_BREAKPOINTS,
+		"concerts": Concert.objects.filter(date__gte=datetime.today()).order_by("date"),
     }
     return render(request, "music_news.html", context)
 

@@ -36,3 +36,20 @@ class ProgramSlot(models.Model):
     piece = models.ForeignKey('Piece', related_name="programSlots", on_delete=models.CASCADE)
     program = models.ForeignKey('Program', related_name="programSlots", on_delete=models.CASCADE)
     order = models.IntegerField(blank=False)
+
+class Concert(models.Model):
+    date = models.DateField(null=False, blank=False)
+    time = models.TimeField(null=False, blank=False)
+    ensemble = models.ForeignKey('Ensemble', related_name="concerts", on_delete=models.CASCADE)
+    venue = models.ForeignKey('Venue', related_name="concerts", on_delete=models.CASCADE)
+    ticketLink = models.TextField(null=True, blank=True)
+
+class Ensemble(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False)
+    acronym = models.CharField(max_length=255, blank=False, null=False)
+    orgLink = models.TextField(null=False, blank=False)
+
+class Venue(models.Model):
+    name = models.CharField(max_length=255, blank=False, null=False)
+    shortLocation = models.CharField(max_length=255, blank=False, null=False)
+    mapLink = models.TextField(null=False, blank=False)

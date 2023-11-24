@@ -21,6 +21,7 @@ ALLOWED_HOSTS = [
         'vgmraspberrypi',
         '192.168.1.24',
 		'184.152.46.24',
+		'74.64.56.4',
 		'localhost',
         '.larvalnemesis.com',
         '.vmillermusic.com',
