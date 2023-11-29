@@ -46,8 +46,8 @@
     "css-loader": "*",
     "react-scripts": "*",
     "style-loader": "*",
-    "webpack": "*",
-    "webpack-bundle-tracker": "*",
-    "webpack-cli": "*"
+    "webpack": "^5.76.0",
+    "webpack-bundle-tracker": "^0.4.3",
+    "webpack-cli": "^4.10.0"
   }
 }

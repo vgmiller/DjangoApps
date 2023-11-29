@@ -15,7 +15,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new BundleTracker({
       path: __dirname,
-      filename: './webpack-stats.json',
+      filename: 'webpack-stats.json',
     }),
   ],
   module: {
