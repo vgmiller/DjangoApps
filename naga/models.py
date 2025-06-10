@@ -21,7 +21,7 @@ class DndClass(models.Model):
     isPrimaryAtkClass = models.BooleanField(default=False) #usually your main class
     isPrimarySpellClass = models.BooleanField(default=False) #usually your main class
     isSpellcastingClass = models.BooleanField(default=False) #e.g. Fighter no, Wizard yes
-	# for Warlock
+    # for Warlock
     shortRestSlotsTotal = models.IntegerField(blank=True, null=True)
     shortRestSlotsUsed = models.IntegerField(blank=True, null=True)
     
