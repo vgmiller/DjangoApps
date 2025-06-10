@@ -39,7 +39,11 @@ window.onload = function() {
 		<button class="tablinks" onclick="openPage(event, 'pg1')" id="defaultOpen">Page 1</button>
 		<button class="tablinks" onclick="openPage(event, 'pg2')">Page 2</button>
 		{% if character.useSpellPage %}
+		{% if spellcastingClass == "Warlock" %}
+		<button class="tablinks" onclick="openPage(event, 'pg3_warlock')">{{ spellcastingClass }} Spells</button>
+		{% else %}
 		<button class="tablinks" onclick="openPage(event, 'pg3')">{{ spellcastingClass }} Spells</button>
+		{% endif %}
 		{% if s_spellcastingClass %}
 		<button class="tablinks" onclick="openPage(event, 'pg3_secondary')">{{ s_spellcastingClass }} Spells</button>
 		{% endif %}
@@ -60,6 +64,11 @@ window.onload = function() {
 <div id="pg3" class="tabcontent" style="display:none">
 {% include "naga_charPg3.html" %}
 </div>
+{% if spellcastingClass == "Warlock" %}
+<div id="pg3_warlock" class="tabcontent" style="display:none">
+{% include "naga_charPg3_warlock.html" %}
+</div>
+{% endif %}
 {% if s_spellcastingClass %}
 <div id="pg3_secondary" class="tabcontent" style="display:none">
 {% include "naga_charPg3_secondary.html" %}

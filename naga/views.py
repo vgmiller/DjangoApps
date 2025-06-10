@@ -48,6 +48,7 @@ def naga_characterHome(request, name):
         context['spellSaveDC'] = cls.getSpellSaveDC()
         context['spellAtkBonus'] = cls.getSpellAtkBonus()
         context['numPrepare'] = cls.getNumSpellsPrepare()
+        context['shortRestSlotsTotal'] = cls.shortRestSlotsTotal
     if character.getSecondarySpellClass():
         cls = character.getSecondarySpellClass()
         context['s_spells'] = cls.getSpells()

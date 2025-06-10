@@ -12,6 +12,7 @@ class DndClass(models.Model):
             ('5', 'Fighter'),
             ('6', 'Druid'),
             ('7', 'Monk'),
+            ('8', 'Warlock'),
         )
     name = models.CharField(max_length=20, choices=CLASS_CHOICES, unique=True)
     school = models.CharField(max_length=255, blank=True, null=True)
@@ -20,6 +21,9 @@ class DndClass(models.Model):
     isPrimaryAtkClass = models.BooleanField(default=False) #usually your main class
     isPrimarySpellClass = models.BooleanField(default=False) #usually your main class
     isSpellcastingClass = models.BooleanField(default=False) #e.g. Fighter no, Wizard yes
+	# for Warlock
+    shortRestSlotsTotal = models.IntegerField(blank=True, null=True)
+    shortRestSlotsUsed = models.IntegerField(blank=True, null=True)
     
     def save(self, *args, **kwargs):
         isNew = False
@@ -36,6 +40,7 @@ class DndClass(models.Model):
             "Wizard": self.character.getIntMod(),
             "Bard": self.character.getChaMod(),
             "Druid": self.character.getWisMod(),
+            "Warlock": self.character.getChaMod(),
             }
         return switcher.get(self.get_name_display(), self.character.getIntMod())
 
@@ -129,7 +134,7 @@ class Character(models.Model):
     proficiencyBonus = models.IntegerField()
     inspiration = models.IntegerField(blank=True, null=True)
 
-    ac = models.IntegerField()
+    ac = models.IntegerField(default=10, blank=True, null=True)
     initiative = models.IntegerField(blank=True, null=True)
     speed = models.IntegerField()
     currentHP = models.IntegerField()

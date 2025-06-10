@@ -28,12 +28,13 @@
 			<div name="abils" class="charPgColumnSection" style="display:inline-block !important; width:65% !important;">
 				<div name="insp" class="charPgColumnSection">
 					<table class="tableBordered">
-						<tr><td> {{ character.inspiration }}</td><td><b>Inspiration</b></td></tr>
-						<tr><td> +{{ character.proficiencyBonus }}</td><td><b>Proficiency Bonus</b></td></tr>
+						<tr><td><b>Inspiration</b></td><td>{{ character.inspiration }}</td></tr>
+						<tr><td><b>Proficiency Bonus</b></td><td>+{{ character.proficiencyBonus }}</td></tr>
 					</table>
 				</div>
 				<div name="savingThrows" class="charPgColumnSection">
 					<table class="tableBordered">
+						<tr><td colspan=3><b>Saving Throws</b></td></tr>
 						<tr><td><b>Prof.</b></td><td><b>Mod</b></td><td><b>Ability</b></td></tr>
 						{% for stDict in savingThrows %}
 						<tr>
@@ -50,6 +51,7 @@
 				</div>
 				<div name="abilityChecks" class="charPgColumnSection">
 					<table class="tableBordered">
+						<tr><td colspan=3><b>Ability Checks</b></td></tr>
 						<tr><td><b>Prof.</b></td><td><b>Mod</b></td><td><b>Ability</b></td></tr>
 						{% for aDict in abilities %}
 						<tr>

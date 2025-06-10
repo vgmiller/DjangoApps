@@ -13,7 +13,7 @@
 		<td><small>Spellcasting Class</small></td><td><small>Level</small></td><td><small>Spellcasting Ability (Mod)</small></td><td><small>Spell Save DC</small></td><td><small>Spell Attack Bonus</small></td>
 	</tr>
 	</table>
-	<p class="normal" style="float:right">Can prepare {{ numPrepare }} {{ spellcastingClass }} spells a day</p>
+	<p class="normal" style="float:right">All Warlock spells are prepared, has {{ shortRestSlotsTotal }} slots per short rest.</p>
 	</div>
 	<div name="spacer">&nbsp;<br></div>
 	<div name="spells">
@@ -24,16 +24,12 @@
 			{% if forloop.counter0 == 0 %}
 			<tr><td colspan=3>Cantrips</td></tr>
 			{% else %}
-			<tr><td><small>Level</small></td><td><small>Slots Total</small></td><td><small>Slots Used</small></td></tr>
-			<tr><td><small>{{ forloop.counter0 }}</small></td><td><small>{{ character|slotsTotal:forloop.counter0 }}</small></td><td><small>{{ character|slotsUsed:forloop.counter0 }}</small></td></tr>
+			<tr><td><small>Level</small></td><td><small>Spells Known</small></td></tr>
+			<tr><td><small>{{ forloop.counter0 }}</small></td><td><small>{{ character|slotsTotal:forloop.counter0 }}</small></td></tr>
 			{% endif %}
 			{% for s in spells|index:forloop.counter0 %}
 			<tr>
-			{% if forloop.parentloop.counter0 == 0 %}
 			<td colspan=3>
-			{% else %}
-			<td>{% if s.prepared %}X{% else %}O{% endif %}</td><td colspan=2>
-			{% endif %}
 			<a href="javacript://" data-html="true" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.popupContent|escape|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
 			{% endfor %}
 		</table>
