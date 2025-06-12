@@ -83,7 +83,7 @@ class App extends Component {
           className="list-group-item d-flex justify-content-between align-items-center"
         >
           <p className={`perfume-description mr-2`}
-      			title={item.myDescription}
+      			title={item.theirDescription}
           >
               {item.name}<br/>
 			  <span class="small">{item.myDescription}</span>

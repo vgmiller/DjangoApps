@@ -9,7 +9,7 @@ def index(request):
 
 class PerfumeView(viewsets.ModelViewSet):  
     serializer_class = PerfumeSerializer   
-    queryset = Perfume.objects.all() 
+    queryset = Perfume.objects.filter(isEmpty=False) 
 
 class TagView(viewsets.ModelViewSet):  
     serializer_class = TagSerializer   
