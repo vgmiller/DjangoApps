@@ -156,6 +156,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 THUMBNAIL_PRESERVE_FORMAT = True
 IMAGE_BREAKPOINTS = ["200", "544", "768", "1200", "1920"]
 
+# https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/security_credentials
 EMAIL_BACKEND = config('EMAIL_BACKEND')
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
