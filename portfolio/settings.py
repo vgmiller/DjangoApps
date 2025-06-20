@@ -28,6 +28,7 @@ ALLOWED_HOSTS = [
         '.vmillerflute.com',
         '.vanessaflute.com',
         '.vanessapiccolo.com',
+        '127.0.0.1',
         ]
 
 
@@ -62,8 +63,8 @@ MIDDLEWARE_CLASSES = [
         ]
 MIDDLEWARE = [
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
-    'portfolio.seturlconfmiddleware.SetURLConfMiddleware',
-    'portfolio.virtualhostmiddleware.VirtualHostMiddleware',
+    #'portfolio.seturlconfmiddleware.SetURLConfMiddleware',
+    #'portfolio.virtualhostmiddleware.VirtualHostMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -146,11 +147,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-SITE_URL = 'vgmraspberrypi'
+SITE_URL = '127.0.0.1:8000'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join( BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'staticfiles')]
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join( BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 THUMBNAIL_PRESERVE_FORMAT = True
 IMAGE_BREAKPOINTS = ["200", "544", "768", "1200", "1920"]
 

@@ -1,0 +1,85 @@
+body {
+	background-image: url("/static/naga/img/floral_parchment.jpg");
+	background-color: #cccccc;
+}
+a {
+	color: Sienna !important;
+	font-weight: bold !important;
+}
+p.normal {
+	padding: 5px;
+}
+h2 {
+	text-align: center;
+}
+.headshot {
+	margin: auto;
+	width: auto;
+	height: 180px;
+	float: right;
+	padding: 5px;
+}
+.topBar {
+	margin: 0 5%;
+}
+.pageArea {
+	background-color: OldLace;
+	margin: 0 5%;
+	padding: 5px;
+}
+.charPgTriColumn {
+	display: inline-block;
+	margin: auto;
+	width: 32%;
+	vertical-align: top;
+}
+.charPgBiColumn {
+	display: inline-block;
+	margin: auto;
+	width: 48%;
+	vertical-align: top;
+}
+@media only screen and (max-width: 1200px) and (min-width: 721px) {
+  .charPgTriColumn {
+    width: 49%;
+  }
+}
+@media only screen and (max-width: 720px) {
+  .charPgTriColumn {
+    width: 99%;
+  }
+  .charPgBiColumn {
+    width: 99%;
+  }
+  table.topBar, table.topBar tr, table.topBar td {
+	  display: block;
+  }
+}
+.charPgColumnSection {
+	margin: 10px auto;
+	width: 99%;
+	vertical-align: top;
+}
+table.tableBordered {
+	border-collapse: collapse;
+	margin: auto;
+}
+table.tableBordered td {
+	border: 2px ridge Tan;
+	padding: 5px;
+	text-align: center;
+}
+.popover {
+	max-width: 50% !important;
+}
+.spellSection {
+	display: inline-block;
+	vertical-align: top;
+	padding: 5px;
+	margin: auto;
+	min-width: 18%;
+}
+table.topBar {
+	width: 99%;
+	margin: 0 auto;
+}

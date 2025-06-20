@@ -1,0 +1,266 @@
+./01 - MOVIES/
+.../2001 A Space Odyssey.mp4
+.../21 Jump Street.mp4
+.../American Psycho Uncut Killer Collector's Edition
+.../An Inconvenient Truth (2006).mp4
+.../Anchorman 1.mp4
+.../Anchorman 2 - The Legend Continues.mp4
+.../Angels And Demons.avi
+.../Antz.mp4
+.../Apollo 18.mp4
+.../Batman.1966.1080p.BluRay.x264.anoXmous_.mp4
+.../Batman.Forever.1985.1080p.BluRay.x264.anoXmous_.mp4
+.../Batman.Returns.1992.1080p.BluRay.x264.anoXmous_.mp4
+.../Batman.v.Superman.Dawn.of.Justice.2016.720p.BluRay.x264.VPPV.mkv
+.../Big Trouble In Little China.avi
+.../Big.Hero.6.2014.720p.BluRay.x264.YIFY.mp4
+.../black.swan.2010.480p.bdrip.xvid.ac3.oped.avi
+.../Brave [2012].avi
+.../Bridesmaids.avi
+.../Bug's Life.mp4
+.../Butterfly effect (Director's cut).avi
+.../Casablanca.mp4
+.../Chet Baker - Lets Get Lost.mp4
+.../Citizen Kane.mp4
+.../Clockwork Orange.mp4
+.../Cloud.Atlas.2012.720p.BrRip.x264.YIFY.mp4
+.../Contact (1997).avi
+.../Cool Runnings.avi
+.../Crossroads.avi
+.../DaVinci Code.mp4
+.../Dead Poets Society.avi
+.../Deadpool.2016.720p.HC.HDRip.x264.AAC-ETRG.mp4
+.../Dear.Zachary.A.Letter.To.A.Son.About.His.Father.XviD.AC3.MVGroup.org.avi
+.../Despicable Me 1.mp4
+.../Despicable Me 2.mp4
+.../Disney and more
+.../Disney and more/1941 - Dumbo.avi
+.../Disney and more/1942 - Bambi.avi
+.../Disney and more/1951 - Alice in Wonderland.avi
+.../Disney and more/1961.-.101.Dalmatians.avi
+.../Disney and more/1963 - The Sword in the Stone.avi
+.../Disney and more/1964.-.Mary.Poppins.avi
+.../Disney and more/1973 - Robin Hood.avi
+.../Disney and more/1977.-.The.Rescuers.avi
+.../Disney and more/1985 - The Black Cauldron.avi
+.../Disney and more/1986.-.The.Great.Mouse.Detective.avi
+.../Disney and more/1988 - Oliver & Company.avi
+.../Disney and more/1996.-.James.and.the.Giant.Peach.avi
+.../Disney and more/Aladdin.1992.720p.BRrip.x264.GAZ.YIFY.mp4
+.../Disney and more/Disney Classic - 12 - Cinderella.avi
+.../Disney and more/Disney Classic - 14 - Peter Pan.avi
+.../Disney and more/Disney Classic - 15 - Lady And The Tramp.avi
+.../Disney and more/Disney Classic - 16 - Sleeping Beauty.avi
+.../Disney and more/Disney Classic - 19 - The Jungle Book.avi
+.../Disney and more/Disney Classic - 28 - The Little Mermaid.avi
+.../Disney and more/Disney Classic - 30 - Beauty And The Beast.avi
+.../Disney and more/Disney Classic - 31 - Aladdin.avi
+.../Disney and more/Disney Classic - 33 - Pocahontas.avi
+.../Disney and more/Disney Classic - 34 - The Hunchback of Notre Dame.avi
+.../Disney and more/Disney Classic - Pinocchio.AVI
+.../Disney and more/Disney Classic - Snow White and the Seven Dwarfs.avi
+.../Disney and more/Mulan.avi
+.../DodgeBall [2004] [DVDRip XviD] [1337x]-Dita496.avi
+.../Dr. Strangelove.mp4
+.../Duets (2000).avi
+.../Edward Scissorhands.mp4
+.../Fahrenheit 451.mp4
+.../Fantasia (1940).avi
+.../Fantasia 2000.AVI
+.../Fantastic Four - Rise of the Silver Surfer.avi
+.../Fantastic Four.avi
+.../Ferngully.avi
+.../Fifty.Shades.of.Grey.2015.720p.BluRay.x264.YIFY.mp4
+.../Finding Dory 2016 HD-TS x264 AC3-CPG.mkv
+.../Flubber.1997.HDTV.720p.x264.YIFY.mp4
+.../Get Smart (2008).avi
+.../Ghostbusters.2016.HDRip.XViD-ETRG.avi
+.../Ghostbusters.mkv
+.../Good.Morning.Vietnam.1987.720p.BrRip.x264.YIFY.mp4
+.../Good.Will.Hunting.1997.1080p.BluRay.x264.anoXmous_.mp4
+.../Guardians of the Galaxy.avi
+.../Hairspray.avi
+.../Harry Potter 1 and the Sorcerer's Stone.mp4
+.../Harry Potter 2 and the Chamber of Secrets.mp4
+.../Harry Potter 3 and the Prisoner a Azkaban.mp4
+.../Harry Potter 4 and the Goblet of Fire.mp4
+.../Harry Potter 5 and the Order of the Phoenix.mp4
+.../Harry Potter 6 and the Half Blood Prince.mp4
+.../Harry Potter 7 and the Deathly Hallows Part 1.mp4
+.../Harry Potter 8 and the Deathly Hallows Part 2.mp4
+.../Hobbit I - An Unexpected Journey.mp4
+.../Hobbit II - The Desolation of Smaug.mp4
+.../Hobbit III - The Battle of the Five Armies.mp4
+.../Hocus Pocus.mp4
+.../Home Alone.mp4
+.../Hot Fuzz [2007].mp4
+.../How the Grinch Stole Christmas.avi
+.../Independence Day Resurgence 2016 HD-TS x264 AC3-CPG.mkv
+.../Inside.Out.2015.720p.BluRay.x264.YIFY.mp4
+.../Interstellar.2014..avi
+.../Into the Woods (2014).avi
+.../Jesus Christ Superstar (2000) (TV).avi
+.../L.I.E.[2001].avi
+.../Limitless.avi
+.../Looper.avi
+.../Lord of the Rings 1 - Fellowship of the Ring.mp4
+.../Lord of the Rings 2 - Two towers.mp4
+.../Lord of the Rings 3 - Return of the King.mp4
+.../Love Actually.avi
+.../Love in Afternoon.avi
+.../Magic Mike.avi
+.../MallRats.mp4
+.../Memento (2000).avi
+.../Million Ways to Die in the West.mp4
+.../Monty Python - The Life of Brian.avi
+.../Moulin Rouge.avi
+.../Mr. Smith Goes to Washington.avi
+.../Mr.and.Mrs.Smith.2005.BluRay.720p.x264.YIFY.mp4
+.../Mrs.Doubtfire.1993.1080p.BrRip.x264.YIFY.mp4
+.../mtp1 Meet the Parents.avi
+.../mtp2 Meet The Fockers.avi
+.../mtp3 Little Fockers.avi
+.../Newsies (1992).avi
+.../Now.You.See.Me.2013.720p.BluRay.x264.YIFY.mp4
+.../O Brother Where Art Thou.mp4
+.../Pirates of the Caribbean - Dead Man's Chest.m4v
+.../Pirates of the Caribbean - The Curse of the Black Pearl.m4v
+.../Pitch Perfect.avi
+.../Planet of the Apes (1968).avi
+.../Planet of the Apes (2001).avi
+.../Primer.avi
+.../Ratatouille.mp4
+.../Requiem For A Dream (Director's Cut).avi
+.../Resident Evil 3 - Extinction 2007.avi
+.../Resident Evil 4 - Afterlife 2010.flv
+.../Resident Evil 5 - Retribution 2012.avi
+.../Resident Evil Degeneration.avi
+.../Revenge of the Nerds 1.avi
+.../Revenge of the Nerds 2.avi
+.../Rock 'n Rolla.mp4
+.../Say Anything.avi
+.../Scott Pilgrim vs. The World.mp4
+.../Slumdog Millionaire[2008]DvDrip[Eng]-FXG.avi
+.../Smokey and the Bandit.mp4
+.../Some Like it Hot.mp4
+.../Star Trek (2009).mp4
+.../Star Trek - Into Darkness.mp4
+.../Stargate.m4v
+.../Starship Troopers 1.avi
+.../Starship Troopers 2 - Hero Of The Federation.avi
+.../Starship Troopers 3.mkv
+.../Step Brothers (2008).avi
+.../Straight Outta Compton (2015).avi
+.../Stranger Than Fiction.avi
+.../Sweeney Todd   The Demon Barber Of Fleet Street.mp4
+.../Thank You For Smoking.avi
+.../The Blues Brothers.mp4
+.../The Bodyguard (1992).avi
+.../The Book of Eli.avi
+.../The Count of Monte Cristo.avi
+.../The Dark Knight
+.../The Dark Knight/The Dark Knight.ISO
+.../The Dark Knight/The Dark Knight.MDS
+.../The Departed.avi
+.../The Emperors New Groove.avi
+.../The Fifth Element.mkv
+.../The Guardian.m4v
+.../The Last Unicorn.avi
+.../The Legend Of Zorro[2005].avi
+.../The Lincoln Lawyer.avi
+.../The Mask of Zorro[1998].avi
+.../The Mummy (1999).avi
+.../The Mummy Returns (2001).avi
+.../The Mummy Tomb Of The Dragon Emperor  Cd1.avi
+.../The Mummy Tomb Of The Dragon Emperor  Cd2.avi
+.../The Never Ending Story II.avi
+.../The Never Ending Story.avi
+.../The Night Listener.m4v
+.../The Nightmare Before Christmas (1993).avi
+.../The Notebook [2004].avi
+.../The Pianist.mp4
+.../The Rocky Horror Picture Show.mp4
+.../The Room.avi
+.../The Shawshank Redemption.avi
+.../The Ten Commandments.m4v
+.../The Usual Suspects (1995).avi
+.../The.Big.Lebowski.1998.720p.BrRip.x264.YIFY.mp4
+.../The.Princess.and.the.Frog.2009.720p.BrRip.x264.YIFY.mp4
+.../Thirteen.mp4
+.../Total Recall.mp4
+.../Trainspotting.mp4
+.../Up Pixar [2009] dvd rip nlx.avi
+.../Wall-E.avi
+.../Wanted.mp4
+.../Who Framed Roger Rabbit.mp4
+.../Wild Wild West.mp4
+.../You've Got Mail.avi
+.../Zardoz.avi
+./24/
+.../Season 01
+.../Season 02
+.../Season 03
+.../Season 04
+.../Season 05
+.../Season 06
+.../Season 07
+.../Season 08
+.../Season 09
+./Animaniacs 1-50/
+./black_sails - Season 01
+./borgias/ 
+.../Season 01
+.../Season 02
+.../Season 03
+./cosmos - Season 01
+.doctor_who/
+.../Season 00
+.../Season 01
+.../Season 02
+.../Season 03
+.../Season 04
+.../Season 05
+.../Season 06
+.../Season 07
+.../Season 08
+./Farscape.The.Peacekeeper.Wars.Part.1&2.WS.DSR.XviD-LOL
+./firefly
+./firefly/Serenity(2005).avi
+./flight_of_the_conchords - Season 01
+./Mozart in the Jungle - Season 1
+./musketeers - Season 01
+./orphan_black/
+.../Season 01
+.../Season 02
+./sherlock/
+.../Season 01
+.../Season 02
+.../Season 03
+./Star Trek Enterprise/
+.../Season 01
+.../Season 02
+.../Season 03
+.../Season 04
+./Star Trek Voyager/
+.../Season 01
+.../Season 02
+.../Season 03
+.../Season 04
+.../Season 05
+.../Season 06
+.../Season 07
+./Star Wars/
+.../Episode I The Phantom Menace (1999).mp4
+.../Episode II - Attack of the Clones [2002].mp4
+.../Episode III - Revenge of the Sith [2005].mp4
+.../Episode IV - A New Hope.mkv
+.../Episode V - The Empire Strikes Back.mkv
+.../Episode VI - Return of the Jedi.mkv
+.../Episode VII - The Force Awakens 2015.avi
+.../star wars rebels tv show/
+....../Season 01
+....../Season 02
+....../shorts
+./vikings - Season 01
+./Who's Line is it Anyway - Season 06
+./Whose_Line_is_it_Anyway_With_Special_Guest_Robin_Williams_Full_Episode.mp4

@@ -53,6 +53,8 @@ class CurrentStatus(models.Model):
 		import pytz
 
 		def localize(utcDatetime):
+			if utcDatetime.tzinfo is None:
+				utcDatetime = utcDatetime.replace(tzinfo=pytz.utc)
 			return utcDatetime.astimezone(pytz.timezone('US/Eastern')).date()
 
 		walks = Walk.objects.all().order_by('startDateTime')
