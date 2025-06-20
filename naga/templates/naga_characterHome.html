@@ -1,6 +1,8 @@
 {% extends "naga_base.html" %}
 {% load thumbnail %}
 {% block page_content %}
+<button id="download-pdf-btn" class="btn btn-primary">Save as PDF</button>		
+<div id="pdf-content">
 <script>
 function openPage(evt, pageName) {
 	  // Declare all variables
@@ -55,34 +57,36 @@ window.onload = function() {
 		<button class="tablinks" onclick="openPage(event, 'pg5')">Ref</button>
 	</div>
 </div>
-<div id="pg1" class="tabcontent" style="display:none">
+<div id="pg1" class="tabcontent pdf-section" style="display:none">
 {% include "naga_charPg1.html" %}
 </div>
-<div id="pg2" class="tabcontent" style="display:none">
+<div id="pg2" class="tabcontent pdf-section" style="display:none">
 {% include "naga_charPg2.html" %}
 </div>
-<div id="pg3" class="tabcontent" style="display:none">
-{% include "naga_charPg3.html" %}
-</div>
 {% if spellcastingClass == "Warlock" %}
-<div id="pg3_warlock" class="tabcontent" style="display:none">
+<div id="pg3_warlock" class="tabcontent pdf-section" style="display:none">
 {% include "naga_charPg3_warlock.html" %}
+</div>
+{% else %}
+<div id="pg3" class="tabcontent pdf-section" style="display:none">
+	{% include "naga_charPg3.html" %}
 </div>
 {% endif %}
 {% if s_spellcastingClass %}
-<div id="pg3_secondary" class="tabcontent" style="display:none">
+<div id="pg3_secondary" class="tabcontent pdf-section" style="display:none">
 {% include "naga_charPg3_secondary.html" %}
 </div>
 {% endif %}
 {% for page in customPages %}
-<div id="{{ page.orderindex }}" class="tabcontent" style="display:none">
+<div id="{{ page.orderindex }}" class="tabcontent pdf-section" style="display:none">
 {% include  ""|add:page.templateName %}
 </div>
 {% endfor %}
-<div id="pg4" class="tabcontent" style="display:none">
+<div id="pg4" class="tabcontent pdf-section" style="display:none">
 {% include "naga_charPg4.html" %}
 </div>
-<div id="pg5" class="tabcontent" style="display:none">
+<div id="pg5" class="tabcontent pdf-section" style="display:none">
 {% include "naga_charPg5.html" %}
+</div>
 </div>
 {% endblock %}
