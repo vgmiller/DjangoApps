@@ -19,10 +19,12 @@
 	</div>
 	<div class="normal projectDetailBox">
 		<h5 class="normal">About the project:</h5>
-		<p class="normal">{{ project.description }}</p>
+		<p class="normal">{{ project.description|safe|linebreaksbr }}</p>
 		<h5 class="normal">Technology used:</h5>
 		<p class="normal">{{ project.technology }}</p>
+		{% if project.url %}
 		<h5 class="normal"><a href="{{ project.url }}">Go to project</a></h5>
+		{% endif %}
 	</div>
 </div>
 {% endblock %}
