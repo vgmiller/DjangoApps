@@ -18,7 +18,7 @@
 		<a href='/naga'><img src="{% thumbnail nagaImageUrl '544' as im %}{{ im.url }}{% endthumbnail %}"
 		srcset="
 			{% for size in breakpoints %}
-			{% thumbnail nagaImageUrl size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% thumbnail nagaImageUrl size as thumb %}  {{ thumb.url }} {{ thumb.x }}w{% endthumbnail %},
 			{% endfor %}
 			"
 		alt="Naga" 
@@ -30,7 +30,7 @@
 		<a href='/music'><img src='{% thumbnail musicImageUrl '544' as im %}{{ im.url }}{% endthumbnail %}' 
 		srcset="
 			{% for size in breakpoints %}
-			{% thumbnail musicImageUrl size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% thumbnail musicImageUrl size as thumb %}  {{ thumb.url }} {{ thumb.x }}w{% endthumbnail %},
 			{% endfor %}
 			"
 		alt="Music" 
@@ -42,7 +42,7 @@
 		<a href='/hobbits'><img src='{% thumbnail hobbitsImageUrl '544' as im %}{{ im.url }}{% endthumbnail %}' 
 		srcset="
 			{% for size in breakpoints %}
-			{% thumbnail hobbitsImageUrl size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% thumbnail hobbitsImageUrl size as thumb %}  {{ thumb.url }} {{ thumb.x }}w{% endthumbnail %},
 			{% endfor %}
 			"
 		alt="Hobbits" 

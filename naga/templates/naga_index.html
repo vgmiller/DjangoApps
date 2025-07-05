@@ -13,7 +13,7 @@
 				<img src="{% thumbnail character.headshot '544' as im %}{{ im.url }}{% endthumbnail %}" 
 				srcset="
 					{% for size in breakpoints %}
-					{% thumbnail character.headshot size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+					{% thumbnail character.headshot size as thumb %}  {{ thumb.url }} {{ thumb.x }}w{% endthumbnail %},
 					{% endfor %}
 					"
 				class="card-img-top"

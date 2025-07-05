@@ -23,7 +23,7 @@ function showDiv(id) {
 	<img src="{% thumbnail imgPath '1200' as im %}{{ im.url }}{% endthumbnail %}"
 	srcset="
 		{% for size in breakpoints %}
-		{% thumbnail imgPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+		{% thumbnail imgPath size as thumb %}  {{ thumb.url }} {{ thumb.x }}w{% endthumbnail %},
 		{% endfor %}
 		"
 	style="max-width:100%; max-height:100%;"/>

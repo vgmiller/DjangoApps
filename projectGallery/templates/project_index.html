@@ -5,25 +5,42 @@
 <h1 style="text-align:center">Projects</h1>
 <div class="normal project-gallery">
 {% for project in projects %}
-    <div class="project-card">
-		<img src="{% thumbnail project.image '768' as im %}{{ im.url }}{% endthumbnail %}" 
-			srcset="
-				{% for size in breakpoints %}
-				{% thumbnail project.image size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
-				{% endfor %}
-				"
-			class="card-img-top" 
-			alt="{{project.title}}" width="30%"/>
-		<div class="card-body">
-		    <h5 class="card-title">{{ project.title }}</h5>
-		    <p class="card-text">{{ project.summary }}</p>
-		    <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">
-			Read More
-			<span class="fullCardLink"</span>
-			</a>
-		</div>
-	</div>
-    {% endfor %}
+  <div class="project-card">
+    {% if project.image %}
+      {% thumbnail project.image '768' as im %}
+        {% if im and im.url and im.x %}
+          <img 
+            src="{{ im.url }}"
+            srcset="
+              {% for size in breakpoints %}
+                {% thumbnail project.image size as thumb %}
+                  {% if thumb and thumb.url and thumb.x %}
+                    {{ thumb.url }} {{ thumb.x }}w,
+                  {% endif %}
+                {% endthumbnail %}
+              {% endfor %}
+            "
+            class="card-img-top" 
+            alt="{{ project.title }}" width="30%"
+          />
+        {% else %}
+          <p>Image failed to load.</p>
+        {% endif %}
+      {% endthumbnail %}
+    {% else %}
+      <p>No image available</p>
+    {% endif %}
+
+    <div class="card-body">
+      <h5 class="card-title">{{ project.title }}</h5>
+      <p class="card-text">{{ project.summary }}</p>
+      <a href="{% url 'project_detail' project.pk %}" class="btn btn-primary">
+        Read More
+        <span class="fullCardLink"></span>
+      </a>
+    </div>
+  </div>
+{% endfor %}
 </div>
 <div class="normal" style="text-align:center">
 	All code for this site is available for review on <a href="https://github.com/vgmiller/DjangoApps">GitHub</a><br/>

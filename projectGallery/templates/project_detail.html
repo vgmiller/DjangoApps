@@ -11,7 +11,7 @@
 		<img src="{% thumbnail project.image '768' as im %}{{ im.url }}{% endthumbnail %}" 
 			srcset="
 				{% for size in breakpoints %}
-				{% thumbnail project.image size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+				{% thumbnail project.image size as thumb %}  {{ thumb.url }} {{ thumb.x }}w{% endthumbnail %},
 				{% endfor %}
 				"
 			class="card-img-top" 
