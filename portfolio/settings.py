@@ -15,20 +15,12 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-THUMBNAIL_DEBUG = DEBUG
 
 ALLOWED_HOSTS = [
-        'vgmraspberrypi',
-        '192.168.1.24',
-		'184.152.46.24',
-		'74.64.56.4',
-		'localhost',
         '.larvalnemesis.com',
-        '.vmillermusic.com',
-        '.vmillerflute.com',
-        '.vanessaflute.com',
-        '.vanessapiccolo.com',
+        'localhost',
         '127.0.0.1',
+        'vgmraspberrypi',
         'vgmiller.pythonanywhere.com'
         ]
 
@@ -64,8 +56,6 @@ MIDDLEWARE_CLASSES = [
         ]
 MIDDLEWARE = [
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
-    #'portfolio.seturlconfmiddleware.SetURLConfMiddleware',
-    #'portfolio.virtualhostmiddleware.VirtualHostMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -149,7 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),  # default app-level static
     ('perfume', os.path.join(BASE_DIR, 'perfume/assets_build')),
@@ -157,6 +147,7 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 THUMBNAIL_PRESERVE_FORMAT = True
+THUMBNAIL_DEBUG = DEBUG
 IMAGE_BREAKPOINTS = ["200", "544", "768", "1200", "1920"]
 
 # https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/security_credentials
@@ -177,34 +168,17 @@ CORS_ORIGIN_WHITELIST = [
 ]
 CORS_URLS_REGEX = r'^/api/.*$'
 CORS_ALLOWED_ORIGINS = [
-    "http://192.168.1.24:8000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "http://0.0.0.0",
 	"http://www.larvalnemesis.com"
 ]
 CSRF_TRUSTED_ORIGINS = [
-    "http://192.168.1.24:8000",
     "http://localhost:8000",
     "http://127.0.0.1:8000",
     "http://0.0.0.0",
 	"http://www.larvalnemesis.com"
 ]
-
-WEBPACK_LOADER = {
-  'DEFAULT': {
-    'BUNDLE_DIR_NAME': 'perfume/',
-    'STATS_FILE': os.path.join(BASE_DIR, 'perfume/webpack-stats.json')
-  },
-  'PERFUME': {
-    'BUNDLE_DIR_NAME': 'perfume/',
-    'STATS_FILE': os.path.join(BASE_DIR, 'perfume/webpack-stats.json')
-  },
-  'TODO': {
-    'BUNDLE_DIR_NAME': 'todo/',
-    'STATS_FILE': os.path.join(BASE_DIR, 'todo/webpack-stats.json')
-  }
-}
 
 DEFAULT_RENDERER_CLASSES = [
         'rest_framework.renderers.JSONRenderer',
