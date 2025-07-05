@@ -1,9 +1,9 @@
 {% extends "music_base.html" %}
-{% load thumbnail staticthumb %}
+{% load thumbnail %}
 {% block page_content %}
 <div class="flexContainer" style="flex-wrap:wrap">
 	<div class="flexItem">
-	{% with "music/picc_sideSmile.JPG"|static_url as imgPath %}
+	{% with "music/picc_sideSmile.JPG" as imgPath %}
 	<img src="{% thumbnail imgPath '1200' as im %}{{ im.url }}{% endthumbnail %}"
 	srcset="
 		{% for size in breakpoints %}

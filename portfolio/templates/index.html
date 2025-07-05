@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load thumbnail staticthumb %}
+{% load thumbnail %}
 {% block top_content %}
 <p style="float:top; text-align:right;margin:10"><a href="/mediaServer">Movies and TV</a></p>
 {% endblock %}
@@ -15,45 +15,39 @@
 	<div class="homepageDock">
 		<div class="homepageDockEl">
 		<h2> <a href='/naga'>Naga</a></h2><br/>
-		{% with nagaImageUrl|static_url as nagaPath %}
-		<a href='/naga'><img src="{% thumbnail nagaPath '544' as im %}{{ im.url }}{% endthumbnail %}"
+		<a href='/naga'><img src="{% thumbnail nagaImageUrl '544' as im %}{{ im.url }}{% endthumbnail %}"
 		srcset="
 			{% for size in breakpoints %}
-			{% thumbnail nagaPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% thumbnail nagaImageUrl size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
 			{% endfor %}
 			"
 		alt="Naga" 
 		class="homepageMainLink"/>
 		</a>
-		{% endwith %}
 		</div>
 		<div class="homepageDockEl">
 		<h2> <a href='/music'>Music</a></h2><br/>
-		{% with musicImageUrl|static_url as musicPath %}
-		<a href='/music'><img src='{% thumbnail musicPath '544' as im %}{{ im.url }}{% endthumbnail %}' 
+		<a href='/music'><img src='{% thumbnail musicImageUrl '544' as im %}{{ im.url }}{% endthumbnail %}' 
 		srcset="
 			{% for size in breakpoints %}
-			{% thumbnail musicPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% thumbnail musicImageUrl size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
 			{% endfor %}
 			"
 		alt="Music" 
 		class="homepageMainLink"/>
 		</a>
-		{% endwith %}
 		</div>
 		<div class="homepageDockEl">
 		<h2> <a href='/hobbits'>The Lord of the Dogwalks</a></h2><br/>
-		{% with hobbitsImageUrl|static_url as hobbitsPath %}
-		<a href='/hobbits'><img src='{% thumbnail hobbitsPath '544' as im %}{{ im.url }}{% endthumbnail %}' 
+		<a href='/hobbits'><img src='{% thumbnail hobbitsImageUrl '544' as im %}{{ im.url }}{% endthumbnail %}' 
 		srcset="
 			{% for size in breakpoints %}
-			{% thumbnail hobbitsPath size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
+			{% thumbnail hobbitsImageUrl size as im %}  {{ im.url }} {{ im.x }}w{% endthumbnail %},
 			{% endfor %}
 			"
 		alt="Hobbits" 
 		class="homepageMainLink"/>
 		</a>
-		{% endwith %}
 		</div>
 	</div>
 	<p style="text-align:center">See <a href='/projectGallery'>Project Gallery</a> for more</p>
