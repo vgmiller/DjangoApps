@@ -1,51 +1,17 @@
 {
-  "name": "perfume",
-  "version": "0.2.0",
-  "private": true,
-  "proxy": "http://localhost:3000",
-  "homepage": ".",
-  "dependencies": {
-    "@testing-library/jest-dom": "*",
-    "@testing-library/react": "*",
-    "@testing-library/user-event": "*",
-    "bootstrap": "*",
-    "react": "*",
-    "react-dom": "*",
-    "web-vitals": "*"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "webpack --config webpack.config.js --mode production",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "dev": "webpack --config webpack.config.js --watch --mode development"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "babel-loader": "*",
-    "clean-webpack-plugin": "*",
-    "css-loader": "*",
-    "react-scripts": "*",
-    "style-loader": "*",
-    "webpack": "^5.99.9",
-    "webpack-bundle-tracker": "^0.4.3",
-    "webpack-cli": "^4.10.0"
-  }
+    "name": "perfume",
+    "version": "2.0.0",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview"
+    },
+    "dependencies": {
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "vite": "^5.0.0",
+        "@vitejs/plugin-react": "^4.0.0"
+    }
 }
