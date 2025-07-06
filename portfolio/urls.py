@@ -12,7 +12,6 @@ urlpatterns = [
     path('projectGallery/', include('projectGallery.urls')),
     path('blog/', include('blog.urls')),
     path('naga/', include('naga.urls')),
-    path('music/', include('music.urls')),
     path('mediaServer/', include('mediaServer.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('todo/', include('todo.urls')),

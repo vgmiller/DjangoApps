@@ -40,14 +40,11 @@ INSTALLED_APPS = [
     'projectGallery',
     'blog',
     'naga',
-    'music',
-    'captcha',
 	'mediaServer',
 	'todo',
 	'corsheaders',
 	'rest_framework',
 	'perfume',
-	'webpack_loader',
 	'hobbits',
 ]
 
