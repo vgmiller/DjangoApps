@@ -1,14 +1,13 @@
-from django.contrib import admin
 from django.conf import settings
-from django.urls import path,include               
-from rest_framework import routers                 
-from todo import views                             
-from django.contrib.staticfiles.urls import static
+from django.conf.urls.static import static
+from django.urls import include, path
+from rest_framework import routers
 
-router = routers.DefaultRouter()                   
-router.register(r'todos', views.TodoView, 'todo')  
+from todo import views
 
-urlpatterns = [
-    path('', views.index),
-	path('api/', include(router.urls))             
-]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+router = routers.DefaultRouter()
+router.register(r"todos", views.TodoView, "todo")
+
+urlpatterns = [path("", views.index), path("api/", include(router.urls))] + static(
+    settings.STATIC_URL, document_root=settings.STATIC_ROOT
+)

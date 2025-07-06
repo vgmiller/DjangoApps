@@ -1,0 +1,18 @@
+[tool.black]
+line-length = 120
+target-version = ['py39']
+exclude = '''
+/(
+    migrations|
+    venv|
+    env|
+    static|
+    media
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 120
+skip = ["venv", "env", "migrations"]
+

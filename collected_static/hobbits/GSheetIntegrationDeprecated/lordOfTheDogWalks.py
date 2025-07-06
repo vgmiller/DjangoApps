@@ -1,5 +1,6 @@
-import pygsheets
 import datetime
+
+import pygsheets
 
 #authorization
 gc = pygsheets.authorize(service_file='/home/pi/DjangoApps/portfolio/the-lord-of-the-dogwalks-dfb34f47dee9.json')
