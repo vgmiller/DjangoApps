@@ -120,6 +120,8 @@ def reauthFitbit():
     https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=238N75&redirect_uri=http://localhost&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight
     curl -i -X POST https://api.fitbit.com/oauth2/token -H "Authorization: Basic [base64 encoded clientId:clientsSecretGoesHere]"  \
     -H "Content-Type: application/x-www-form-urlencoded"  --data "code=[authorization_code]"  --data "grant_type=authorization_code" --data "redirect_uri=[redirect from fitbit app config]"
+    
+    Don't forget to add your special function to the fitbit api if this is a new deployment!
     """
     import os
 
