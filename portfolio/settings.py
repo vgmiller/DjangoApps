@@ -31,22 +31,20 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
+    "corsheaders",
+    "rest_framework",
     "sorl.thumbnail",
     "portfolio",
     "projectGallery",
     "blog",
     "naga",
-    "mediaServer",
-    "todo",
-    "corsheaders",
-    "rest_framework",
+    # "music", # ported to its own project
+    # "todo", # defunct, old CreateReactApp project
     "perfume",
     "hobbits",
+    "mediaServer",
 ]
 
-MIDDLEWARE_CLASSES = [
-    "sslify.middleware.SSLifyMiddleware",
-]
 MIDDLEWARE = [
     "django.contrib.sites.middleware.CurrentSiteMiddleware",
     "corsheaders.middleware.CorsMiddleware",
@@ -142,14 +140,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 THUMBNAIL_PRESERVE_FORMAT = True
 THUMBNAIL_DEBUG = DEBUG
 IMAGE_BREAKPOINTS = ["200", "544", "768", "1200", "1920"]
-
-# https://us-east-1.console.aws.amazon.com/iam/home?region=us-east-1#/security_credentials
-EMAIL_BACKEND = config("EMAIL_BACKEND")
-AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
-AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
-AWS_SES_REGION_NAME = config("AWS_SES_REGION_NAME")
-AWS_SES_REGION_ENDPOINT = config("AWS_SES_REGION_ENDPOINT")
-DEFAULT_FROM_EMAIL = SERVER_EMAIL = EMAIL_HOST_USER = config("DEFAULT_FROM_EMAIL")
 
 FITBIT_CLIENTID = config("FITBIT_CLIENTID")
 FITBIT_CLIENTSECRET = config("FITBIT_CLIENTSECRET")
