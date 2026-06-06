@@ -24,11 +24,11 @@ def hobbits_log(request):
 def hobbits_refreshData(request):
     try:
         activities = fitbitGetData()
-    except:
+    except Exception:
         reauthFitbit()
         try:
             activities = fitbitGetData()
-        except:
+        except Exception:
             return redirect(hobbits_index)
     importFromJSON(activities)
     return redirect(hobbits_index)
@@ -96,7 +96,7 @@ def fitbitGetData():
     return activities
 
 
-# Add the below to the fitbit api!!
+# Add the below function to the fitbit api!!
 def activity_logs_list(self, after_date, limit):
     """
     https://dev.fitbit.com/build/reference/web-api/activity/get-activity-log-list/
@@ -113,14 +113,24 @@ def activity_logs_list(self, after_date, limit):
 
 def reauthFitbit():
     """
-    curl -i -X POST https://api.fitbit.com/oauth2/token -H "Authorization: Basic [clientsSecretGoesHere]"  \
-    -H "Content-Type: application/x-www-form-urlencoded"  --data "grant_type=refresh_token"  --data "refresh_token=[tokenGoesHere]"
-
     https://medium.com/@shuvornb/how-to-access-fitbit-web-apis-a69bae8116d7
+
+    Get new starting code (requires login to fitbit account):
     https://www.fitbit.com/oauth2/authorize?response_type=code&client_id=238N75&redirect_uri=http://localhost&scope=activity%20nutrition%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight
-    curl -i -X POST https://api.fitbit.com/oauth2/token -H "Authorization: Basic [base64 encoded clientId:clientsSecretGoesHere]"  \
-    -H "Content-Type: application/x-www-form-urlencoded"  --data "code=[authorization_code]"  --data "grant_type=authorization_code" --data "redirect_uri=[redirect from fitbit app config]"
-    
+
+    Get new auth and refresh token:
+    curl -i -X POST https://api.fitbit.com/oauth2/token \
+    -H "Authorization: Basic [base64 encoded clientId:clientsSecretGoesHere]" \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    --data "code=[authorization_code]" --data "grant_type=authorization_code" \
+    --data "redirect_uri=[redirect from fitbit app config]"
+
+    Just use refresh token to get new auth token:
+    curl -i -X POST https://api.fitbit.com/oauth2/token \
+    -H "Authorization: Basic [clientsSecretGoesHere]" \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    --data "grant_type=refresh_token" --data "refresh_token=[tokenGoesHere]"
+
     Don't forget to add your special function to the fitbit api if this is a new deployment!
     """
     import os

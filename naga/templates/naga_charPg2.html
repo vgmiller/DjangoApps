@@ -1,4 +1,5 @@
 {% extends "naga_charPg_base.html" %}
+{% load clean_html %}
 {% block page_content %}
 <div class="pageArea">
 	<div name="demographics" class="charPgTriColumn">
@@ -14,7 +15,7 @@
 		<table class="tableBordered" style="width:100%">
 		<tr><td><b>Backstory</b></td></tr>
 		<tr>
-			<td>{{ character.backstoryNotes|safe|linebreaksbr }}</td>
+			<td>{{ character.backstoryNotes|clean_html|linebreaksbr }}</td>
 		</tr>
 		</table>
 	</div>
@@ -22,7 +23,7 @@
 		<table class="tableBordered" style="width:100%">
 		<tr><td><b>Allies</b></td></tr>
 		<tr>
-			<td>{{ character.alliesNotes|safe|linebreaksbr }}</td>
+			<td>{{ character.alliesNotes|clean_html|linebreaksbr }}</td>
 		</tr>
 		</table>
 	</div>
@@ -30,7 +31,7 @@
 		<table class="tableBordered">
 		<tr><td><b>Additional Notes</b></td></tr>
 		<tr>
-			<td>{{ character.additionalNotes|safe|linebreaksbr }}</td>
+			<td>{{ character.additionalNotes|clean_html|linebreaksbr }}</td>
 		</tr>
 		</table>
 	</div>
@@ -38,7 +39,7 @@
 		<table class="tableBordered">
 		<tr><td><b>Treasure</b></td></tr>
 		<tr>
-			<td>{{ character.treasureNotes|safe|linebreaksbr }}</td>
+			<td>{{ character.treasureNotes|clean_html|linebreaksbr }}</td>
 		</tr>
 		</table>
 	</div>

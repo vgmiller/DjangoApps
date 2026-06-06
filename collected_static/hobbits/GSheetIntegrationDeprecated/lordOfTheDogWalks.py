@@ -27,4 +27,4 @@ for row in inputData:
     startPos += 1
 
 # update our timestamp
-lastUpdateDate.set_value(datetime.datetime())
+lastUpdatedDate.set_value(datetime.datetime())

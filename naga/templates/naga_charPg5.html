@@ -1,8 +1,9 @@
 {% extends "naga_charPg_base.html" %}
+{% load clean_html %}
 {% block page_content %}
 <div class="pageArea">
 	<div name="referencePage">
-		<p class="normal">{{ character.externalReferences|safe|linebreaksbr }}</p>
+		<p class="normal">{{ character.externalReferences|clean_html|linebreaksbr }}</p>
 	</div>
 </div>
 <div name="spacer">&nbsp;<br></div>

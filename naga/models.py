@@ -1,6 +1,7 @@
-import numexpr
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.db import models
+import numexpr
 
 
 class DndClass(models.Model):
@@ -67,7 +68,14 @@ class DndClass(models.Model):
                 if s.ritual == "True":
                     displayName += " (Ritual)"
                 popupContent = (
-                    "<b>Casting Time: </b>%s<br><b>Duration: </b>%s<br><b>Components: </b>%s<br><b>Concentration: </b>%s<br><b>Area of Effect: </b>%s (%s shape)<br><b>Range: </b>%s<br><br>%s<br><br><i><small>%s</small></i>"
+                    "<b>Casting Time: </b>%s<br>"
+                    "<b>Duration: </b>%s<br>"
+                    "<b>Components: </b>%s<br>"
+                    "<b>Concentration: </b>%s<br>"
+                    "<b>Area of Effect: </b>%s (%s shape)<br>"
+                    "<b>Range: </b>%s<br>"
+                    "<br>%s<br>"
+                    "<br><i><small>%s</small></i>"
                     % (
                         s.castingTime,
                         s.duration,
@@ -511,11 +519,23 @@ def calculateDisplayValue(obj):
     return baseStat
 
 
+CUSTOM_PAGE_TEMPLATES = [
+    "naga_merbCombinedSpells.html",
+    "naga_merbComponentPouch.html",
+    "naga_sarenHorde.html",
+    "naga_sarenIdentities.html",
+]
+
+
 class CustomPage(models.Model):
     character = models.ForeignKey("Character", related_name="customPages", on_delete=models.CASCADE)
     displayName = models.CharField(max_length=255)
     templateName = models.CharField(max_length=255)
     orderindex = models.IntegerField()
+
+    def clean(self):
+        if self.templateName not in CUSTOM_PAGE_TEMPLATES:
+            raise ValidationError(f"Invalid templateName. Must be one of: {', '.join(CUSTOM_PAGE_TEMPLATES)}")
 
 
 class Node(models.Model):

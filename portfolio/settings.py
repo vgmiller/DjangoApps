@@ -16,6 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# Vanessa warning: I DO WHAT I WANT
 DEBUG = True
 
 ALLOWED_HOSTS = [".larvalnemesis.com", "localhost", "127.0.0.1", "vgmraspberrypi", "vgmiller.pythonanywhere.com"]

@@ -1,13 +1,9 @@
 from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.template.loader import render_to_string
-from django.views.generic import ListView, UpdateView
 
-from naga.forms import NodeForm
-from naga.models import Character, Node
+from naga.models import Character
 
 
 def naga_index(request):
@@ -110,36 +106,3 @@ def naga_publicCharacterSummary(request):
         }
         charList.append(cDict)
     return JsonResponse(charList, safe=False)
-
-
-"""
-Nodes list
-"""
-
-
-class NodeListView(ListView):
-    model = Node
-    template_name = "naga_node_list.html"
-
-    def get_queryset(self):
-        return Node.objects.all()
-
-
-"""
-Edit node
-"""
-
-
-class NodeUpdateView(UpdateView):
-    model = Node
-    form_class = NodeForm
-    template_name = "naga_node_edit_form.html"
-
-    def dispatch(self, *args, **kwargs):
-        self.node_id = kwargs["pk"]
-        return super(NodeUpdateView, self).dispatch(*args, **kwargs)
-
-    def form_valid(self, form):
-        form.save()
-        node = Node.objects.get(id=self.node_id)
-        return HttpResponse(render_to_string("naga_node_edit_form_success.html", {"node": node}))

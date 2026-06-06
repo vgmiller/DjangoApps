@@ -1,4 +1,5 @@
 {% extends "naga_charPg_base.html" %}
+{% load clean_html %}
 {% block page_content %}
 <div class="pageArea">
 	<h2>Saren's Identities</h2>
@@ -8,7 +9,7 @@
 				<img style="width:99%;" src="{{ i.image.url }}" alt="">
 		</div>
 		<div class="charPgColumnSection" style="display:inline-block; width:49%;">
-				<b>{{ i.displayName }}</b><br/> {{ i.text|safe|linebreaksbr }}
+				<b>{{ i.displayName }}</b><br/> {{ i.text|clean_html|linebreaksbr }}
 		</div>
 	</div>
 	{% endfor %}

@@ -1,4 +1,5 @@
 {% extends "naga_charPg_base.html" %}
+{% load clean_html %}
 {% block page_content %}
 <div class="pageArea">
 	<div name="topAttrs" style="margin: auto auto; width=99%">
@@ -88,7 +89,7 @@
 				<tr><td colspan=4><b>Hit Dice</b></td></tr>
 				<tr><td colspan=2><small>{{ character.hitDiceType }}</small></td><td colspan=2>{{ character.hitDice }}</td></tr>
 				<tr><td colspan=4><b>Status Notes</b></td></tr>
-				<tr><td colspan=4>{{ character.statusNotes }}</td></tr>
+				<tr><td colspan=4>{{ character.statusNotes|clean_html }}</td></tr>
 			</table>
 		</div>
 		<div name="weapons" class="charPgColumnSection">
@@ -96,13 +97,13 @@
 			<tr><td><b>Weapon</b></td><td><b>Attack Bonus</b></td><td><b>Damage</b></td></tr>
 			{% for w in weapons %}
 			<tr>
-				<td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ w.displayName }}" data-content="{{ w.longDescription|safe|linebreaksbr }}">{{ w.displayName }}</a></td>
+				<td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ w.displayName }}" data-content="{{ w.longDescription|linebreaksbr }}">{{ w.displayName }}</a></td>
 				<td>{% if w.attackBonus > 0 %}+{% endif %}{{ w.attackBonus }}</td>
 				<td>{{ w.damage }}</td>
 			</tr>
 			{% endfor %}
 			{% if character.weaponsNotes %}
-			<tr><td colspan=3> {{ character.weaponsNotes|safe|linebreaksbr }}</td></tr>
+			<tr><td colspan=3> {{ character.weaponsNotes|clean_html|linebreaksbr }}</td></tr>
 			{% endif %}
 			</table>
 		</div>
@@ -119,10 +120,10 @@
 			<table class="tableBordered">
 			<tr><td><b>Equipment</b></td></tr>
 			{% for e in equipment %}
-			<tr><td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ e.displayName }}" data-content="{{ e.longDescription|safe|linebreaksbr }}">{{ e.displayName }}</a></td></tr>
+			<tr><td> <a href="javascript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ e.displayName }}" data-content="{{ e.longDescription|linebreaksbr }}">{{ e.displayName }}</a></td></tr>
 			{% endfor %}
 			{% if character.equipmentNotes %}
-			<tr><td style="text-align: left">{{ character.equipmentNotes|safe|linebreaksbr }}</td></tr>
+			<tr><td style="text-align: left">{{ character.equipmentNotes|clean_html|linebreaksbr }}</td></tr>
 			{% endif %}
 			</table>
 		</div>
@@ -131,14 +132,14 @@
 		<div name="personality" class="charPgColumnSection">
 			<table class="tableBordered">
 			<tr><td><b>Personality Notes</b></td></tr>
-			<tr><td style="text-align: left">{{ character.personalityNotes|safe|linebreaksbr }}</td></tr>
+			<tr><td style="text-align: left">{{ character.personalityNotes|clean_html|linebreaksbr }}</td></tr>
 			</table>
 		</div>
 		<div name="skills" class="charPgColumnSection">
 			<table class="tableBordered">
 			<tr><td><b>Skills</b></td></tr>
 			{% for s in skills %}
-			<tr><td> <a href="javacript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|safe|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
+			<tr><td> <a href="javacript://" data-html="true" data-container="body" data-trigger="focus" data-toggle="popover" title="{{ s.displayName }}" data-content="{{ s.longDescription|linebreaksbr }}">{{ s.displayName }}</a></td></tr>
 			{% endfor %}
 			</table>
 		</div>
@@ -146,7 +147,7 @@
 			<table class="tableBordered">
 				<tr><td><b>Proficiencies</b></td></tr>
 				<tr>
-					<td style="text-align: left">{{ character.proficienciesNotes|safe|linebreaksbr }}</td>
+					<td style="text-align: left">{{ character.proficienciesNotes|clean_html|linebreaksbr }}</td>
 				</tr>
 			</table>
 		</div>
