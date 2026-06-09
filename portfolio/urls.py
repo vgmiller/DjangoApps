@@ -15,7 +15,6 @@ urlpatterns = [
     path("naga/", include("naga.urls")),
     path("mediaServer/", include("mediaServer.urls")),
     path("accounts/", include("django.contrib.auth.urls")),
-    path("todo/", include("todo.urls")),
     path("perfume/", include("perfume.urls")),
     path("hobbits/", include("hobbits.urls")),
 ]

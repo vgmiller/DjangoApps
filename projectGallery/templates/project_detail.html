@@ -24,6 +24,8 @@
 		<p class="normal">{{ project.technology }}</p>
 		{% if project.url %}
 		<h5 class="normal"><a href="{{ project.url }}">Go to project</a></h5>
+		{% else %}
+		<h5 class="normal">The code for this may be viewed on GitHub</h5>
 		{% endif %}
 	</div>
 </div>

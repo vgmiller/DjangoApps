@@ -15,5 +15,5 @@ exclude = '''
 profile = "black"
 line_length = 120
 skip = ["venv", "env", "migrations"]
-known_first_party = ["blog", "hobbits", "naga", "perfume", "portfolio", "projectGallery", "todo", "mediaServer"]
+known_first_party = ["blog", "hobbits", "naga", "perfume", "portfolio", "projectGallery", "mediaServer"]
 

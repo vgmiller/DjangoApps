@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     "blog",
     "naga",
     # "music",  # ported to its own project
-    "todo",  # defunct, old CreateReactApp project
     "perfume",
     "hobbits",
     "mediaServer",
