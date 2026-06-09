@@ -133,6 +133,7 @@ def reauthFitbit():
 
     Don't forget to add your special function to the fitbit api if this is a new deployment!
     """
+    import base64
     import os
 
     import dotenv
@@ -143,24 +144,26 @@ def reauthFitbit():
     dotenv_file = dotenv.find_dotenv(settings.BASE_DIR + "/.env")
     dotenv.load_dotenv(dotenv_file)
     refreshToken = os.environ["FITBIT_REFRESH_TOKEN"]
+    clientId = os.environ["FITBIT_CLIENTID"]
     clientSecret = os.environ["FITBIT_CLIENTSECRET"]
+    encoded = base64.b64encode(f"{clientId}:{clientSecret}".encode()).decode()
 
     url = "https://api.fitbit.com/oauth2/token"
     data = "grant_type=refresh_token&refresh_token=%s" % refreshToken
     headers = CaseInsensitiveDict()
-    headers["Authorization"] = "Basic %s" % clientSecret
+    headers["Authorization"] = "Basic %s" % encoded
     headers["Content-Type"] = "application/x-www-form-urlencoded"
     res = requests.post(url, data=data, headers=headers).json()
     newAuthToken = res.get("access_token")
     newRefreshToken = res.get("refresh_token")
 
     if newAuthToken is None:
-        raise ValueError("Failed to get new auth token: None returned")
+        raise ValueError("Failed to get new auth token: None returned. %s", res)
     else:
         os.environ["FITBIT_ACCESS_TOKEN"] = newAuthToken
         dotenv.set_key(dotenv_file, "FITBIT_ACCESS_TOKEN", os.environ["FITBIT_ACCESS_TOKEN"])
     if newRefreshToken is None:
-        raise ValueError("Failed to get new refresh token: None returned")
+        raise ValueError("Failed to get new refresh token: None returned. %s", res)
     else:
         os.environ["FITBIT_REFRESH_TOKEN"] = newRefreshToken
         dotenv.set_key(dotenv_file, "FITBIT_REFRESH_TOKEN", os.environ["FITBIT_REFRESH_TOKEN"])
