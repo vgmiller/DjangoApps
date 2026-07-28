@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "perfume",
     "hobbits",
     "mediaServer",
+    "movie_night",
 ]
 
 MIDDLEWARE = [
@@ -135,6 +136,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "collected_static/")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),  # default app-level static
     ("perfume", os.path.join(BASE_DIR, "perfume/assets_build")),
+    ("movie_night", os.path.join(BASE_DIR, "movie_night/assets_build")),
 ]
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
