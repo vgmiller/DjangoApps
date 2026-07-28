@@ -11,7 +11,7 @@ import './index.css'
 
 function Loader() {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100dvh', background: '#0D0D12' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100dvh', background: 'var(--bg)' }}>
       <div className="spinner" />
     </div>
   )

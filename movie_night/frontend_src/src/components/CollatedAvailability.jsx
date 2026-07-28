@@ -18,12 +18,12 @@ function collatedToMap(collated, baseDate) {
 }
 
 function cellColor(slot) {
-  if (!slot) return '#1A1A24'
+  if (!slot) return 'var(--grid-empty)'
   const di = slot.definitely_interested_count
   const swn = slot.sure_why_not_count
-  if (di > 0 && swn === 0) return '#16A34A'  // vivid green — all DI
-  if (swn > 0)             return '#D97706'  // vivid gold — anyone open (DI or SWN present)
-  return '#1A1A24'
+  if (di > 0 && swn === 0) return 'var(--success-vivid)'  // vivid green — all DI
+  if (swn > 0)             return 'var(--warning-vivid)'  // vivid gold — anyone open (DI or SWN present)
+  return 'var(--grid-empty)'
 }
 
 function formatSlotTime(start, end) {
@@ -53,49 +53,48 @@ function SuggestPanel({ slot, activity, groupId, onClose, onDone }) {
   }
 
   return (
-    <div className="fade-in" style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: '0' }} onClick={onClose}>
-      <div className="slide-up" onClick={e => e.stopPropagation()} style={{ width: '100%', maxWidth: '480px', background: '#16161D', borderRadius: '20px 20px 0 0', border: '1px solid #2A2A35', borderBottom: 'none', padding: '24px 20px 40px' }}>
-        <div style={{ width: '40px', height: '4px', background: '#2A2A35', borderRadius: '2px', margin: '0 auto 18px' }} />
+    <div className="fade-in modal-overlay modal-overlay-bottom" style={{ background: 'rgba(0,0,0,0.75)' }} onClick={onClose}>
+      <div className="slide-up modal-sheet" onClick={e => e.stopPropagation()} style={{ padding: '24px 20px 40px' }}>
+        <div className="modal-drag-handle" style={{ margin: '0 auto 18px' }} />
 
         {done ? (
           <div style={{ textAlign: 'center', padding: '20px 0' }}>
             <div style={{ fontSize: '40px', marginBottom: '10px' }}>📨</div>
-            <p style={{ color: '#4ADE80', fontWeight: 600, fontSize: '16px', margin: 0 }}>Suggestion sent to the group!</p>
+            <p style={{ color: 'var(--success)', fontWeight: 600, fontSize: '16px', margin: 0 }}>Suggestion sent to the group!</p>
           </div>
         ) : (
           <>
-            <h3 className="display" style={{ margin: '0 0 4px', fontSize: '20px', fontWeight: 700, color: '#F5F5F0' }}>Suggest this time?</h3>
-            <p style={{ color: '#9B9BAB', fontSize: '13px', margin: '0 0 16px' }}>{formatSlotTime(slot.start_time, slot.end_time)}</p>
+            <h3 className="display" style={{ margin: '0 0 4px', fontSize: '20px', fontWeight: 700, color: 'var(--text)' }}>Suggest this time?</h3>
+            <p style={{ color: 'var(--muted)', fontSize: '13px', margin: '0 0 16px' }}>{formatSlotTime(slot.start_time, slot.end_time)}</p>
 
-            <div style={{ background: '#1E1E28', borderRadius: '10px', padding: '12px', marginBottom: '14px' }}>
-              <p style={{ margin: '0 0 6px', fontSize: '12px', color: '#9B9BAB', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>Activity</p>
-              <p style={{ margin: 0, color: '#F5F5F0', fontWeight: 600, fontSize: '15px' }}>{activity.title}</p>
+            <div style={{ background: 'var(--surface-2)', borderRadius: '10px', padding: '12px', marginBottom: '14px' }}>
+              <p style={{ margin: '0 0 6px', fontSize: '12px', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.5px', fontWeight: 600 }}>Activity</p>
+              <p style={{ margin: 0, color: 'var(--text)', fontWeight: 600, fontSize: '15px' }}>{activity.title}</p>
             </div>
 
             {slot.definitely_interested_count > 0 && (
               <div style={{ marginBottom: '8px' }}>
-                <p style={{ margin: '0 0 4px', fontSize: '12px', color: '#4ADE80', fontWeight: 600 }}>✅ Definitely interested & free</p>
-                <p style={{ margin: 0, fontSize: '13px', color: '#9B9BAB' }}>{slot.definitely_interested_users.join(', ')}</p>
+                <p style={{ margin: '0 0 4px', fontSize: '12px', color: 'var(--success)', fontWeight: 600 }}>✅ Definitely interested & free</p>
+                <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted)' }}>{slot.definitely_interested_users.join(', ')}</p>
               </div>
             )}
             {slot.sure_why_not_count > 0 && (
               <div style={{ marginBottom: '14px' }}>
-                <p style={{ margin: '0 0 4px', fontSize: '12px', color: '#FCD34D', fontWeight: 600 }}>🤷 Available (Ok)</p>
-                <p style={{ margin: 0, fontSize: '13px', color: '#9B9BAB' }}>{slot.sure_why_not_users.join(', ')}</p>
+                <p style={{ margin: '0 0 4px', fontSize: '12px', color: 'var(--warning)', fontWeight: 600 }}>🤷 Available (Ok)</p>
+                <p style={{ margin: 0, fontSize: '13px', color: 'var(--muted)' }}>{slot.sure_why_not_users.join(', ')}</p>
               </div>
             )}
 
             <textarea value={note} onChange={e => setNote(e.target.value)} placeholder="Add a note (optional)…" rows={2}
-              style={{ width: '100%', background: '#0D0D12', border: '1px solid #2A2A35', borderRadius: '10px', padding: '10px 12px', color: '#F5F5F0', fontSize: '14px', fontFamily: "'Outfit', sans-serif", resize: 'none', marginBottom: '12px' }}
-              onFocus={e => e.target.style.borderColor='#E8A930'}
-              onBlur={e => e.target.style.borderColor='#2A2A35'}
+              className="form-input"
+              style={{ padding: '10px 12px', fontSize: '14px', resize: 'none', marginBottom: '12px' }}
             />
 
             <div style={{ display: 'flex', gap: '8px' }}>
-              <button onClick={onClose} style={{ flex: 1, background: '#1E1E28', border: '1px solid #2A2A35', color: '#9B9BAB', borderRadius: '10px', padding: '12px', fontSize: '14px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
+              <button onClick={onClose} style={{ flex: 1, background: 'var(--surface-2)', border: '1px solid var(--border)', color: 'var(--muted)', borderRadius: '10px', padding: '12px', fontSize: '14px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
                 Cancel
               </button>
-              <button onClick={handle} disabled={submitting} style={{ flex: 2, background: '#E8A930', border: 'none', color: '#0D0D12', borderRadius: '10px', padding: '12px', fontSize: '14px', fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', fontFamily: "'Outfit', sans-serif", opacity: submitting ? 0.7 : 1 }}>
+              <button onClick={handle} disabled={submitting} style={{ flex: 2, background: 'var(--amber)', border: 'none', color: 'var(--bg)', borderRadius: '10px', padding: '12px', fontSize: '14px', fontWeight: 700, cursor: submitting ? 'not-allowed' : 'pointer', fontFamily: "'Outfit', sans-serif", opacity: submitting ? 0.7 : 1 }}>
                 {submitting ? 'Sending…' : 'Send Suggestion 📨'}
               </button>
             </div>
@@ -142,7 +141,7 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
   if (activities.length === 0) return (
     <div style={{ padding: '48px 16px', textAlign: 'center' }}>
       <div style={{ fontSize: '40px', marginBottom: '10px' }}>🎬</div>
-      <p style={{ color: '#9B9BAB' }}>Add some activities first to see group availability.</p>
+      <p style={{ color: 'var(--muted)' }}>Add some activities first to see group availability.</p>
     </div>
   )
 
@@ -150,13 +149,12 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
     <div style={{ padding: '16px' }}>
       {/* Activity selector */}
       <div style={{ marginBottom: '14px' }}>
-        <label style={{ display: 'block', color: '#9B9BAB', fontSize: '12px', fontWeight: 600, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
+        <label style={{ display: 'block', color: 'var(--muted)', fontSize: '12px', fontWeight: 600, marginBottom: '6px', textTransform: 'uppercase', letterSpacing: '0.6px' }}>
           Viewing availability for
         </label>
         <select value={selectedActivity?.id || ''} onChange={e => setSelectedActivity(activities.find(a => a.id === Number(e.target.value)))}
-          style={{ width: '100%', background: '#1E1E28', border: '1px solid #2A2A35', borderRadius: '10px', padding: '11px 14px', color: '#F5F5F0', fontSize: '14px', fontFamily: "'Outfit', sans-serif", appearance: 'none', cursor: 'pointer' }}
-          onFocus={e => e.target.style.borderColor='#E8A930'}
-          onBlur={e => e.target.style.borderColor='#2A2A35'}
+          className="form-input"
+          style={{ background: 'var(--surface-2)', padding: '11px 14px', fontSize: '14px', appearance: 'none', cursor: 'pointer' }}
         >
           {activities.map(a => <option key={a.id} value={a.id}>{a.title}</option>)}
         </select>
@@ -165,12 +163,12 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
       {/* Legend */}
       <div style={{ display: 'flex', gap: '12px', marginBottom: '10px', flexWrap: 'wrap' }}>
         {[
-          { color: '#16A34A', label: 'Strongly-Interested People' },
-          { color: '#D97706', label: 'Everyone Open to Activity' },
+          { color: 'var(--success-vivid)', label: 'Strongly-Interested People' },
+          { color: 'var(--warning-vivid)', label: 'Everyone Open to Activity' },
         ].map(({ color, label }) => (
           <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <div style={{ width: '12px', height: '12px', borderRadius: '2px', background: color, flexShrink: 0 }} />
-            <span style={{ fontSize: '11px', color: '#9B9BAB' }}>{label}</span>
+            <span style={{ fontSize: '11px', color: 'var(--muted)' }}>{label}</span>
           </div>
         ))}
       </div>
@@ -178,12 +176,12 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
       {/* Week navigation */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
         <button onClick={() => setWeekOffset(w => Math.max(0, w - 1))} disabled={weekOffset === 0}
-          style={{ background: '#1E1E28', border: '1px solid #2A2A35', borderRadius: '8px', color: weekOffset === 0 ? '#3A3A4A' : '#F5F5F0', width: '32px', height: '32px', cursor: weekOffset === 0 ? 'not-allowed' : 'pointer', fontSize: '15px' }}>‹</button>
-        <span style={{ fontSize: '13px', fontWeight: 600, color: '#F5F5F0' }}>
+          style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: '8px', color: weekOffset === 0 ? 'var(--disabled)' : 'var(--text)', width: '32px', height: '32px', cursor: weekOffset === 0 ? 'not-allowed' : 'pointer', fontSize: '15px' }}>‹</button>
+        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text)' }}>
           {(() => { const l = dayLabel(baseDate, weekStart); const e = dayLabel(baseDate, weekStart + 6); return `${l.month} ${l.date} – ${e.month} ${e.date}` })()}
         </span>
         <button onClick={() => setWeekOffset(w => Math.min(MAX_WEEK_OFFSET, w + 1))} disabled={weekOffset === MAX_WEEK_OFFSET}
-          style={{ background: '#1E1E28', border: '1px solid #2A2A35', borderRadius: '8px', color: weekOffset === MAX_WEEK_OFFSET ? '#3A3A4A' : '#F5F5F0', width: '32px', height: '32px', cursor: weekOffset === MAX_WEEK_OFFSET ? 'not-allowed' : 'pointer', fontSize: '15px' }}>›</button>
+          style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: '8px', color: weekOffset === MAX_WEEK_OFFSET ? 'var(--disabled)' : 'var(--text)', width: '32px', height: '32px', cursor: weekOffset === MAX_WEEK_OFFSET ? 'not-allowed' : 'pointer', fontSize: '15px' }}>›</button>
       </div>
 
       {/* Grid */}
@@ -192,24 +190,24 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
           <div className="spinner" />
         </div>
       ) : (
-        <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid #2A2A35' }} className="no-select">
+        <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid var(--border)' }} className="no-select">
           <div style={{ minWidth: 'max-content' }}>
             {/* Time header */}
-            <div style={{ display: 'flex', background: '#0D0D12', borderBottom: '1px solid #2A2A35' }}>
-              <div style={{ width: '52px', flexShrink: 0, borderRight: '1px solid #2A2A35' }} />
+            <div style={{ display: 'flex', background: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>
+              <div style={{ width: '52px', flexShrink: 0, borderRight: '1px solid var(--border)' }} />
               {timeLabels.map(slotIdx => {
                 const isHour = slotIdx % 2 === 0
                 return (
-                  <div key={slotIdx} style={{ width: '32px', flexShrink: 0, height: '28px', borderRight: slotIdx < SLOT_COUNT - 1 ? '1px solid #1A1A24' : 'none', position: 'relative' }}>
+                  <div key={slotIdx} style={{ width: '32px', flexShrink: 0, height: '28px', borderRight: slotIdx < SLOT_COUNT - 1 ? '1px solid var(--grid-empty)' : 'none', position: 'relative' }}>
                     <div style={{
                       position: 'absolute', left: 0, bottom: 0,
                       width: isHour ? '2px' : '1px', height: isHour ? '16px' : '4px',
-                      background: isHour ? '#9B9BAB' : '#3A3A46',
+                      background: isHour ? 'var(--muted)' : 'var(--grid-tick)',
                     }} />
                     {isHour && (
                       <span style={{
                         position: 'absolute', left: 0, top: '2px', transform: 'translateX(-50%)',
-                        fontSize: '9px', color: '#9B9BAB', whiteSpace: 'nowrap',
+                        fontSize: '9px', color: 'var(--muted)', whiteSpace: 'nowrap',
                       }}>{slotLabel(slotIdx)}</span>
                     )}
                   </div>
@@ -220,11 +218,11 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
             {weekDays.map(dayIdx => {
               const dl = dayLabel(baseDate, dayIdx)
               return (
-                <div key={dayIdx} style={{ display: 'flex', borderBottom: dayIdx < weekDays[weekDays.length - 1] ? '1px solid #2A2A35' : 'none' }}>
-                  <div style={{ width: '52px', flexShrink: 0, position: 'sticky', left: 0, zIndex: 5, background: '#0D0D12', borderRight: '1px solid #2A2A35', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '6px 4px', gap: '1px' }}>
-                    <span style={{ fontSize: '10px', fontWeight: 600, color: '#9B9BAB', textTransform: 'uppercase' }}>{dl.name}</span>
-                    <span style={{ fontSize: '14px', fontWeight: 700, color: '#F5F5F0', lineHeight: 1 }}>{dl.date}</span>
-                    <span style={{ fontSize: '9px', color: '#9B9BAB' }}>{dl.month}</span>
+                <div key={dayIdx} style={{ display: 'flex', borderBottom: dayIdx < weekDays[weekDays.length - 1] ? '1px solid var(--border)' : 'none' }}>
+                  <div style={{ width: '52px', flexShrink: 0, position: 'sticky', left: 0, zIndex: 5, background: 'var(--bg)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '6px 4px', gap: '1px' }}>
+                    <span style={{ fontSize: '10px', fontWeight: 600, color: 'var(--muted)', textTransform: 'uppercase' }}>{dl.name}</span>
+                    <span style={{ fontSize: '14px', fontWeight: 700, color: 'var(--text)', lineHeight: 1 }}>{dl.date}</span>
+                    <span style={{ fontSize: '9px', color: 'var(--muted)' }}>{dl.month}</span>
                   </div>
                   {Array.from({ length: SLOT_COUNT }, (_, slotIdx) => {
                     const key = `${dayIdx}-${slotIdx}`
@@ -236,15 +234,13 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
                         key={slotIdx}
                         onClick={() => hasData && setSuggestSlot(slot)}
                         title={hasData ? `${slot.definitely_interested_count} Definitely, ${slot.sure_why_not_count} Ok` : ''}
+                        className={hasData ? 'grid-cell-active' : ''}
                         style={{
                           width: '32px', flexShrink: 0, height: '28px',
                           background: bg,
-                          borderRight: slotIdx < SLOT_COUNT - 1 ? (slotIdx % 2 === 1 ? '2px solid #3A3A4A' : '1px solid #23232F') : 'none',
+                          borderRight: slotIdx < SLOT_COUNT - 1 ? (slotIdx % 2 === 1 ? '2px solid var(--disabled)' : '1px solid var(--grid-line)') : 'none',
                           cursor: hasData ? 'pointer' : 'default',
-                          transition: 'filter 0.1s',
                         }}
-                        onMouseEnter={e => { if (hasData) e.currentTarget.style.filter='brightness(1.3)' }}
-                        onMouseLeave={e => { e.currentTarget.style.filter='none' }}
                       />
                     )
                   })}
@@ -255,7 +251,7 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
         </div>
       )}
 
-      <p style={{ color: '#9B9BAB', fontSize: '12px', textAlign: 'center', marginTop: '10px' }}>
+      <p style={{ color: 'var(--muted)', fontSize: '12px', textAlign: 'center', marginTop: '10px' }}>
         Click any colored slot to suggest that time to the group
       </p>
 

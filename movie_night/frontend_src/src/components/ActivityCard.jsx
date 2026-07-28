@@ -8,9 +8,9 @@ const TYPE_META = {
 }
 
 const INTEREST_LEVELS = [
-  { level: 'definitely_interested', label: 'Definitely', emoji: '✅', bg: '#14532D', color: '#4ADE80', activeBg: '#22C55E', activeColor: '#052E13', glow: '#22C55E' },
-  { level: 'sure_why_not',          label: 'Ok',         emoji: '🤷', bg: '#78350F', color: '#FCD34D', activeBg: '#FCD34D', activeColor: '#451A03', glow: '#FCD34D' },
-  { level: 'definitely_not',        label: 'Nope', emoji: '❌', bg: '#450A0A', color: '#F87171', activeBg: '#F87171', activeColor: '#450A0A', glow: '#F87171' },
+  { level: 'definitely_interested', label: 'Definitely', emoji: '✅', bg: 'var(--success-bg)', color: 'var(--success)', activeBg: 'var(--success-strong)', activeColor: 'var(--success-dark)', glow: 'var(--success-strong)' },
+  { level: 'sure_why_not',          label: 'Ok',         emoji: '🤷', bg: 'var(--warning-bg)', color: 'var(--warning)', activeBg: 'var(--warning)', activeColor: 'var(--warning-dark)', glow: 'var(--warning)' },
+  { level: 'definitely_not',        label: 'Nope', emoji: '❌', bg: 'var(--danger-bg)', color: 'var(--danger)', activeBg: 'var(--danger)', activeColor: 'var(--danger-bg)', glow: 'var(--danger)' },
 ]
 
 export default function ActivityCard({ activity, onSchedule, canManage, onEdit, onDelete }) {
@@ -40,7 +40,7 @@ export default function ActivityCard({ activity, onSchedule, canManage, onEdit, 
 
   return (
     <div style={{
-      background: '#16161D', border: '1px solid #2A2A35', borderRadius: '16px',
+      background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '16px',
       padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px',
       transition: 'border-color 0.2s',
     }}>
@@ -51,7 +51,7 @@ export default function ActivityCard({ activity, onSchedule, canManage, onEdit, 
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '8px' }}>
-            <h3 style={{ margin: '0 0 3px', fontSize: '16px', fontWeight: 700, color: '#F5F5F0', lineHeight: 1.3 }}>
+            <h3 style={{ margin: '0 0 3px', fontSize: '16px', fontWeight: 700, color: 'var(--text)', lineHeight: 1.3 }}>
               {activity.title}
             </h3>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
@@ -63,18 +63,16 @@ export default function ActivityCard({ activity, onSchedule, canManage, onEdit, 
                   <button
                     onClick={onEdit}
                     title="Edit activity"
-                    style={{ background: 'transparent', border: 'none', color: '#9B9BAB', cursor: 'pointer', fontSize: '14px', padding: '2px', lineHeight: 1 }}
-                    onMouseEnter={e => e.currentTarget.style.color = '#E8A930'}
-                    onMouseLeave={e => e.currentTarget.style.color = '#9B9BAB'}
+                    className="hover-amber-text"
+                    style={{ background: 'transparent', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '14px', padding: '2px', lineHeight: 1 }}
                   >
                     ✏️
                   </button>
                   <button
                     onClick={onDelete}
                     title="Delete activity"
-                    style={{ background: 'transparent', border: 'none', color: '#9B9BAB', cursor: 'pointer', fontSize: '14px', padding: '2px', lineHeight: 1 }}
-                    onMouseEnter={e => e.currentTarget.style.color = '#F87171'}
-                    onMouseLeave={e => e.currentTarget.style.color = '#9B9BAB'}
+                    className="hover-danger-text"
+                    style={{ background: 'transparent', border: 'none', color: 'var(--muted)', cursor: 'pointer', fontSize: '14px', padding: '2px', lineHeight: 1 }}
                   >
                     🗑️
                   </button>
@@ -83,23 +81,22 @@ export default function ActivityCard({ activity, onSchedule, canManage, onEdit, 
             </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
-            <span style={{ fontSize: '12px', color: '#9B9BAB' }}>Added by {activity.submitted_by_name}</span>
+            <span style={{ fontSize: '12px', color: 'var(--muted)' }}>Added by {activity.submitted_by_name}</span>
             {activity.imdb_url && (
               <a href={activity.imdb_url} target="_blank" rel="noopener noreferrer"
+                className="imdb-badge"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: '3px',
-                  background: '#F5C518', color: '#0D0D12', textDecoration: 'none',
+                  background: '#F5C518', color: 'var(--bg)', textDecoration: 'none',
                   fontSize: '11px', fontWeight: 800, padding: '2px 7px', borderRadius: '4px',
-                  letterSpacing: '0.2px', transition: 'filter 0.15s',
-                }}
-                onMouseEnter={e => e.currentTarget.style.filter = 'brightness(1.15)'}
-                onMouseLeave={e => e.currentTarget.style.filter = 'none'}>
+                  letterSpacing: '0.2px',
+                }}>
                 IMDb <span style={{ fontSize: '10px' }}>↗</span>
               </a>
             )}
           </div>
           {activity.description && (
-            <p style={{ margin: '6px 0 0', fontSize: '13px', color: '#9B9BAB', lineHeight: '1.5' }}>{activity.description}</p>
+            <p style={{ margin: '6px 0 0', fontSize: '13px', color: 'var(--muted)', lineHeight: '1.5' }}>{activity.description}</p>
           )}
         </div>
       </div>
@@ -125,7 +122,7 @@ export default function ActivityCard({ activity, onSchedule, canManage, onEdit, 
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px',
                 opacity: saving ? 0.7 : 1,
                 transform: active ? 'scale(1.05)' : 'scale(1)',
-                boxShadow: active ? `0 0 0 3px ${glow}33, 0 3px 10px ${glow}66` : 'none',
+                boxShadow: active ? `0 0 0 3px color-mix(in srgb, ${glow} 20%, transparent), 0 3px 10px color-mix(in srgb, ${glow} 40%, transparent)` : 'none',
               }}
             >
               {active && '✓ '}{emoji} {label}
@@ -137,19 +134,18 @@ export default function ActivityCard({ activity, onSchedule, canManage, onEdit, 
       {/* Tally + schedule */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '12px', color: '#4ADE80' }}>✅ {tally.definitely_interested}</span>
-          <span style={{ fontSize: '12px', color: '#FCD34D' }}>🤷 {tally.sure_why_not}</span>
-          <span style={{ fontSize: '12px', color: '#F87171' }}>❌ {tally.definitely_not}</span>
+          <span style={{ fontSize: '12px', color: 'var(--success)' }}>✅ {tally.definitely_interested}</span>
+          <span style={{ fontSize: '12px', color: 'var(--warning)' }}>🤷 {tally.sure_why_not}</span>
+          <span style={{ fontSize: '12px', color: 'var(--danger)' }}>❌ {tally.definitely_not}</span>
         </div>
         <button
           onClick={() => onSchedule(activity)}
+          className="hover-amber-border-text"
           style={{
-            background: 'transparent', border: '1px solid #2A2A35', borderRadius: '8px',
-            color: '#9B9BAB', fontSize: '12px', padding: '5px 10px', cursor: 'pointer',
-            fontFamily: "'Outfit', sans-serif", whiteSpace: 'nowrap', transition: 'all 0.15s',
+            background: 'transparent', border: '1px solid var(--border)', borderRadius: '8px',
+            color: 'var(--muted)', fontSize: '12px', padding: '5px 10px', cursor: 'pointer',
+            fontFamily: "'Outfit', sans-serif", whiteSpace: 'nowrap',
           }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor='#E8A930'; e.currentTarget.style.color='#E8A930' }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor='#2A2A35'; e.currentTarget.style.color='#9B9BAB' }}
         >
           📅 Schedule
         </button>

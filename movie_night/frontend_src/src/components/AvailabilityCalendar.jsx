@@ -137,48 +137,48 @@ export default function AvailabilityCalendar({ groupId }) {
       {/* Week navigation */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
         <button onClick={() => setWeekOffset(w => Math.max(0, w - 1))} disabled={weekOffset === 0}
-          style={{ background: '#1E1E28', border: '1px solid #2A2A35', borderRadius: '8px', color: weekOffset === 0 ? '#3A3A4A' : '#F5F5F0', width: '36px', height: '36px', cursor: weekOffset === 0 ? 'not-allowed' : 'pointer', fontSize: '16px' }}>
+          style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: '8px', color: weekOffset === 0 ? 'var(--disabled)' : 'var(--text)', width: '36px', height: '36px', cursor: weekOffset === 0 ? 'not-allowed' : 'pointer', fontSize: '16px' }}>
           ‹
         </button>
         <div style={{ textAlign: 'center' }}>
-          <span style={{ color: '#F5F5F0', fontWeight: 600, fontSize: '14px' }}>
+          <span style={{ color: 'var(--text)', fontWeight: 600, fontSize: '14px' }}>
             {(() => { const l = dayLabel(baseDate, weekStart); const e = dayLabel(baseDate, weekStart + 6); return `${l.month} ${l.date} – ${e.month} ${e.date}` })()}
           </span>
-          <div style={{ color: '#9B9BAB', fontSize: '11px' }}>Week {weekOffset + 1} of {MAX_WEEK_OFFSET + 1}</div>
+          <div style={{ color: 'var(--muted)', fontSize: '11px' }}>Week {weekOffset + 1} of {MAX_WEEK_OFFSET + 1}</div>
         </div>
         <button onClick={() => setWeekOffset(w => Math.min(MAX_WEEK_OFFSET, w + 1))} disabled={weekOffset === MAX_WEEK_OFFSET}
-          style={{ background: '#1E1E28', border: '1px solid #2A2A35', borderRadius: '8px', color: weekOffset === MAX_WEEK_OFFSET ? '#3A3A4A' : '#F5F5F0', width: '36px', height: '36px', cursor: weekOffset === MAX_WEEK_OFFSET ? 'not-allowed' : 'pointer', fontSize: '16px' }}>
+          style={{ background: 'var(--surface-2)', border: '1px solid var(--border)', borderRadius: '8px', color: weekOffset === MAX_WEEK_OFFSET ? 'var(--disabled)' : 'var(--text)', width: '36px', height: '36px', cursor: weekOffset === MAX_WEEK_OFFSET ? 'not-allowed' : 'pointer', fontSize: '16px' }}>
           ›
         </button>
       </div>
 
       {/* Grid instructions */}
-      <p style={{ color: '#9B9BAB', fontSize: '12px', margin: '0 0 10px', textAlign: 'center' }}>
+      <p style={{ color: 'var(--muted)', fontSize: '12px', margin: '0 0 10px', textAlign: 'center' }}>
         Click or drag to mark when you're free, <strong>and click the "Save Availability" button below</strong>
       </p>
 
       {/* Grid: rows=days, cols=time slots */}
-      <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid #2A2A35' }} className="no-select">
+      <div style={{ overflowX: 'auto', borderRadius: '12px', border: '1px solid var(--border)' }} className="no-select">
         <div style={{ minWidth: 'max-content' }}>
           {/* Time header */}
-          <div style={{ display: 'flex', position: 'sticky', top: 0, zIndex: 10, background: '#0D0D12', borderBottom: '1px solid #2A2A35' }}>
-            <div style={{ width: '52px', flexShrink: 0, borderRight: '1px solid #2A2A35' }} />
+          <div style={{ display: 'flex', position: 'sticky', top: 0, zIndex: 10, background: 'var(--bg)', borderBottom: '1px solid var(--border)' }}>
+            <div style={{ width: '52px', flexShrink: 0, borderRight: '1px solid var(--border)' }} />
             {timeLabels.map(({ idx, label, isHour }) => (
               <div key={idx} style={{
                 width: '32px', flexShrink: 0, height: '28px',
-                borderRight: idx < SLOT_COUNT - 1 ? '1px solid #1A1A24' : 'none',
+                borderRight: idx < SLOT_COUNT - 1 ? '1px solid var(--grid-empty)' : 'none',
                 position: 'relative',
               }}>
                 {/* tick mark at the left edge of this column — bold/tall on the hour, thin/short on the half-hour */}
                 <div style={{
                   position: 'absolute', left: 0, bottom: 0,
                   width: isHour ? '2px' : '1px', height: isHour ? '16px' : '4px',
-                  background: isHour ? '#9B9BAB' : '#3A3A46',
+                  background: isHour ? 'var(--muted)' : 'var(--grid-tick)',
                 }} />
                 {isHour && (
                   <span style={{
                     position: 'absolute', left: 0, top: '2px', transform: 'translateX(-50%)',
-                    fontSize: '9px', color: '#9B9BAB', whiteSpace: 'nowrap',
+                    fontSize: '9px', color: 'var(--muted)', whiteSpace: 'nowrap',
                   }}>{label}</span>
                 )}
               </div>
@@ -190,17 +190,17 @@ export default function AvailabilityCalendar({ groupId }) {
             const dl = dayLabel(baseDate, dayIdx)
             const isToday = dayIdx === 0
             return (
-              <div key={dayIdx} style={{ display: 'flex', borderBottom: dayIdx < weekDays[weekDays.length - 1] ? '1px solid #2A2A35' : 'none' }}>
+              <div key={dayIdx} style={{ display: 'flex', borderBottom: dayIdx < weekDays[weekDays.length - 1] ? '1px solid var(--border)' : 'none' }}>
                 {/* Day label (sticky left) */}
                 <div style={{
                   width: '52px', flexShrink: 0, position: 'sticky', left: 0, zIndex: 5,
-                  background: '#0D0D12', borderRight: '1px solid #2A2A35',
+                  background: 'var(--bg)', borderRight: '1px solid var(--border)',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                   padding: '8px 4px', gap: '1px',
                 }}>
-                  <span style={{ fontSize: '10px', fontWeight: 600, color: isToday ? '#E8A930' : '#9B9BAB', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{dl.name}</span>
-                  <span style={{ fontSize: '14px', fontWeight: 700, color: isToday ? '#E8A930' : '#F5F5F0', lineHeight: 1 }}>{dl.date}</span>
-                  <span style={{ fontSize: '9px', color: '#9B9BAB' }}>{dl.month}</span>
+                  <span style={{ fontSize: '10px', fontWeight: 600, color: isToday ? 'var(--amber)' : 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.3px' }}>{dl.name}</span>
+                  <span style={{ fontSize: '14px', fontWeight: 700, color: isToday ? 'var(--amber)' : 'var(--text)', lineHeight: 1 }}>{dl.date}</span>
+                  <span style={{ fontSize: '9px', color: 'var(--muted)' }}>{dl.month}</span>
                 </div>
 
                 {/* Time slots */}
@@ -216,8 +216,8 @@ export default function AvailabilityCalendar({ groupId }) {
                       onTouchStart={(e) => { e.preventDefault(); toggleCell(key) }}
                       style={{
                         width: '32px', flexShrink: 0, height: `${cellH}px`,
-                        background: isSel ? '#4338CA' : '#1A1A24',
-                        borderRight: slotIdx < SLOT_COUNT - 1 ? (isHourBorder ? '2px solid #3A3A4A' : '1px solid #23232F') : 'none',
+                        background: isSel ? 'var(--grid-selected)' : 'var(--grid-empty)',
+                        borderRight: slotIdx < SLOT_COUNT - 1 ? (isHourBorder ? '2px solid var(--disabled)' : '1px solid var(--grid-line)') : 'none',
                         cursor: 'pointer', transition: 'background 0.08s',
                         boxSizing: 'border-box',
                       }}
@@ -233,17 +233,17 @@ export default function AvailabilityCalendar({ groupId }) {
       {/* Legend + Save */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '14px', gap: '12px', flexWrap: 'wrap' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '16px', height: '16px', borderRadius: '3px', background: '#4338CA' }} />
-          <span style={{ fontSize: '12px', color: '#9B9BAB' }}>I'm free</span>
-          <div style={{ width: '16px', height: '16px', borderRadius: '3px', background: '#1A1A24', border: '1px solid #2A2A35' }} />
-          <span style={{ fontSize: '12px', color: '#9B9BAB' }}>Busy</span>
+          <div style={{ width: '16px', height: '16px', borderRadius: '3px', background: 'var(--grid-selected)' }} />
+          <span style={{ fontSize: '12px', color: 'var(--muted)' }}>I'm free</span>
+          <div style={{ width: '16px', height: '16px', borderRadius: '3px', background: 'var(--grid-empty)', border: '1px solid var(--border)' }} />
+          <span style={{ fontSize: '12px', color: 'var(--muted)' }}>Busy</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '12px', color: '#9B9BAB' }}>
+          <span style={{ fontSize: '12px', color: 'var(--muted)' }}>
             {selected.size} slot{selected.size !== 1 ? 's' : ''} selected
           </span>
           <button onClick={handleSave} disabled={saving}
-            style={{ background: saved ? '#166534' : '#E8A930', border: 'none', color: saved ? '#4ADE80' : '#0D0D12', borderRadius: '10px', padding: '9px 18px', fontSize: '14px', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontFamily: "'Outfit', sans-serif", transition: 'all 0.2s', opacity: saving ? 0.7 : 1 }}>
+            style={{ background: saved ? '#166534' : 'var(--amber)', border: 'none', color: saved ? 'var(--success)' : 'var(--bg)', borderRadius: '10px', padding: '9px 18px', fontSize: '14px', fontWeight: 700, cursor: saving ? 'not-allowed' : 'pointer', fontFamily: "'Outfit', sans-serif", transition: 'all 0.2s', opacity: saving ? 0.7 : 1 }}>
             {saving ? 'Saving…' : saved ? '✓ Saved!' : 'Save Availability'}
           </button>
         </div>

@@ -12,8 +12,8 @@ export default function AvailabilityTab({ groupId, initialView = 'mine', initial
         flex: 1, padding: '9px 8px', border: 'none', cursor: 'pointer',
         fontFamily: "'Outfit', sans-serif", fontSize: '13px', fontWeight: view === id ? 700 : 500,
         borderRadius: '8px',
-        background: view === id ? '#E8A930' : 'transparent',
-        color: view === id ? '#0D0D12' : '#9B9BAB',
+        background: view === id ? 'var(--amber)' : 'transparent',
+        color: view === id ? 'var(--bg)' : 'var(--muted)',
         transition: 'all 0.15s',
       }}
     >
@@ -26,7 +26,7 @@ export default function AvailabilityTab({ groupId, initialView = 'mine', initial
       {/* Segmented control */}
       <div style={{ padding: '16px 16px 0' }}>
         <div style={{
-          display: 'flex', background: '#1E1E28', border: '1px solid #2A2A35',
+          display: 'flex', background: 'var(--surface-2)', border: '1px solid var(--border)',
           borderRadius: '10px', padding: '3px', gap: '2px',
         }}>
           {segBtn('mine', '📆 My Availability')}

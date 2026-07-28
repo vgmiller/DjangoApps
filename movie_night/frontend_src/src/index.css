@@ -1,9 +1,33 @@
 :root {
   --bg: #0D0D12;
   --surface: #16161D;
+  --surface-2: #1E1E28;
   --border: #2A2A35;
   --text: #F5F5F0;
   --amber: #E8A930;
+  --muted: #9B9BAB;
+  --disabled: #3A3A4A;
+
+  --danger: #F87171;
+  --danger-bg: #450A0A;
+  --danger-text: #FCA5A5;
+
+  --success: #4ADE80;
+  --success-strong: #22C55E;
+  --success-bg: #14532D;
+  --success-dark: #052E13;
+  --success-vivid: #16A34A;
+
+  --warning: #FCD34D;
+  --warning-bg: #78350F;
+  --warning-dark: #451A03;
+  --warning-vivid: #D97706;
+
+  /* Availability grid */
+  --grid-empty: #1A1A24;
+  --grid-selected: #4338CA;
+  --grid-tick: #3A3A46;
+  --grid-line: #23232F;
 }
 
 body {
@@ -60,4 +84,170 @@ input:focus, select:focus, textarea:focus { outline: none; }
   border-top-color: transparent;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
+}
+
+/* Shared error message style (form validation errors) */
+.form-error {
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  color: var(--danger-text);
+  font-size: 14px;
+}
+
+/* Shared auth-page layout (Login, Register, JoinGroup) */
+.auth-page {
+  min-height: 100dvh;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  font-family: 'Outfit', sans-serif;
+}
+.auth-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 32px;
+}
+.auth-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 6px;
+  letter-spacing: -0.5px;
+}
+.auth-subtitle { color: var(--muted); margin: 0; font-size: 15px; }
+.auth-footer { text-align: center; margin-top: 20px; color: var(--muted); font-size: 14px; }
+.auth-link { color: var(--amber); text-decoration: none; font-weight: 600; }
+
+/* Shared form controls (auth pages, activity forms) */
+.form-label {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+.form-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: 'Outfit', sans-serif;
+  transition: border-color 0.2s;
+}
+.form-input:focus { border-color: var(--amber); }
+
+/* Focus-only border color, for inputs that can't use .form-input's fixed sizing */
+.input-focus-amber { transition: border-color 0.2s; }
+.input-focus-amber:focus { border-color: var(--amber); }
+
+.btn-primary {
+  width: 100%;
+  background: var(--amber);
+  color: var(--bg);
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  transition: opacity 0.15s;
+}
+.btn-primary:disabled { opacity: 0.6; cursor: default; }
+
+.btn-secondary {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Shared hover-only style helpers (replace JS onMouseEnter/onMouseLeave color/border toggles) */
+.hover-amber-text { transition: color 0.15s; }
+.hover-amber-text:hover { color: var(--amber); }
+
+.hover-danger-text { transition: color 0.15s; }
+.hover-danger-text:hover { color: var(--danger); }
+
+.hover-amber-border { transition: border-color 0.15s; }
+.hover-amber-border:hover { border-color: var(--amber); }
+
+.hover-amber-border-text { transition: border-color 0.15s, color 0.15s; }
+.hover-amber-border-text:hover { border-color: var(--amber); color: var(--amber); }
+
+.imdb-badge { transition: filter 0.15s; }
+.imdb-badge:hover { filter: brightness(1.15); }
+
+/* Amber invite-code pill (Dashboard, GroupDetail) */
+.invite-code-badge {
+  color: var(--amber);
+  background: rgba(232,169,48,0.1);
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+/* "Copy invite link" button — default vs. just-copied state */
+.copy-link-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  transition: background 0.15s, color 0.15s;
+}
+.copy-link-btn.copied {
+  background: rgba(232,169,48,0.15);
+  color: var(--amber);
+}
+
+.card-hover { transition: border-color 0.2s, transform 0.15s; }
+.card-hover:hover { border-color: var(--amber); transform: translateY(-2px); }
+
+.grid-cell-active { transition: filter 0.1s; }
+.grid-cell-active:hover { filter: brightness(1.3); }
+
+/* Shared modal overlay / bottom-sheet + centered card markup */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+}
+.modal-overlay-bottom { align-items: flex-end; padding: 0; }
+.modal-overlay-center { align-items: center; padding: 24px; }
+.modal-sheet {
+  width: 100%;
+  max-width: 480px;
+  background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  padding: 28px 24px 40px;
+}
+.modal-drag-handle {
+  width: 40px;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 0 auto 20px;
 }

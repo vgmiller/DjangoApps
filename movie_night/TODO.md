@@ -6,7 +6,3 @@
   (e.g. Django's `PasswordResetTokenGenerator` + an email backend), a
   frontend page to request it, and a frontend page to submit the new
   password with the token.
-
-- Convert duplicate inline styles to better-practice CSS (many components
-  hardcode the same hex values/style objects repeatedly instead of sharing
-  classes or the `:root` custom-property palette in `index.css`).
