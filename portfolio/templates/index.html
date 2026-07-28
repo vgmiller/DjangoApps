@@ -49,6 +49,18 @@
 		class="homepageMainLink"/>
 		</a>
 		</div>
+		<div class="homepageDockEl">
+		<h2> <a href='/movie_night'>Movie Night</a></h2><br/>
+		<a href='/movie_night'><img src='{% thumbnail movieImageUrl '544' as im %}{{ im.url }}{% endthumbnail %}' 
+		srcset="
+			{% for size in breakpoints %}
+			{% thumbnail movieImageUrl size as thumb %}  {{ thumb.url }} {{ thumb.x }}w{% endthumbnail %},
+			{% endfor %}
+			"
+		alt="Movie Night" 
+		class="homepageMainLink"/>
+		</a>
+		</div>
 	</div>
 	<p style="text-align:center">See <a href='/projectGallery'>Project Gallery</a> for more</p>
 </div>

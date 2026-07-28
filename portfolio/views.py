@@ -8,5 +8,6 @@ def index(request):
         "nagaImageUrl": "naga/naga_sil.png",
         "musicImageUrl": "music/VMiller_Picc.jpg",
         "hobbitsImageUrl": "hobbits/onering.jpg",
+        "movieImageUrl": "movie_night/clapboard.png",
     }
     return render(request, "index.html", context)
