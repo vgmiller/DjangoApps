@@ -25,7 +25,11 @@ client.interceptors.request.use((config) => {
 client.interceptors.response.use(
   (r) => r,
   (err) => {
-    if (err.response?.status === 401 && !window.location.pathname.startsWith('/movie_night/login')) {
+    // The "who am I" probe (AuthContext, on mount) is expected to 401 for a
+    // signed-out visitor and already handles that itself -- redirecting here
+    // too would race it and can bounce the page before it settles.
+    const isMeProbe = err.config?.url === '/auth/me'
+    if (err.response?.status === 401 && !isMeProbe && !window.location.pathname.startsWith('/movie_night/login')) {
       window.location.href = '/movie_night/login'
     }
     return Promise.reject(err)

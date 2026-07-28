@@ -1,32 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { listActivities } from '../api/activities'
 import { getCollatedAvailability, suggestDate } from '../api/availability'
-
-const BASE_HOUR = 10
-const SLOT_COUNT = 28
-const DAY_COUNT = 28
-const DAY_NAMES = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
-const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-
-function getBaseDate() {
-  const d = new Date()
-  d.setHours(0,0,0,0)
-  return d
-}
-
-function slotLabel(slotIdx) {
-  const h = BASE_HOUR + Math.floor(slotIdx / 2)
-  const m = (slotIdx % 2) * 30
-  const ampm = h >= 12 ? 'pm' : 'am'
-  const hr = h > 12 ? h - 12 : h === 0 ? 12 : h
-  return m === 0 ? `${hr}${ampm}` : `${hr}:${m.toString().padStart(2,'0')}`
-}
-
-function dayLabel(baseDate, dayIdx) {
-  const d = new Date(baseDate)
-  d.setDate(d.getDate() + dayIdx)
-  return { name: DAY_NAMES[d.getDay()], date: d.getDate(), month: MONTH_NAMES[d.getMonth()] }
-}
+import { BASE_HOUR, SLOT_COUNT, DAY_COUNT, MAX_WEEK_OFFSET, getBaseDate, slotLabel, dayLabel } from '../utils/calendarGrid'
 
 function collatedToMap(collated, baseDate) {
   const map = new Map()
@@ -69,7 +44,6 @@ function SuggestPanel({ slot, activity, groupId, onClose, onDone }) {
       await suggestDate(groupId, {
         activity_id: activity.id,
         start_time: slot.start_time,
-        end_time: slot.end_time,
         message: note || undefined,
       })
       setDone(true)
@@ -208,8 +182,8 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
         <span style={{ fontSize: '13px', fontWeight: 600, color: '#F5F5F0' }}>
           {(() => { const l = dayLabel(baseDate, weekStart); const e = dayLabel(baseDate, weekStart + 6); return `${l.month} ${l.date} – ${e.month} ${e.date}` })()}
         </span>
-        <button onClick={() => setWeekOffset(w => Math.min(3, w + 1))} disabled={weekOffset === 3}
-          style={{ background: '#1E1E28', border: '1px solid #2A2A35', borderRadius: '8px', color: weekOffset === 3 ? '#3A3A4A' : '#F5F5F0', width: '32px', height: '32px', cursor: weekOffset === 3 ? 'not-allowed' : 'pointer', fontSize: '15px' }}>›</button>
+        <button onClick={() => setWeekOffset(w => Math.min(MAX_WEEK_OFFSET, w + 1))} disabled={weekOffset === MAX_WEEK_OFFSET}
+          style={{ background: '#1E1E28', border: '1px solid #2A2A35', borderRadius: '8px', color: weekOffset === MAX_WEEK_OFFSET ? '#3A3A4A' : '#F5F5F0', width: '32px', height: '32px', cursor: weekOffset === MAX_WEEK_OFFSET ? 'not-allowed' : 'pointer', fontSize: '15px' }}>›</button>
       </div>
 
       {/* Grid */}
@@ -226,7 +200,7 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
               {timeLabels.map(slotIdx => {
                 const isHour = slotIdx % 2 === 0
                 return (
-                  <div key={slotIdx} style={{ width: '32px', flexShrink: 0, height: '24px', borderRight: slotIdx < SLOT_COUNT - 1 ? '1px solid #1A1A24' : 'none', position: 'relative' }}>
+                  <div key={slotIdx} style={{ width: '32px', flexShrink: 0, height: '28px', borderRight: slotIdx < SLOT_COUNT - 1 ? '1px solid #1A1A24' : 'none', position: 'relative' }}>
                     <div style={{
                       position: 'absolute', left: 0, bottom: 0,
                       width: isHour ? '2px' : '1px', height: isHour ? '16px' : '4px',

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { login as apiLogin } from '../api/auth'
-import { joinGroup } from '../api/groups'
+import { previewInvite } from '../api/groups'
 import { getErrorMessage } from '../api/client'
 import { useAuth } from '../context/AuthContext'
 
@@ -40,7 +40,9 @@ export default function Login() {
       await apiLogin({ email, password, invite_code: inviteCode || undefined })
       await signIn()
       if (inviteCode) {
-        const group = await joinGroup(inviteCode)
+        // Login already joined the group server-side (invite_code above) --
+        // this is just a read to get the group id for the redirect.
+        const group = await previewInvite(inviteCode)
         navigate(`/groups/${group.id}`)
       } else {
         navigate('/')

@@ -9,7 +9,8 @@ User = get_user_model()
 
 
 class RegisterSerializer(serializers.Serializer):
-    email = serializers.EmailField()
+    # Stored as User.username (max_length=150) as well as email, so cap to match.
+    email = serializers.EmailField(max_length=150)
     password = serializers.CharField(write_only=True)
     name = serializers.CharField(max_length=150)
     phone_number = serializers.CharField(max_length=32, required=False, allow_null=True, allow_blank=True)

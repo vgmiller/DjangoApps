@@ -1,7 +1,7 @@
 import client from './client'
 
 export const submitAvailability = (groupId, slots) =>
-  client.post(`/groups/${groupId}/availability`, { slots })
+  client.post(`/groups/${groupId}/availability`, { slots }).then((r) => r.data)
 
 export const getMyAvailability = (groupId) =>
   client.get(`/groups/${groupId}/availability/me`).then((r) => r.data)

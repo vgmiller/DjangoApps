@@ -10,11 +10,10 @@ cookie, and every other endpoint uses DRF's SessionAuthentication +
 IsAuthenticated. This matches project convention (see naga/hobbits) and
 avoids maintaining a JWT secret/expiry story alongside Django sessions.
 """
-from datetime import datetime, timezone
-
-from django.contrib.auth import get_user_model, login, logout
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user_model, login, logout
+from django.db import transaction
 from django.shortcuts import get_object_or_404, render
+from django.utils import timezone as django_timezone
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -87,7 +86,11 @@ def _join_via_invite_code(user, invite_code):
         return
     group = models.Group.objects.filter(invite_code=invite_code).first()
     if group is not None:
-        models.GroupMember.objects.get_or_create(user=user, group=group)
+        _join_group(user, group)
+
+
+def _join_group(user, group):
+    models.GroupMember.objects.get_or_create(user=user, group=group)
 
 
 class RegisterView(APIView):
@@ -98,14 +101,15 @@ class RegisterView(APIView):
         serializer = serializers.RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
-        user = User.objects.create_user(
-            username=data["email"],
-            email=data["email"],
-            password=data["password"],
-            first_name=data["name"],
-        )
-        models.Profile.objects.create(user=user, phone_number=data.get("phone_number"))
-        _join_via_invite_code(user, data.get("invite_code"))
+        with transaction.atomic():
+            user = User.objects.create_user(
+                username=data["email"],
+                email=data["email"],
+                password=data["password"],
+                first_name=data["name"],
+            )
+            models.Profile.objects.create(user=user, phone_number=data.get("phone_number"))
+            _join_via_invite_code(user, data.get("invite_code"))
         login(request, user)
         return Response(status=status.HTTP_201_CREATED)
 
@@ -159,9 +163,8 @@ class GroupListCreateView(MovieNightAPIView):
 
 class GroupDetailView(MovieNightAPIView):
     def get(self, request, group_id):
-        _assert_member(group_id, request.user.id)
-        group = get_object_or_404(models.Group, pk=group_id)
-        return Response(serializers.GroupOutSerializer(group).data)
+        membership = _assert_member(group_id, request.user.id)
+        return Response(serializers.GroupOutSerializer(membership.group).data)
 
 
 class GroupInvitePreviewView(APIView):
@@ -182,7 +185,7 @@ class GroupJoinView(MovieNightAPIView):
         serializer = serializers.GroupJoinSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         group = get_object_or_404(models.Group, invite_code=serializer.validated_data["invite_code"])
-        models.GroupMember.objects.get_or_create(user=request.user, group=group)
+        _join_group(request.user, group)
         return Response(serializers.GroupOutSerializer(group).data)
 
 
@@ -252,7 +255,7 @@ class AvailabilitySubmitView(MovieNightAPIView):
 
         models.AvailabilitySlot.objects.filter(user=request.user, group_id=group_id).delete()
 
-        cutoff = datetime.now(timezone.utc) + services.AVAILABILITY_SUBMIT_WINDOW
+        cutoff = django_timezone.now() + services.AVAILABILITY_SUBMIT_WINDOW
         new_slots = []
         for slot in serializer.validated_data["slots"]:
             if slot["end_time"] <= slot["start_time"]:
@@ -306,12 +309,9 @@ class SuggestDateView(MovieNightAPIView):
         if activity.group_id != group_id:
             return Response({"detail": "Activity not found in this group"}, status=status.HTTP_404_NOT_FOUND)
 
-        start_time = data["start_time"]
-        start_str = f"{start_time.strftime('%b')} {start_time.day} at {start_time.strftime('%I:%M %p').lstrip('0')}"
-        msg = f'{_display_name(request.user)} suggested watching "{activity.title}" on {start_str}.'
-        if data.get("message"):
-            msg += f" Note: {data['message']}"
-
+        msg = services.format_suggestion_message(
+            _display_name(request.user), activity.title, data["start_time"], data.get("message")
+        )
         services.notify_group(group_id=group_id, message=msg, exclude_user_id=request.user.id)
         return Response({"detail": "Suggestion sent"}, status=status.HTTP_201_CREATED)
 

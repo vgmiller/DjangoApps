@@ -29,9 +29,6 @@ export default function Layout({ children, groupName }) {
       }}>
         <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <span style={{ fontSize: '22px' }}>🎬</span>
-          <span className="display" style={{ fontSize: '18px', fontWeight: 700, color: '#F5F5F0', letterSpacing: '-0.3px', display: 'none' }}
-            // show on md+
-          >Movie Night</span>
           <span style={{ fontSize: '17px', fontWeight: 600, color: '#F5F5F0', letterSpacing: '-0.2px' }}>
             {groupName
               ? <span style={{ color: '#9B9BAB', fontFamily: "'Outfit', sans-serif", fontWeight: 400, fontSize: '14px' }}>{groupName}</span>
@@ -44,8 +41,8 @@ export default function Layout({ children, groupName }) {
           <NotificationBell />
           {user && (
             <>
-              <span style={{ color: '#9B9BAB', fontSize: '13px', display: 'none', whiteSpace: 'nowrap' }}
-                className="hidden sm:block">
+              <span style={{ color: '#9B9BAB', fontSize: '13px', whiteSpace: 'nowrap' }}
+                className="show-sm-up">
                 {user.name}
               </span>
               <button onClick={handleSignOut} style={{
@@ -53,8 +50,8 @@ export default function Layout({ children, groupName }) {
                 color: '#9B9BAB', padding: '6px 12px', fontSize: '13px', cursor: 'pointer',
                 fontFamily: "'Outfit', sans-serif", transition: 'border-color 0.15s, color 0.15s',
               }}
-                onMouseEnter={e => { e.target.style.borderColor='#E8A930'; e.target.style.color='#E8A930' }}
-                onMouseLeave={e => { e.target.style.borderColor='#2A2A35'; e.target.style.color='#9B9BAB' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor='#E8A930'; e.currentTarget.style.color='#E8A930' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor='#2A2A35'; e.currentTarget.style.color='#9B9BAB' }}
               >
                 Sign out
               </button>

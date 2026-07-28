@@ -83,6 +83,14 @@ def collate_availability(group_id, activity_id):
     return result
 
 
+def format_suggestion_message(display_name_str, activity_title, start_time, note=None):
+    start_str = f"{start_time.strftime('%b')} {start_time.day} at {start_time.strftime('%I:%M %p').lstrip('0')}"
+    msg = f'{display_name_str} suggested watching "{activity_title}" on {start_str}.'
+    if note:
+        msg += f" Note: {note}"
+    return msg
+
+
 def notify_group(group_id, message, exclude_user_id=None):
     """
     Notification dispatcher -- v1 sends in-app only.

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { register as apiRegister } from '../api/auth'
-import { joinGroup } from '../api/groups'
+import { previewInvite } from '../api/groups'
 import { getErrorMessage } from '../api/client'
 import { useAuth } from '../context/AuthContext'
 
@@ -60,7 +60,9 @@ export default function Register() {
       await apiRegister(payload)
       await signIn()
       if (inviteCode) {
-        const group = await joinGroup(inviteCode)
+        // Register already joined the group server-side (invite_code above)
+        // -- this is just a read to get the group id for the redirect.
+        const group = await previewInvite(inviteCode)
         navigate(`/groups/${group.id}`)
       } else {
         navigate('/')
@@ -90,7 +92,7 @@ export default function Register() {
               <input {...inputProps('email', 'email', 'you@example.com')} required />
             </Field>
             <Field label="Password">
-              <input {...inputProps('password', 'password', '8+ characters')} required minLength={6} />
+              <input {...inputProps('password', 'password', '8+ characters')} required minLength={8} />
             </Field>
             <Field label="Phone Number" hint="Optional — for future SMS notifications">
               <input {...inputProps('phone_number', 'tel', '+1 (555) 000-0000')} />

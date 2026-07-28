@@ -102,8 +102,14 @@ export default function Dashboard() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 640
+  const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 640)
   const ModalComp = isDesktop ? DesktopModal : Modal
+
+  useEffect(() => {
+    const onResize = () => setIsDesktop(window.innerWidth >= 640)
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
 
   useEffect(() => {
     listGroups().then(setGroups).finally(() => setLoading(false))

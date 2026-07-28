@@ -23,7 +23,7 @@ function AddForm({ onAdd, onClose }) {
       const payload = { ...form }
       if (!payload.imdb_url) delete payload.imdb_url
       if (!payload.description) delete payload.description
-      const a = await onAdd(payload)
+      await onAdd(payload)
       onClose()
     } catch { setError('Failed to add activity.') }
     finally { setSaving(false) }

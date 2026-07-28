@@ -1,6 +1,5 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
 
 // This app is built and served by the DjangoApps portfolio site (same
 // pattern as the `perfume` app): the build output goes into
@@ -10,7 +9,7 @@ import tailwindcss from '@tailwindcss/vite'
 // fixed asset filenames below and is rendered for any request under
 // /movie_night/ (see movie_night/views.py).
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react()],
   base: '/static/movie_night/',
   build: {
     outDir: '../assets_build',

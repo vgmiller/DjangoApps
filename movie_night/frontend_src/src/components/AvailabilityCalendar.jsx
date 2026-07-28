@@ -1,18 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { getMyAvailability, submitAvailability } from '../api/availability'
-
-const BASE_HOUR = 10    // 10am
-const SLOT_COUNT = 28   // 10am – 11:30pm
-const DAY_COUNT = 28
-
-const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-
-function getBaseDate() {
-  const d = new Date()
-  d.setHours(0, 0, 0, 0)
-  return d
-}
+import { BASE_HOUR, SLOT_COUNT, DAY_COUNT, MAX_WEEK_OFFSET, getBaseDate, slotLabel, dayLabel } from '../utils/calendarGrid'
 
 function cellToLocalDate(baseDate, dayIdx, slotIdx) {
   const d = new Date(baseDate)
@@ -21,20 +9,6 @@ function cellToLocalDate(baseDate, dayIdx, slotIdx) {
   d.setMinutes((slotIdx % 2) * 30)
   d.setSeconds(0, 0)
   return d
-}
-
-function slotLabel(slotIdx) {
-  const h = BASE_HOUR + Math.floor(slotIdx / 2)
-  const m = (slotIdx % 2) * 30
-  const ampm = h >= 12 ? 'pm' : 'am'
-  const hr = h > 12 ? h - 12 : h === 0 ? 12 : h
-  return m === 0 ? `${hr}${ampm}` : `${hr}:${m.toString().padStart(2,'0')}`
-}
-
-function dayLabel(baseDate, dayIdx) {
-  const d = new Date(baseDate)
-  d.setDate(d.getDate() + dayIdx)
-  return { name: DAY_NAMES[d.getDay()], date: d.getDate(), month: MONTH_NAMES[d.getMonth()] }
 }
 
 function apiSlotsToSelected(apiSlots, baseDate) {
@@ -170,10 +144,10 @@ export default function AvailabilityCalendar({ groupId }) {
           <span style={{ color: '#F5F5F0', fontWeight: 600, fontSize: '14px' }}>
             {(() => { const l = dayLabel(baseDate, weekStart); const e = dayLabel(baseDate, weekStart + 6); return `${l.month} ${l.date} – ${e.month} ${e.date}` })()}
           </span>
-          <div style={{ color: '#9B9BAB', fontSize: '11px' }}>Week {weekOffset + 1} of 4</div>
+          <div style={{ color: '#9B9BAB', fontSize: '11px' }}>Week {weekOffset + 1} of {MAX_WEEK_OFFSET + 1}</div>
         </div>
-        <button onClick={() => setWeekOffset(w => Math.min(3, w + 1))} disabled={weekOffset === 3}
-          style={{ background: '#1E1E28', border: '1px solid #2A2A35', borderRadius: '8px', color: weekOffset === 3 ? '#3A3A4A' : '#F5F5F0', width: '36px', height: '36px', cursor: weekOffset === 3 ? 'not-allowed' : 'pointer', fontSize: '16px' }}>
+        <button onClick={() => setWeekOffset(w => Math.min(MAX_WEEK_OFFSET, w + 1))} disabled={weekOffset === MAX_WEEK_OFFSET}
+          style={{ background: '#1E1E28', border: '1px solid #2A2A35', borderRadius: '8px', color: weekOffset === MAX_WEEK_OFFSET ? '#3A3A4A' : '#F5F5F0', width: '36px', height: '36px', cursor: weekOffset === MAX_WEEK_OFFSET ? 'not-allowed' : 'pointer', fontSize: '16px' }}>
           ›
         </button>
       </div>

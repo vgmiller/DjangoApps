@@ -1,14 +1,9 @@
-@import "tailwindcss";
-
 :root {
   --bg: #0D0D12;
   --surface: #16161D;
-  --elevated: #1E1E28;
   --border: #2A2A35;
   --text: #F5F5F0;
-  --muted: #9B9BAB;
   --amber: #E8A930;
-  --amber-dim: #B8841A;
 }
 
 body {
@@ -35,6 +30,13 @@ input:focus, select:focus, textarea:focus { outline: none; }
 
 /* Prevent text selection during grid drag */
 .no-select { user-select: none; -webkit-user-select: none; }
+
+/* Shown only at sm+ breakpoints (replaces the single Tailwind class that
+   used to justify pulling in the whole Tailwind build) */
+.show-sm-up { display: none; }
+@media (min-width: 640px) {
+  .show-sm-up { display: block; }
+}
 
 /* Slide up animation for mobile modals */
 @keyframes slideUp {
