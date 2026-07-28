@@ -10,6 +10,8 @@ cookie, and every other endpoint uses DRF's SessionAuthentication +
 IsAuthenticated. This matches project convention (see naga/hobbits) and
 avoids maintaining a JWT secret/expiry story alongside Django sessions.
 """
+from datetime import datetime, timezone
+
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404, render
@@ -20,6 +22,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from . import models, serializers, services
+from .services import display_name as _display_name
 
 User = get_user_model()
 
@@ -38,10 +41,6 @@ def app(request, path=None):
 class MovieNightAPIView(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
-
-
-def _display_name(user):
-    return user.get_full_name() or user.get_username()
 
 
 def _assert_member(group_id, user_id):
@@ -247,15 +246,13 @@ class ActivityInterestView(MovieNightAPIView):
 
 class AvailabilitySubmitView(MovieNightAPIView):
     def post(self, request, group_id):
-        from datetime import datetime, timedelta, timezone
-
         _assert_member(group_id, request.user.id)
         serializer = serializers.SlotSubmitSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         models.AvailabilitySlot.objects.filter(user=request.user, group_id=group_id).delete()
 
-        cutoff = datetime.now(timezone.utc) + timedelta(weeks=4)
+        cutoff = datetime.now(timezone.utc) + services.AVAILABILITY_SUBMIT_WINDOW
         new_slots = []
         for slot in serializer.validated_data["slots"]:
             if slot["end_time"] <= slot["start_time"]:
@@ -306,7 +303,7 @@ class SuggestDateView(MovieNightAPIView):
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
         activity = get_object_or_404(models.Activity, pk=data["activity_id"])
-        if activity.group_id != int(group_id):
+        if activity.group_id != group_id:
             return Response({"detail": "Activity not found in this group"}, status=status.HTTP_404_NOT_FOUND)
 
         start_time = data["start_time"]
@@ -324,7 +321,7 @@ class SuggestDateView(MovieNightAPIView):
 
 class NotificationListView(MovieNightAPIView):
     def get(self, request):
-        notifications = models.Notification.objects.filter(user=request.user)[:50]
+        notifications = models.Notification.objects.filter(user=request.user)[: services.NOTIFICATION_LIST_LIMIT]
         return Response(serializers.NotificationOutSerializer(notifications, many=True).data)
 
 

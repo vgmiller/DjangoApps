@@ -180,7 +180,7 @@ export default function AvailabilityCalendar({ groupId }) {
 
       {/* Grid instructions */}
       <p style={{ color: '#9B9BAB', fontSize: '12px', margin: '0 0 10px', textAlign: 'center' }}>
-        Click or drag to mark when you're free
+        Click or drag to mark when you're free, <strong>and click the "Save Availability" button below</strong>
       </p>
 
       {/* Grid: rows=days, cols=time slots */}

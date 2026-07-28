@@ -61,7 +61,7 @@ class Activity(models.Model):
     submitted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="movie_night_activities")
     title = models.CharField(max_length=255)
     type = models.CharField(max_length=16, choices=ActivityType.choices, default=ActivityType.MOVIE)
-    imdb_url = models.CharField(max_length=512, blank=True, null=True)
+    imdb_url = models.URLField(max_length=512, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 

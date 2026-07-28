@@ -32,7 +32,7 @@ function collatedToMap(collated, baseDate) {
   const map = new Map()
   for (const slot of collated) {
     const start = new Date(slot.start_time)
-    const dayDiff = Math.round((start - baseDate) / 86400000)
+    const dayDiff = Math.floor((start - baseDate) / 86400000)
     const minutesFromBase = (start.getHours() - BASE_HOUR) * 60 + start.getMinutes()
     const slotIdx = Math.floor(minutesFromBase / 30)
     if (dayDiff >= 0 && dayDiff < DAY_COUNT && slotIdx >= 0 && slotIdx < SLOT_COUNT) {
@@ -47,7 +47,7 @@ function cellColor(slot) {
   const di = slot.definitely_interested_count
   const swn = slot.sure_why_not_count
   if (di > 0 && swn === 0) return '#16A34A'  // vivid green — all DI
-  if (di > 0 && swn > 0)   return '#D97706'  // vivid gold — DI + SWN
+  if (swn > 0)             return '#D97706'  // vivid gold — anyone open (DI or SWN present)
   return '#1A1A24'
 }
 
@@ -256,7 +256,7 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
                     const key = `${dayIdx}-${slotIdx}`
                     const slot = slotMap.get(key)
                     const bg = cellColor(slot)
-                    const hasData = !!slot && slot.definitely_interested_count > 0
+                    const hasData = !!slot && (slot.definitely_interested_count > 0 || slot.sure_why_not_count > 0)
                     return (
                       <div
                         key={slotIdx}

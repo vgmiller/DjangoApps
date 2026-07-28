@@ -11,6 +11,12 @@ from . import models
 User = get_user_model()
 
 SLOT_MINUTES = 30
+NOTIFICATION_LIST_LIMIT = 50
+AVAILABILITY_SUBMIT_WINDOW = timedelta(weeks=4)
+
+
+def display_name(user):
+    return user.get_full_name() or user.get_username()
 
 
 def _slot_buckets(start, end):

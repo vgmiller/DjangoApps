@@ -3,20 +3,17 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 from . import models
+from .services import display_name as _display_name
 
 User = get_user_model()
-
-
-def _display_name(user):
-    return user.get_full_name() or user.get_username()
 
 
 class RegisterSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
-    name = serializers.CharField()
-    phone_number = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-    invite_code = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    name = serializers.CharField(max_length=150)
+    phone_number = serializers.CharField(max_length=32, required=False, allow_null=True, allow_blank=True)
+    invite_code = serializers.CharField(max_length=8, required=False, allow_null=True, allow_blank=True)
 
     def validate_email(self, value):
         if User.objects.filter(email__iexact=value).exists():
@@ -31,7 +28,7 @@ class RegisterSerializer(serializers.Serializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
-    invite_code = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    invite_code = serializers.CharField(max_length=8, required=False, allow_null=True, allow_blank=True)
 
 
 class UserOutSerializer(serializers.ModelSerializer):
@@ -52,7 +49,7 @@ class UserOutSerializer(serializers.ModelSerializer):
 
 
 class GroupCreateSerializer(serializers.Serializer):
-    name = serializers.CharField()
+    name = serializers.CharField(max_length=255)
 
 
 class GroupOutSerializer(serializers.ModelSerializer):
@@ -62,7 +59,7 @@ class GroupOutSerializer(serializers.ModelSerializer):
 
 
 class GroupJoinSerializer(serializers.Serializer):
-    invite_code = serializers.CharField()
+    invite_code = serializers.CharField(max_length=8)
 
 
 class GroupInvitePreviewSerializer(serializers.ModelSerializer):
@@ -75,36 +72,15 @@ class MemberOutSerializer(serializers.Serializer):
     user_id = serializers.IntegerField()
     name = serializers.CharField()
     email = serializers.EmailField()
-    role = serializers.CharField()
+    role = serializers.CharField(max_length=16)
     joined_at = serializers.DateTimeField()
 
 
 class ActivityCreateSerializer(serializers.Serializer):
-    title = serializers.CharField()
+    title = serializers.CharField(max_length=255)
     type = serializers.ChoiceField(choices=models.ActivityType.choices, default=models.ActivityType.MOVIE)
-    imdb_url = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    imdb_url = serializers.URLField(max_length=512, required=False, allow_null=True, allow_blank=True)
     description = serializers.CharField(required=False, allow_null=True, allow_blank=True)
-
-
-class InterestOutSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
-    user_name = serializers.CharField()
-    level = serializers.CharField()
-    updated_at = serializers.DateTimeField()
-
-
-class ActivityOutSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
-    group_id = serializers.IntegerField()
-    submitted_by = serializers.IntegerField()
-    submitted_by_name = serializers.CharField()
-    title = serializers.CharField()
-    type = serializers.CharField()
-    imdb_url = serializers.CharField(allow_null=True)
-    description = serializers.CharField(allow_null=True)
-    created_at = serializers.DateTimeField()
-    interests = InterestOutSerializer(many=True)
-    my_interest = serializers.CharField(allow_null=True)
 
 
 class InterestUpsertSerializer(serializers.Serializer):
@@ -138,7 +114,6 @@ class CollatedSlotSerializer(serializers.Serializer):
 class SuggestionCreateSerializer(serializers.Serializer):
     activity_id = serializers.IntegerField()
     start_time = serializers.DateTimeField()
-    end_time = serializers.DateTimeField()
     message = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
 

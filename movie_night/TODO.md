@@ -7,4 +7,4 @@
   frontend page to request it, and a frontend page to submit the new
   password with the token.
 
-- Allow users to delete activity suggestions they have created.
+- Allow users to edit and delete activity suggestions they have created.
