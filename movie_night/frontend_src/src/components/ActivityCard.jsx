@@ -13,7 +13,7 @@ const INTEREST_LEVELS = [
   { level: 'definitely_not',        label: 'Nope', emoji: '❌', bg: '#450A0A', color: '#F87171', activeBg: '#F87171', activeColor: '#450A0A', glow: '#F87171' },
 ]
 
-export default function ActivityCard({ activity, onSchedule }) {
+export default function ActivityCard({ activity, onSchedule, canManage, onEdit, onDelete }) {
   const [myInterest, setMyInterest] = useState(activity.my_interest)
   const [interests, setInterests] = useState(activity.interests)
   const [saving, setSaving] = useState(false)
@@ -54,9 +54,33 @@ export default function ActivityCard({ activity, onSchedule }) {
             <h3 style={{ margin: '0 0 3px', fontSize: '16px', fontWeight: 700, color: '#F5F5F0', lineHeight: 1.3 }}>
               {activity.title}
             </h3>
-            <span style={{ flexShrink: 0, fontSize: '11px', fontWeight: 600, color: meta.color, background: `${meta.color}15`, padding: '2px 8px', borderRadius: '20px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              {meta.label}
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
+              <span style={{ fontSize: '11px', fontWeight: 600, color: meta.color, background: `${meta.color}15`, padding: '2px 8px', borderRadius: '20px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                {meta.label}
+              </span>
+              {canManage && (
+                <>
+                  <button
+                    onClick={onEdit}
+                    title="Edit activity"
+                    style={{ background: 'transparent', border: 'none', color: '#9B9BAB', cursor: 'pointer', fontSize: '14px', padding: '2px', lineHeight: 1 }}
+                    onMouseEnter={e => e.currentTarget.style.color = '#E8A930'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#9B9BAB'}
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    onClick={onDelete}
+                    title="Delete activity"
+                    style={{ background: 'transparent', border: 'none', color: '#9B9BAB', cursor: 'pointer', fontSize: '14px', padding: '2px', lineHeight: 1 }}
+                    onMouseEnter={e => e.currentTarget.style.color = '#F87171'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#9B9BAB'}
+                  >
+                    🗑️
+                  </button>
+                </>
+              )}
+            </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
             <span style={{ fontSize: '12px', color: '#9B9BAB' }}>Added by {activity.submitted_by_name}</span>

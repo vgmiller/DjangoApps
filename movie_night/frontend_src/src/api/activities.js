@@ -8,3 +8,9 @@ export const createActivity = (groupId, data) =>
 
 export const setInterest = (activityId, level) =>
   client.post(`/activities/${activityId}/interest`, { level }).then((r) => r.data)
+
+export const updateActivity = (activityId, data) =>
+  client.patch(`/activities/${activityId}`, data).then((r) => r.data)
+
+export const deleteActivity = (activityId) =>
+  client.delete(`/activities/${activityId}`).then((r) => r.data)

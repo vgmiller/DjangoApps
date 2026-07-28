@@ -230,6 +230,28 @@ class ActivityListCreateView(MovieNightAPIView):
         return Response([_activity_out(a, request.user.id) for a in activities])
 
 
+class ActivityDetailView(MovieNightAPIView):
+    def patch(self, request, activity_id):
+        activity = get_object_or_404(models.Activity, pk=activity_id)
+        _assert_member(activity.group_id, request.user.id)
+        if activity.submitted_by_id != request.user.id:
+            return Response({"detail": "Only the creator can edit this activity"}, status=status.HTTP_403_FORBIDDEN)
+        serializer = serializers.ActivityCreateSerializer(data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        for field, value in serializer.validated_data.items():
+            setattr(activity, field, value)
+        activity.save()
+        return Response(_activity_out(activity, request.user.id))
+
+    def delete(self, request, activity_id):
+        activity = get_object_or_404(models.Activity, pk=activity_id)
+        _assert_member(activity.group_id, request.user.id)
+        if activity.submitted_by_id != request.user.id:
+            return Response({"detail": "Only the creator can delete this activity"}, status=status.HTTP_403_FORBIDDEN)
+        activity.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 class ActivityInterestView(MovieNightAPIView):
     def post(self, request, activity_id):
         activity = get_object_or_404(models.Activity, pk=activity_id)

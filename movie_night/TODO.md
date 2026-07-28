@@ -7,8 +7,6 @@
   frontend page to request it, and a frontend page to submit the new
   password with the token.
 
-- Allow users to edit and delete activity suggestions they have created.
-
 - Convert duplicate inline styles to better-practice CSS (many components
   hardcode the same hex values/style objects repeatedly instead of sharing
   classes or the `:root` custom-property palette in `index.css`).

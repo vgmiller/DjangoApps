@@ -25,6 +25,11 @@ urlpatterns = [
         name="movie_night_activities",
     ),
     path(
+        "api/activities/<int:activity_id>",
+        views.ActivityDetailView.as_view(),
+        name="movie_night_activity_detail",
+    ),
+    path(
         "api/activities/<int:activity_id>/interest",
         views.ActivityInterestView.as_view(),
         name="movie_night_activity_interest",
