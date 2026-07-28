@@ -45,9 +45,15 @@ Key differences from the old service, and why:
 - `templates/movie_night_app.html` — the built SPA's `index.html`, served by
   Django's template engine (not a static file) so it can pick up
   `{% static %}` URLs for the hashed asset filenames.
+- `frontend_src/` — the React (Vite) frontend source, checked in directly
+  (`node_modules/` and `dist/` are gitignored, not the source itself). Build
+  from here with `cd movie_night/frontend_src && npm install && npm run
+  build`, then copy the build output into `assets_build/` (see below) and
+  run `collectstatic`.
 - `assets_build/` — pre-built React frontend output (JS/CSS/icons), checked
-  in directly. The frontend source is not part of this repo; if it needs
-  changes, that has to happen upstream and the built output re-copied here.
+  in directly since Django serves it straight from here (no build step at
+  deploy time). After changing `frontend_src/`, rebuild and copy the new
+  `dist/` contents over this directory so the two stay in sync.
 
 ## Conventions to follow
 
@@ -60,3 +66,13 @@ Key differences from the old service, and why:
   group data.
 - Keep business logic that isn't request-scoped (aggregation, fan-out) in
   `services.py` rather than inline in views, matching the existing split.
+- Invite links: `RegisterSerializer`/`LoginSerializer` accept an optional
+  `invite_code`; `_join_via_invite_code()` in `views.py` silently no-ops on
+  an unknown code rather than erroring, since register/login must still
+  succeed even if the invite was stale. `GroupInvitePreviewView` is the one
+  intentionally public group endpoint besides register/login — it only
+  exposes `{id, name}`, never membership or activity data.
+- The invite-link frontend work (copy-link button, `/join/<code>` route,
+  wiring `invite_code` into register/login calls) still needs to be built in
+  `frontend_src/` — the backend support for it exists but nothing in the SPA
+  calls it yet.

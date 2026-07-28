@@ -12,6 +12,11 @@ urlpatterns = [
     path("api/auth/me", views.MeView.as_view(), name="movie_night_me"),
     path("api/groups", views.GroupListCreateView.as_view(), name="movie_night_groups"),
     path("api/groups/join", views.GroupJoinView.as_view(), name="movie_night_group_join"),
+    path(
+        "api/groups/invite/<str:invite_code>",
+        views.GroupInvitePreviewView.as_view(),
+        name="movie_night_group_invite_preview",
+    ),
     path("api/groups/<int:group_id>", views.GroupDetailView.as_view(), name="movie_night_group_detail"),
     path("api/groups/<int:group_id>/members", views.GroupMembersView.as_view(), name="movie_night_group_members"),
     path(

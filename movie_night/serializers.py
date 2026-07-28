@@ -16,6 +16,7 @@ class RegisterSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
     name = serializers.CharField()
     phone_number = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    invite_code = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
     def validate_email(self, value):
         if User.objects.filter(email__iexact=value).exists():
@@ -30,6 +31,7 @@ class RegisterSerializer(serializers.Serializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
+    invite_code = serializers.CharField(required=False, allow_null=True, allow_blank=True)
 
 
 class UserOutSerializer(serializers.ModelSerializer):
@@ -61,6 +63,12 @@ class GroupOutSerializer(serializers.ModelSerializer):
 
 class GroupJoinSerializer(serializers.Serializer):
     invite_code = serializers.CharField()
+
+
+class GroupInvitePreviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Group
+        fields = ["id", "name"]
 
 
 class MemberOutSerializer(serializers.Serializer):

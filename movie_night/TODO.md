@@ -1,0 +1,10 @@
+# TODO
+
+- Add a "Forgot Password" flow (currently the only recovery path is a manual
+  `manage.py changepassword` / DB reset by whoever has server access).
+  Needs: a request-reset endpoint that emails a signed, expiring reset link
+  (e.g. Django's `PasswordResetTokenGenerator` + an email backend), a
+  frontend page to request it, and a frontend page to submit the new
+  password with the token.
+
+- Allow users to delete activity suggestions they have created.

@@ -77,6 +77,20 @@ def _activity_out(activity, current_user_id):
 # ---- Auth ----
 
 
+def _join_via_invite_code(user, invite_code):
+    """Add `user` to the group for `invite_code`, if it resolves to a group.
+
+    Used to complete the invite-link flow: a fresh visitor lands on an invite
+    link, registers or logs in (carrying the invite code along), and is
+    dropped straight into the group without a separate join step.
+    """
+    if not invite_code:
+        return
+    group = models.Group.objects.filter(invite_code=invite_code).first()
+    if group is not None:
+        models.GroupMember.objects.get_or_create(user=user, group=group)
+
+
 class RegisterView(APIView):
     authentication_classes = []
     permission_classes = []
@@ -92,6 +106,7 @@ class RegisterView(APIView):
             first_name=data["name"],
         )
         models.Profile.objects.create(user=user, phone_number=data.get("phone_number"))
+        _join_via_invite_code(user, data.get("invite_code"))
         login(request, user)
         return Response(status=status.HTTP_201_CREATED)
 
@@ -111,6 +126,7 @@ class LoginView(APIView):
         user = authenticate(request, username=username, password=data["password"])
         if user is None:
             return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+        _join_via_invite_code(user, data.get("invite_code"))
         login(request, user)
         return Response(status=status.HTTP_200_OK)
 
@@ -147,6 +163,19 @@ class GroupDetailView(MovieNightAPIView):
         _assert_member(group_id, request.user.id)
         group = get_object_or_404(models.Group, pk=group_id)
         return Response(serializers.GroupOutSerializer(group).data)
+
+
+class GroupInvitePreviewView(APIView):
+    """Unauthenticated lookup so an invite link can show "You've been invited
+    to <group name>" before the visitor logs in or registers.
+    """
+
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request, invite_code):
+        group = get_object_or_404(models.Group, invite_code=invite_code)
+        return Response(serializers.GroupInvitePreviewSerializer(group).data)
 
 
 class GroupJoinView(MovieNightAPIView):
