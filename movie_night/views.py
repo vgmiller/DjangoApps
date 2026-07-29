@@ -13,6 +13,7 @@ avoids maintaining a JWT secret/expiry story alongside Django sessions.
 
 import smtplib
 
+from botocore.exceptions import ClientError
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import BadHeaderError, send_mail
@@ -213,7 +214,7 @@ class PasswordResetRequestView(APIView):
                     from_email=None,
                     recipient_list=[user.email],
                 )
-            except (smtplib.SMTPException, BadHeaderError, OSError):
+            except (smtplib.SMTPException, BadHeaderError, OSError, ClientError):
                 return Response(
                     {"detail": "We couldn't send the reset email. Please try again in a few minutes."},
                     status=status.HTTP_502_BAD_GATEWAY,
