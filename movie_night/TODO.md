@@ -38,3 +38,7 @@ Each item is independent and can be picked up separately.
    expressed twice. Consider factoring a shared "full name from parts" helper that both
    `display_name()` and `collate_availability()` call.
 
+7. **Submitting an activity title with leading/trailing whitespace creates a separate
+   undeduplicated entry** — titles aren't stripped/normalized before comparison, so " Movie"
+   and "Movie" are treated as distinct activities. Strip whitespace before dedup/save.
+
