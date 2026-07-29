@@ -13,7 +13,7 @@ avoids maintaining a JWT secret/expiry story alongside Django sessions.
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone as django_timezone
 from django.utils.encoding import force_bytes, force_str
@@ -47,6 +47,8 @@ class MovieNightAPIView(APIView):
 
 
 def _assert_member(group_id, user_id):
+    # Intentionally 404, not 403: non-members shouldn't be able to distinguish
+    # "group doesn't exist" from "group exists but you're not in it".
     return get_object_or_404(models.GroupMember, group_id=group_id, user_id=user_id)
 
 
@@ -105,15 +107,18 @@ class RegisterView(APIView):
         serializer = serializers.RegisterSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
-        with transaction.atomic():
-            user = User.objects.create_user(
-                username=data["email"],
-                email=data["email"],
-                password=data["password"],
-                first_name=data["name"],
-            )
-            models.Profile.objects.create(user=user, phone_number=data.get("phone_number"))
-            _join_via_invite_code(user, data.get("invite_code"))
+        try:
+            with transaction.atomic():
+                user = User.objects.create_user(
+                    username=data["email"],
+                    email=data["email"],
+                    password=data["password"],
+                    first_name=data["name"],
+                )
+                models.Profile.objects.create(user=user, phone_number=data.get("phone_number"))
+                _join_via_invite_code(user, data.get("invite_code"))
+        except IntegrityError:
+            return Response({"email": ["Email already registered"]}, status=status.HTTP_400_BAD_REQUEST)
         login(request, user)
         return Response(status=status.HTTP_201_CREATED)
 

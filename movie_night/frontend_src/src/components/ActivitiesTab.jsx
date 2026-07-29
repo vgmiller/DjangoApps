@@ -73,12 +73,14 @@ export default function ActivitiesTab({ groupId, onSchedule }) {
   const { user } = useAuth()
   const [activities, setActivities] = useState([])
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [editingActivity, setEditingActivity] = useState(null)
   const [selectedActivity, setSelectedActivity] = useState(null)
 
   useEffect(() => {
-    listActivities(groupId).then(setActivities).finally(() => setLoading(false))
+    setLoading(true); setLoadError(false)
+    listActivities(groupId).then(setActivities).catch(() => setLoadError(true)).finally(() => setLoading(false))
   }, [groupId])
 
   const handleAdd = async (payload) => {
@@ -107,6 +109,17 @@ export default function ActivitiesTab({ groupId, onSchedule }) {
   if (loading) return (
     <div style={{ display: 'flex', justifyContent: 'center', padding: '48px' }}>
       <div className="spinner" />
+    </div>
+  )
+
+  if (loadError) return (
+    <div style={{ textAlign: 'center', padding: '48px 20px', border: '2px dashed var(--border)', borderRadius: '16px', margin: '16px' }}>
+      <div style={{ fontSize: '40px', marginBottom: '10px' }}>⚠️</div>
+      <h3 className="display" style={{ margin: '0 0 6px', color: 'var(--text)', fontSize: '18px' }}>Couldn't load activities</h3>
+      <p style={{ color: 'var(--muted)', fontSize: '14px', margin: '0 0 16px' }}>Something went wrong. Please try again.</p>
+      <button onClick={() => { setLoading(true); setLoadError(false); listActivities(groupId).then(setActivities).catch(() => setLoadError(true)).finally(() => setLoading(false)) }} style={{ background: 'var(--amber)', border: 'none', color: 'var(--bg)', borderRadius: '10px', padding: '10px 20px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
+        Retry
+      </button>
     </div>
   )
 

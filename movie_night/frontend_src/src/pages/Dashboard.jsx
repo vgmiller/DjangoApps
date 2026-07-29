@@ -85,6 +85,7 @@ export default function Dashboard() {
   const [formVal, setFormVal] = useState('')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [loadError, setLoadError] = useState(false)
 
   const [isDesktop, setIsDesktop] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 640)
   const ModalComp = isDesktop ? DesktopModal : Modal
@@ -96,7 +97,7 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    listGroups().then(setGroups).finally(() => setLoading(false))
+    listGroups().then(setGroups).catch(() => setLoadError(true)).finally(() => setLoading(false))
   }, [])
 
   const closeModal = () => { setModal(null); setFormVal(''); setError('') }
@@ -154,6 +155,15 @@ export default function Dashboard() {
             {[1,2].map(i => (
               <div key={i} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '16px', height: '110px', opacity: 0.5, animation: 'pulse 1.5s ease-in-out infinite' }} />
             ))}
+          </div>
+        ) : loadError ? (
+          <div style={{ textAlign: 'center', padding: '60px 20px', border: '2px dashed var(--border)', borderRadius: '20px' }}>
+            <div style={{ fontSize: '48px', marginBottom: '12px' }}>⚠️</div>
+            <h3 className="display" style={{ margin: '0 0 8px', color: 'var(--text)', fontSize: '20px', fontWeight: 700 }}>Couldn't load your groups</h3>
+            <p style={{ color: 'var(--muted)', margin: '0 0 20px', fontSize: '14px' }}>Something went wrong. Please try again.</p>
+            <button onClick={() => { setLoading(true); setLoadError(false); listGroups().then(setGroups).catch(() => setLoadError(true)).finally(() => setLoading(false)) }} style={{ background: 'var(--amber)', border: 'none', color: 'var(--bg)', borderRadius: '10px', padding: '11px 20px', fontSize: '14px', cursor: 'pointer', fontFamily: "'Outfit', sans-serif", fontWeight: 700 }}>
+              Retry
+            </button>
           </div>
         ) : groups.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 20px', border: '2px dashed var(--border)', borderRadius: '20px' }}>

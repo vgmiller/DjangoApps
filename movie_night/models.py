@@ -28,6 +28,12 @@ class Group(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name="movie_night_groups_created")
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            while Group.objects.filter(invite_code=self.invite_code).exists():
+                self.invite_code = gen_invite_code()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -97,6 +103,9 @@ class AvailabilitySlot(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
 
+    class Meta:
+        indexes = [models.Index(fields=["user", "group"])]
+
     def __str__(self):
         return f"{self.user} {self.start_time} - {self.end_time}"
 
@@ -110,6 +119,7 @@ class Notification(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        indexes = [models.Index(fields=["user", "read"])]
 
     def __str__(self):
         return self.message[:50]

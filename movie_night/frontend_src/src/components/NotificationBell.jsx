@@ -23,8 +23,17 @@ export default function NotificationBell() {
 
   useEffect(() => {
     load()
-    const interval = setInterval(load, 60_000)
-    return () => clearInterval(interval)
+    const interval = setInterval(() => {
+      if (document.visibilityState === 'visible') load()
+    }, 60_000)
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') load()
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+    return () => {
+      clearInterval(interval)
+      document.removeEventListener('visibilitychange', handleVisibility)
+    }
   }, [load])
 
   useEffect(() => {
@@ -39,13 +48,23 @@ export default function NotificationBell() {
   const unread = notifs.filter(n => !n.read).length
 
   const handleMarkAll = async () => {
-    await markAllRead()
+    const prev = notifs
     setNotifs(ns => ns.map(n => ({ ...n, read: true })))
+    try {
+      await markAllRead()
+    } catch {
+      setNotifs(prev)
+    }
   }
 
   const handleMarkOne = async (id) => {
-    await markRead(id)
+    const prev = notifs
     setNotifs(ns => ns.map(n => n.id === id ? { ...n, read: true } : n))
+    try {
+      await markRead(id)
+    } catch {
+      setNotifs(prev)
+    }
   }
 
   return (

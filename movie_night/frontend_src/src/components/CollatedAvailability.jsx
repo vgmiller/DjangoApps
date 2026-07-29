@@ -114,15 +114,17 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
   const [loading, setLoading] = useState(false)
   const [weekOffset, setWeekOffset] = useState(0)
   const [suggestSlot, setSuggestSlot] = useState(null)
+  const [activitiesError, setActivitiesError] = useState(false)
 
   useEffect(() => {
+    setActivitiesError(false)
     listActivities(groupId).then(acts => {
       setActivities(acts)
       if (acts.length > 0) {
         const preselected = initialActivityId && acts.find(a => a.id === initialActivityId)
         setSelectedActivity(preselected || acts[0])
       }
-    })
+    }).catch(() => setActivitiesError(true))
   }, [groupId, initialActivityId])
 
   useEffect(() => {
@@ -137,6 +139,16 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
   const weekStart = weekOffset * 7
   const weekDays = Array.from({ length: 7 }, (_, i) => weekStart + i).filter(d => d < DAY_COUNT)
   const timeLabels = Array.from({ length: SLOT_COUNT }, (_, i) => i)
+
+  if (activitiesError) return (
+    <div style={{ padding: '48px 16px', textAlign: 'center' }}>
+      <div style={{ fontSize: '40px', marginBottom: '10px' }}>⚠️</div>
+      <p style={{ color: 'var(--muted)', margin: '0 0 16px' }}>Couldn't load activities. Please try again.</p>
+      <button onClick={() => { setActivitiesError(false); listActivities(groupId).then(acts => { setActivities(acts); if (acts.length > 0) { const preselected = initialActivityId && acts.find(a => a.id === initialActivityId); setSelectedActivity(preselected || acts[0]) } }).catch(() => setActivitiesError(true)) }} style={{ background: 'var(--amber)', border: 'none', color: 'var(--bg)', borderRadius: '10px', padding: '10px 20px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
+        Retry
+      </button>
+    </div>
+  )
 
   if (activities.length === 0) return (
     <div style={{ padding: '48px 16px', textAlign: 'center' }}>

@@ -57,13 +57,14 @@ def collate_availability(group_id, activity_id):
                 swn_buckets.setdefault(bucket, set()).add(slot.user_id)
             # else: no opinion cast on this activity yet -- excluded entirely
 
-    user_names = {}
+    needed_ids = set()
     for bucket in list(di_buckets.values()) + list(swn_buckets.values()):
-        for uid in bucket:
-            if uid not in user_names:
-                user = User.objects.filter(pk=uid).first()
-                if user:
-                    user_names[uid] = user.get_full_name() or user.get_username()
+        needed_ids.update(bucket)
+
+    user_names = {}
+    for row in User.objects.filter(pk__in=needed_ids).values("id", "first_name", "last_name", "username"):
+        full_name = f"{row['first_name']} {row['last_name']}".strip()
+        user_names[row["id"]] = full_name or row["username"]
 
     all_buckets = sorted(set(di_buckets.keys()) | set(swn_buckets.keys()))
     result = []
