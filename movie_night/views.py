@@ -146,8 +146,11 @@ class LoginView(APIView):
 class PasswordResetRequestView(APIView):
     """Email a signed, expiring reset link for the requested address.
 
-    Always returns 204 regardless of whether the email matches an account,
-    so this endpoint can't be used to enumerate registered users.
+    Returns 204 regardless of whether the email matches an account, so this
+    endpoint can't be used to enumerate registered users. If the address
+    does match but the send itself fails (e.g. mail transport is down),
+    returns 502 with a user-facing error instead of a silent 204 - this
+    reveals mail-service health but not which addresses are registered.
     """
 
     authentication_classes = []
@@ -161,13 +164,19 @@ class PasswordResetRequestView(APIView):
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
             reset_link = f"{request.scheme}://{request.get_host()}/movie_night/reset-password?uid={uid}&token={token}"
-            send_mail(
-                subject="Reset your Movie Night password",
-                message=f"Click the link below to reset your password:\n\n{reset_link}\n\n"
-                "If you didn't request this, you can ignore this email.",
-                from_email=None,
-                recipient_list=[user.email],
-            )
+            try:
+                send_mail(
+                    subject="Reset your Movie Night password",
+                    message=f"Click the link below to reset your password:\n\n{reset_link}\n\n"
+                    "If you didn't request this, you can ignore this email.",
+                    from_email=None,
+                    recipient_list=[user.email],
+                )
+            except Exception:
+                return Response(
+                    {"detail": "We couldn't send the reset email. Please try again in a few minutes."},
+                    status=status.HTTP_502_BAD_GATEWAY,
+                )
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 

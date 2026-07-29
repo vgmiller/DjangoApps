@@ -153,6 +153,11 @@ EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD", default="")
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", default=True, cast=bool)
 DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL", default="no-reply@larvalnemesis.com")
 
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID", default="")
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY", default="")
+AWS_SES_REGION_NAME = config("AWS_SES_REGION_NAME", default="us-east-1")
+AWS_SES_REGION_ENDPOINT = config("AWS_SES_REGION_ENDPOINT", default="email.us-east-1.amazonaws.com")
+
 FITBIT_CLIENTID = config("FITBIT_CLIENTID")
 FITBIT_CLIENTSECRET = config("FITBIT_CLIENTSECRET")
 FITBIT_ACCESS_TOKEN = config("FITBIT_ACCESS_TOKEN")
