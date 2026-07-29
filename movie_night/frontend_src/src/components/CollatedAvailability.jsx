@@ -21,9 +21,21 @@ function cellColor(slot) {
   if (!slot) return 'var(--grid-empty)'
   const di = slot.definitely_interested_count
   const swn = slot.sure_why_not_count
-  if (di > 0 && swn === 0) return 'var(--success-vivid)'  // vivid green — all DI
-  if (swn > 0)             return 'var(--warning-vivid)'  // vivid gold — anyone open (DI or SWN present)
+  if (di > 0 && swn > 0) return 'var(--success)'         // bright green — overlap of DI and SWN
+  if (di > 0)             return 'var(--info-vivid)'      // medium blue — only DI available
+  if (swn > 0)             return 'var(--warning)'        // medium yellow — only SWN available
   return 'var(--grid-empty)'
+}
+
+function slotTooltip(slot) {
+  const parts = []
+  if (slot.definitely_interested_count > 0) {
+    parts.push(`${slot.definitely_interested_count} Definitely (${slot.definitely_interested_users.join(', ')})`)
+  }
+  if (slot.sure_why_not_count > 0) {
+    parts.push(`${slot.sure_why_not_count} Ok (${slot.sure_why_not_users.join(', ')})`)
+  }
+  return parts.join(', ')
 }
 
 function formatSlotTime(start, end) {
@@ -173,10 +185,11 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
       </div>
 
       {/* Legend */}
-      <div style={{ display: 'flex', gap: '12px', marginBottom: '10px', flexWrap: 'wrap' }}>
+      <div style={{ display: 'flex', gap: '20px', marginBottom: '10px', flexWrap: 'wrap' }}>
         {[
-          { color: 'var(--success-vivid)', label: 'Strongly-Interested People' },
-          { color: 'var(--warning-vivid)', label: 'Everyone Open to Activity' },
+          { color: 'var(--info-vivid)', label: "Only 'Definitely Interested' folks" },
+          { color: 'var(--warning)', label: "Only 'Ok Interested' folks" },
+          { color: 'var(--success)', label: 'Overlap (best availability/most people)' },
         ].map(({ color, label }) => (
           <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
             <div style={{ width: '12px', height: '12px', borderRadius: '2px', background: color, flexShrink: 0 }} />
@@ -245,7 +258,7 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
                       <div
                         key={slotIdx}
                         onClick={() => hasData && setSuggestSlot(slot)}
-                        title={hasData ? `${slot.definitely_interested_count} Definitely, ${slot.sure_why_not_count} Ok` : ''}
+                        title={hasData ? slotTooltip(slot) : ''}
                         className={hasData ? 'grid-cell-active' : ''}
                         style={{
                           width: '32px', flexShrink: 0, height: '28px',

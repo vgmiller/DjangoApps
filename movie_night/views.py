@@ -53,29 +53,7 @@ def _assert_member(group_id, user_id):
 
 
 def _activity_out(activity, current_user_id):
-    interests = list(activity.interests.select_related("user"))
-    my_interest = next((i.level for i in interests if i.user_id == current_user_id), None)
-    return {
-        "id": activity.id,
-        "group_id": activity.group_id,
-        "submitted_by": activity.submitted_by_id,
-        "submitted_by_name": _display_name(activity.submitted_by),
-        "title": activity.title,
-        "type": activity.type,
-        "imdb_url": activity.imdb_url,
-        "description": activity.description,
-        "created_at": activity.created_at,
-        "my_interest": my_interest,
-        "interests": [
-            {
-                "user_id": i.user_id,
-                "user_name": _display_name(i.user),
-                "level": i.level,
-                "updated_at": i.updated_at,
-            }
-            for i in interests
-        ],
-    }
+    return serializers.ActivityOutSerializer(activity, context={"current_user_id": current_user_id}).data
 
 
 # ---- Auth ----
@@ -259,17 +237,7 @@ class GroupMembersView(MovieNightAPIView):
     def get(self, request, group_id):
         _assert_member(group_id, request.user.id)
         members = models.GroupMember.objects.filter(group_id=group_id).select_related("user")
-        data = [
-            {
-                "user_id": m.user_id,
-                "name": _display_name(m.user),
-                "email": m.user.email,
-                "role": m.role,
-                "joined_at": m.joined_at,
-            }
-            for m in members
-        ]
-        return Response(serializers.MemberOutSerializer(data, many=True).data)
+        return Response(serializers.MemberOutSerializer(members, many=True).data)
 
 
 # ---- Activities ----
@@ -372,12 +340,7 @@ class MyAvailabilityView(MovieNightAPIView):
     def get(self, request, group_id):
         _assert_member(group_id, request.user.id)
         slots = models.AvailabilitySlot.objects.filter(user=request.user, group_id=group_id)
-        data = {
-            "user_id": request.user.id,
-            "user_name": _display_name(request.user),
-            "slots": [{"start_time": s.start_time, "end_time": s.end_time} for s in slots],
-        }
-        return Response(serializers.UserSlotsSerializer(data).data)
+        return Response(serializers.UserSlotsSerializer(request.user, context={"slots": slots}).data)
 
 
 class CollatedAvailabilityView(MovieNightAPIView):

@@ -83,12 +83,17 @@ class GroupInvitePreviewSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-class MemberOutSerializer(serializers.Serializer):
+class MemberOutSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField()
-    name = serializers.CharField()
-    email = serializers.EmailField()
-    role = serializers.CharField(max_length=16)
-    joined_at = serializers.DateTimeField()
+    name = serializers.SerializerMethodField()
+    email = serializers.EmailField(source="user.email")
+
+    class Meta:
+        model = models.GroupMember
+        fields = ["user_id", "name", "email", "role", "joined_at"]
+
+    def get_name(self, obj):
+        return _display_name(obj.user)
 
 
 class ActivityCreateSerializer(serializers.Serializer):
@@ -112,9 +117,66 @@ class SlotSubmitSerializer(serializers.Serializer):
 
 
 class UserSlotsSerializer(serializers.Serializer):
-    user_id = serializers.IntegerField()
-    user_name = serializers.CharField()
-    slots = SlotRangeSerializer(many=True)
+    # context["slots"] must be provided by the caller (queryset of AvailabilitySlot for `obj`)
+    user_id = serializers.IntegerField(source="id")
+    user_name = serializers.SerializerMethodField()
+    slots = serializers.SerializerMethodField()
+
+    def get_user_name(self, obj):
+        return _display_name(obj)
+
+    def get_slots(self, obj):
+        return SlotRangeSerializer(self.context["slots"], many=True).data
+
+
+class ActivityInterestOutSerializer(serializers.ModelSerializer):
+    user_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.ActivityInterest
+        fields = ["user_id", "user_name", "level", "updated_at"]
+
+    def get_user_name(self, obj):
+        return _display_name(obj.user)
+
+
+class ActivityOutSerializer(serializers.ModelSerializer):
+    # context["current_user_id"] must be provided by the caller
+    submitted_by_name = serializers.SerializerMethodField()
+    my_interest = serializers.SerializerMethodField()
+    interests = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Activity
+        fields = [
+            "id",
+            "group_id",
+            "submitted_by",
+            "submitted_by_name",
+            "title",
+            "type",
+            "imdb_url",
+            "description",
+            "created_at",
+            "my_interest",
+            "interests",
+        ]
+
+    def get_submitted_by_name(self, obj):
+        return _display_name(obj.submitted_by)
+
+    def _interests(self, obj):
+        cache = self.context.setdefault("_interests_cache", {})
+        if obj.id not in cache:
+            cache[obj.id] = list(obj.interests.select_related("user"))
+        return cache[obj.id]
+
+    def get_my_interest(self, obj):
+        current_user_id = self.context.get("current_user_id")
+        return next((i.level for i in self._interests(obj) if i.user_id == current_user_id), None)
+
+    def get_interests(self, obj):
+        return ActivityInterestOutSerializer(self._interests(obj), many=True).data
 
 
 class CollatedSlotSerializer(serializers.Serializer):

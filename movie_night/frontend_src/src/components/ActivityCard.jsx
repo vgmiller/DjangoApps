@@ -32,11 +32,13 @@ export default function ActivityCard({ activity, onSchedule, canManage, onEdit, 
 
   const meta = TYPE_META[activity.type] || TYPE_META.movie
 
+  const byLevel = level => interests.filter(i => i.level === level)
   const tally = {
-    definitely_interested: interests.filter(i => i.level === 'definitely_interested').length,
-    sure_why_not: interests.filter(i => i.level === 'sure_why_not').length,
-    definitely_not: interests.filter(i => i.level === 'definitely_not').length,
+    definitely_interested: byLevel('definitely_interested').length,
+    sure_why_not: byLevel('sure_why_not').length,
+    definitely_not: byLevel('definitely_not').length,
   }
+  const namesTooltip = level => byLevel(level).map(i => i.user_name).join(', ')
 
   return (
     <div style={{
@@ -134,9 +136,9 @@ export default function ActivityCard({ activity, onSchedule, canManage, onEdit, 
       {/* Tally + schedule */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
         <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <span style={{ fontSize: '12px', color: 'var(--success)' }}>✅ {tally.definitely_interested}</span>
-          <span style={{ fontSize: '12px', color: 'var(--warning)' }}>🤷 {tally.sure_why_not}</span>
-          <span style={{ fontSize: '12px', color: 'var(--danger)' }}>❌ {tally.definitely_not}</span>
+          <span title={namesTooltip('definitely_interested')} style={{ fontSize: '12px', color: 'var(--success)' }}>✅ {tally.definitely_interested}</span>
+          <span title={namesTooltip('sure_why_not')} style={{ fontSize: '12px', color: 'var(--warning)' }}>🤷 {tally.sure_why_not}</span>
+          <span title={namesTooltip('definitely_not')} style={{ fontSize: '12px', color: 'var(--danger)' }}>❌ {tally.definitely_not}</span>
         </div>
         <button
           onClick={() => onSchedule(activity)}
