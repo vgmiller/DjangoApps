@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { listGroups, createGroup, joinGroup, buildInviteLink } from '../api/groups'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/useAuth'
 import Layout from '../components/Layout'
 
 function Modal({ title, onClose, children }) {

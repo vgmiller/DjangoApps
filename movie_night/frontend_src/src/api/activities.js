@@ -1,5 +1,7 @@
 import client from './client'
 
+// Returns a DRF paginated page ({ results, next, ... }); the caller pages
+// through `next` (a full URL) via `fetchPage` for "load more".
 export const listActivities = (groupId) =>
   client.get(`/groups/${groupId}/activities`).then((r) => r.data)
 

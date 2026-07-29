@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { previewInvite, joinGroup } from '../api/groups'
 import { getErrorMessage } from '../api/client'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/useAuth'
 
 const S = {
   wrap: { width: '100%', maxWidth: '400px', textAlign: 'center' },

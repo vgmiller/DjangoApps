@@ -2,6 +2,7 @@
 Business logic shared across views, ported from the FastAPI
 services/availability.py and services/notifications.py modules.
 """
+
 from datetime import timedelta
 
 from django.contrib.auth import get_user_model
@@ -12,6 +13,8 @@ User = get_user_model()
 
 SLOT_MINUTES = 30
 NOTIFICATION_LIST_LIMIT = 50
+ACTIVITY_LIST_LIMIT = 200
+GROUP_MEMBERS_LIST_LIMIT = 50
 AVAILABILITY_SUBMIT_WINDOW = timedelta(weeks=4)
 
 
@@ -37,9 +40,7 @@ def collate_availability(group_id, activity_id):
       - definitely_not: excluded entirely
       - no opinion cast yet: excluded entirely
     """
-    interest_map = dict(
-        models.ActivityInterest.objects.filter(activity_id=activity_id).values_list("user_id", "level")
-    )
+    interest_map = dict(models.ActivityInterest.objects.filter(activity_id=activity_id).values_list("user_id", "level"))
 
     slots = models.AvailabilitySlot.objects.filter(group_id=group_id)
 

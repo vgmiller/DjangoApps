@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { listActivities, createActivity, updateActivity, deleteActivity } from '../api/activities'
-import { useAuth } from '../context/AuthContext'
+import { fetchPage } from '../api/client'
+import { useAuth } from '../context/useAuth'
 import ActivityCard from './ActivityCard'
 
 const inputStyle = { width: '100%', background: 'var(--bg)', border: '1px solid var(--border)', borderRadius: '10px', padding: '11px 14px', color: 'var(--text)', fontSize: '14px', fontFamily: "'Outfit', sans-serif" }
@@ -72,16 +73,36 @@ function AddForm({ initial, onSave, onClose }) {
 export default function ActivitiesTab({ groupId, onSchedule }) {
   const { user } = useAuth()
   const [activities, setActivities] = useState([])
+  const [nextPage, setNextPage] = useState(null)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [editingActivity, setEditingActivity] = useState(null)
-  const [selectedActivity, setSelectedActivity] = useState(null)
 
-  useEffect(() => {
+  const load = () => {
     setLoading(true); setLoadError(false)
-    listActivities(groupId).then(setActivities).catch(() => setLoadError(true)).finally(() => setLoading(false))
-  }, [groupId])
+    listActivities(groupId)
+      .then((page) => { setActivities(page.results); setNextPage(page.next) })
+      .catch(() => setLoadError(true))
+      .finally(() => setLoading(false))
+  }
+
+  useEffect(load, [groupId])
+
+  const handleLoadMore = async () => {
+    if (!nextPage) return
+    setLoadingMore(true)
+    try {
+      const page = await fetchPage(nextPage)
+      setActivities(prev => [...prev, ...page.results])
+      setNextPage(page.next)
+    } catch {
+      // leave nextPage as-is so the user can retry
+    } finally {
+      setLoadingMore(false)
+    }
+  }
 
   const handleAdd = async (payload) => {
     const a = await createActivity(groupId, payload)
@@ -102,7 +123,6 @@ export default function ActivitiesTab({ groupId, onSchedule }) {
   }
 
   const handleSchedule = (activity) => {
-    setSelectedActivity(activity)
     onSchedule(activity)
   }
 
@@ -117,7 +137,7 @@ export default function ActivitiesTab({ groupId, onSchedule }) {
       <div style={{ fontSize: '40px', marginBottom: '10px' }}>⚠️</div>
       <h3 className="display" style={{ margin: '0 0 6px', color: 'var(--text)', fontSize: '18px' }}>Couldn't load activities</h3>
       <p style={{ color: 'var(--muted)', fontSize: '14px', margin: '0 0 16px' }}>Something went wrong. Please try again.</p>
-      <button onClick={() => { setLoading(true); setLoadError(false); listActivities(groupId).then(setActivities).catch(() => setLoadError(true)).finally(() => setLoading(false)) }} style={{ background: 'var(--amber)', border: 'none', color: 'var(--bg)', borderRadius: '10px', padding: '10px 20px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
+      <button onClick={load} style={{ background: 'var(--amber)', border: 'none', color: 'var(--bg)', borderRadius: '10px', padding: '10px 20px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
         Retry
       </button>
     </div>
@@ -192,6 +212,16 @@ export default function ActivitiesTab({ groupId, onSchedule }) {
               onDelete={() => handleDelete(a)}
             />
           ))}
+          {nextPage && (
+            <button onClick={handleLoadMore} disabled={loadingMore} style={{
+              background: 'var(--surface-2)', border: '1px solid var(--border)', color: 'var(--text)',
+              borderRadius: '10px', padding: '11px', fontSize: '14px', fontWeight: 600,
+              cursor: loadingMore ? 'not-allowed' : 'pointer', fontFamily: "'Outfit', sans-serif",
+              opacity: loadingMore ? 0.6 : 1, marginTop: '4px',
+            }}>
+              {loadingMore ? 'Loading…' : 'Load more'}
+            </button>
+          )}
         </div>
       )}
     </div>

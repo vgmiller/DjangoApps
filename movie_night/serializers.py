@@ -166,9 +166,16 @@ class ActivityOutSerializer(serializers.ModelSerializer):
         return _display_name(obj.submitted_by)
 
     def _interests(self, obj):
+        # obj.interests.all() reuses the caller's prefetch_related cache when
+        # present (see ActivityListCreateView.get); this dict just avoids
+        # hitting that (or issuing a fresh query) twice per activity, since
+        # both get_my_interest and get_interests call in.
+        # Note: relies on the caller prefetching with select_related("user")
+        # (ActivityListCreateView.get does). A new caller of this serializer
+        # that skips that select_related will hit an N+1 on interest.user.
         cache = self.context.setdefault("_interests_cache", {})
         if obj.id not in cache:
-            cache[obj.id] = list(obj.interests.select_related("user"))
+            cache[obj.id] = list(obj.interests.all())
         return cache[obj.id]
 
     def get_my_interest(self, obj):

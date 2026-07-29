@@ -10,18 +10,24 @@ cookie, and every other endpoint uses DRF's SessionAuthentication +
 IsAuthenticated. This matches project convention (see naga/hobbits) and
 avoids maintaining a JWT secret/expiry story alongside Django sessions.
 """
+
+import smtplib
+
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
+from django.core.mail import BadHeaderError, send_mail
 from django.db import IntegrityError, transaction
+from django.db.models import Prefetch
 from django.shortcuts import get_object_or_404, render
 from django.utils import timezone as django_timezone
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from rest_framework import status
 from rest_framework.authentication import SessionAuthentication
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.throttling import AnonRateThrottle
 from rest_framework.views import APIView
 
 from . import models, serializers, services
@@ -30,13 +36,14 @@ from .services import display_name as _display_name
 User = get_user_model()
 
 
-def app(request, path=None):
+def app(request, *args, **kwargs):
     """Serve the built React SPA for any /movie_night/... route that isn't
     under /movie_night/api/.
 
     React Router (basename="/movie_night") handles client-side routing
     from there; this view just needs to return the same index.html for
-    every sub-path (e.g. /movie_night/groups/1).
+    every sub-path (e.g. /movie_night/groups/1). The captured path segment
+    (if any) is irrelevant here since React Router does the actual routing.
     """
     return render(request, "movie_night_app.html")
 
@@ -44,6 +51,32 @@ def app(request, path=None):
 class MovieNightAPIView(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
+
+
+class _AuthRateThrottle(AnonRateThrottle):
+    """Throttles unauthenticated auth endpoints (register/login/password-reset)
+    by IP, to blunt brute-force and mail-bombing attempts. Rate is hardcoded
+    here rather than via DEFAULT_THROTTLE_RATES so it doesn't require changes
+    to the shared project settings.py.
+    """
+
+    scope = "movie_night_auth"
+    rate = "10/min"
+
+    def get_rate(self):
+        return self.rate
+
+
+class _ActivityPagination(LimitOffsetPagination):
+    default_limit = services.ACTIVITY_LIST_LIMIT
+
+
+class _MembersPagination(LimitOffsetPagination):
+    default_limit = services.GROUP_MEMBERS_LIST_LIMIT
+
+
+class _NotificationPagination(LimitOffsetPagination):
+    default_limit = services.NOTIFICATION_LIST_LIMIT
 
 
 def _assert_member(group_id, user_id):
@@ -54,6 +87,33 @@ def _assert_member(group_id, user_id):
 
 def _activity_out(activity, current_user_id):
     return serializers.ActivityOutSerializer(activity, context={"current_user_id": current_user_id}).data
+
+
+def _fetch_activity(activity_id, user, group_id=None):
+    """Fetch `activity_id`, requiring `user` to be a member of its group.
+    If `group_id` is given, also require the activity belongs to that group.
+    Returns an (activity, error) tuple: on success `error` is None, on
+    failure `activity` is None and `error` is a Response to return as-is.
+    """
+    activity = get_object_or_404(models.Activity, pk=activity_id)
+    _assert_member(activity.group_id, user.id)
+    if group_id is not None and activity.group_id != group_id:
+        return None, Response({"detail": "Activity not found in this group"}, status=status.HTTP_404_NOT_FOUND)
+    return activity, None
+
+
+def _get_owned_activity(activity_id, user):
+    """Fetch `activity_id`, requiring `user` to be a group member and the
+    activity's creator. Returns an (activity, error) tuple: on success
+    `error` is None, on failure `activity` is None and `error` is a
+    Response to return as-is.
+    """
+    activity, error = _fetch_activity(activity_id, user)
+    if error is not None:
+        return None, error
+    if activity.submitted_by_id != user.id:
+        return None, Response({"detail": "Only the creator can modify this activity"}, status=status.HTTP_403_FORBIDDEN)
+    return activity, None
 
 
 # ---- Auth ----
@@ -80,6 +140,7 @@ def _join_group(user, group):
 class RegisterView(APIView):
     authentication_classes = []
     permission_classes = []
+    throttle_classes = [_AuthRateThrottle]
 
     def post(self, request):
         serializer = serializers.RegisterSerializer(data=request.data)
@@ -104,6 +165,7 @@ class RegisterView(APIView):
 class LoginView(APIView):
     authentication_classes = []
     permission_classes = []
+    throttle_classes = [_AuthRateThrottle]
 
     def post(self, request):
         serializer = serializers.LoginSerializer(data=request.data)
@@ -133,6 +195,7 @@ class PasswordResetRequestView(APIView):
 
     authentication_classes = []
     permission_classes = []
+    throttle_classes = [_AuthRateThrottle]
 
     def post(self, request):
         serializer = serializers.PasswordResetRequestSerializer(data=request.data)
@@ -150,7 +213,7 @@ class PasswordResetRequestView(APIView):
                     from_email=None,
                     recipient_list=[user.email],
                 )
-            except Exception:
+            except (smtplib.SMTPException, BadHeaderError, OSError):
                 return Response(
                     {"detail": "We couldn't send the reset email. Please try again in a few minutes."},
                     status=status.HTTP_502_BAD_GATEWAY,
@@ -237,7 +300,9 @@ class GroupMembersView(MovieNightAPIView):
     def get(self, request, group_id):
         _assert_member(group_id, request.user.id)
         members = models.GroupMember.objects.filter(group_id=group_id).select_related("user")
-        return Response(serializers.MemberOutSerializer(members, many=True).data)
+        paginator = _MembersPagination()
+        page = paginator.paginate_queryset(members, request, view=self)
+        return paginator.get_paginated_response(serializers.MemberOutSerializer(page, many=True).data)
 
 
 # ---- Activities ----
@@ -260,16 +325,21 @@ class ActivityListCreateView(MovieNightAPIView):
 
     def get(self, request, group_id):
         _assert_member(group_id, request.user.id)
-        activities = models.Activity.objects.filter(group_id=group_id).select_related("submitted_by")
-        return Response([_activity_out(a, request.user.id) for a in activities])
+        activities = (
+            models.Activity.objects.filter(group_id=group_id)
+            .select_related("submitted_by")
+            .prefetch_related(Prefetch("interests", queryset=models.ActivityInterest.objects.select_related("user")))
+        )
+        paginator = _ActivityPagination()
+        page = paginator.paginate_queryset(activities, request, view=self)
+        return paginator.get_paginated_response([_activity_out(a, request.user.id) for a in page])
 
 
 class ActivityDetailView(MovieNightAPIView):
     def patch(self, request, activity_id):
-        activity = get_object_or_404(models.Activity, pk=activity_id)
-        _assert_member(activity.group_id, request.user.id)
-        if activity.submitted_by_id != request.user.id:
-            return Response({"detail": "Only the creator can edit this activity"}, status=status.HTTP_403_FORBIDDEN)
+        activity, error = _get_owned_activity(activity_id, request.user)
+        if error is not None:
+            return error
         serializer = serializers.ActivityCreateSerializer(data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         for field, value in serializer.validated_data.items():
@@ -278,18 +348,18 @@ class ActivityDetailView(MovieNightAPIView):
         return Response(_activity_out(activity, request.user.id))
 
     def delete(self, request, activity_id):
-        activity = get_object_or_404(models.Activity, pk=activity_id)
-        _assert_member(activity.group_id, request.user.id)
-        if activity.submitted_by_id != request.user.id:
-            return Response({"detail": "Only the creator can delete this activity"}, status=status.HTTP_403_FORBIDDEN)
+        activity, error = _get_owned_activity(activity_id, request.user)
+        if error is not None:
+            return error
         activity.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ActivityInterestView(MovieNightAPIView):
     def post(self, request, activity_id):
-        activity = get_object_or_404(models.Activity, pk=activity_id)
-        _assert_member(activity.group_id, request.user.id)
+        activity, error = _fetch_activity(activity_id, request.user)
+        if error is not None:
+            return error
         serializer = serializers.InterestUpsertSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         models.ActivityInterest.objects.update_or_create(
@@ -356,9 +426,9 @@ class SuggestDateView(MovieNightAPIView):
         serializer = serializers.SuggestionCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
-        activity = get_object_or_404(models.Activity, pk=data["activity_id"])
-        if activity.group_id != group_id:
-            return Response({"detail": "Activity not found in this group"}, status=status.HTTP_404_NOT_FOUND)
+        activity, error = _fetch_activity(data["activity_id"], request.user, group_id=group_id)
+        if error is not None:
+            return error
 
         msg = services.format_suggestion_message(
             _display_name(request.user), activity.title, data["start_time"], data.get("message")
@@ -372,8 +442,10 @@ class SuggestDateView(MovieNightAPIView):
 
 class NotificationListView(MovieNightAPIView):
     def get(self, request):
-        notifications = models.Notification.objects.filter(user=request.user)[: services.NOTIFICATION_LIST_LIMIT]
-        return Response(serializers.NotificationOutSerializer(notifications, many=True).data)
+        notifications = models.Notification.objects.filter(user=request.user)
+        paginator = _NotificationPagination()
+        page = paginator.paginate_queryset(notifications, request, view=self)
+        return paginator.get_paginated_response(serializers.NotificationOutSerializer(page, many=True).data)
 
 
 class NotificationMarkReadView(MovieNightAPIView):

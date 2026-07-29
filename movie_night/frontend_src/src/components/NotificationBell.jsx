@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { listNotifications, markAllRead, markRead } from '../api/notifications'
+import { fetchPage } from '../api/client'
 
 function timeAgo(isoStr) {
   const diff = (Date.now() - new Date(isoStr).getTime()) / 1000
@@ -11,15 +12,32 @@ function timeAgo(isoStr) {
 
 export default function NotificationBell() {
   const [notifs, setNotifs] = useState([])
+  const [nextPage, setNextPage] = useState(null)
+  const [loadingMore, setLoadingMore] = useState(false)
   const [open, setOpen] = useState(false)
   const panelRef = useRef(null)
 
   const load = useCallback(async () => {
     try {
-      const data = await listNotifications()
-      setNotifs(data)
+      const page = await listNotifications()
+      setNotifs(page.results)
+      setNextPage(page.next)
     } catch {}
   }, [])
+
+  const handleLoadMore = async () => {
+    if (!nextPage) return
+    setLoadingMore(true)
+    try {
+      const page = await fetchPage(nextPage)
+      setNotifs(prev => [...prev, ...page.results])
+      setNextPage(page.next)
+    } catch {
+      // leave nextPage as-is so the user can retry
+    } finally {
+      setLoadingMore(false)
+    }
+  }
 
   useEffect(() => {
     load()
@@ -140,6 +158,20 @@ export default function NotificationBell() {
                 </div>
               </div>
             ))}
+            {nextPage && (
+              <button
+                onClick={handleLoadMore}
+                disabled={loadingMore}
+                style={{
+                  display: 'block', width: '100%', background: 'transparent', border: 'none',
+                  borderTop: '1px solid var(--surface-2)', color: 'var(--amber)', fontSize: '13px',
+                  fontWeight: 600, padding: '12px 16px', cursor: loadingMore ? 'not-allowed' : 'pointer',
+                  fontFamily: "'Outfit', sans-serif", opacity: loadingMore ? 0.6 : 1,
+                }}
+              >
+                {loadingMore ? 'Loading…' : 'Load more'}
+              </button>
+            )}
           </div>
         </div>
       )}

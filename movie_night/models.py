@@ -50,7 +50,7 @@ class GroupMember(models.Model):
     joined_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("user", "group")
+        constraints = [models.UniqueConstraint(fields=["user", "group"], name="unique_group_member")]
 
     def __str__(self):
         return f"{self.user} in {self.group} ({self.role})"
@@ -91,7 +91,7 @@ class ActivityInterest(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ("user", "activity")
+        constraints = [models.UniqueConstraint(fields=["user", "activity"], name="unique_activity_interest")]
 
     def __str__(self):
         return f"{self.user} -> {self.activity}: {self.level}"

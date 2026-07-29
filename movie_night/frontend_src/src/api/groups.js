@@ -4,6 +4,7 @@ export const createGroup = (data) => client.post('/groups', data).then((r) => r.
 export const listGroups = () => client.get('/groups').then((r) => r.data)
 export const getGroup = (id) => client.get(`/groups/${id}`).then((r) => r.data)
 export const joinGroup = (invite_code) => client.post('/groups/join', { invite_code }).then((r) => r.data)
+// Returns a DRF paginated page ({ results, next, ... }); see fetchPage for paging.
 export const listMembers = (id) => client.get(`/groups/${id}/members`).then((r) => r.data)
 
 // Unauthenticated lookup, used to show "You've been invited to <name>" on

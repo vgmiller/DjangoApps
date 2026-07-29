@@ -1,7 +1,6 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { getMe, logout as apiLogout } from '../api/auth'
-
-const AuthContext = createContext(null)
+import { AuthContext } from './authContextValue'
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
@@ -31,5 +30,3 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   )
 }
-
-export const useAuth = () => useContext(AuthContext)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from movie_night.models import (
+from .models import (
     Activity,
     ActivityInterest,
     AvailabilitySlot,

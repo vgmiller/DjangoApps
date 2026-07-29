@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { login as apiLogin } from '../api/auth'
 import { previewInvite } from '../api/groups'
 import { getErrorMessage } from '../api/client'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '../context/useAuth'
 
 const S = {
   logo: { textAlign: 'center', marginBottom: '40px' },

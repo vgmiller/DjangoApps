@@ -9,7 +9,7 @@ export default function GroupDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const [group, setGroup] = useState(null)
-  const [members, setMembers] = useState([])
+  const [memberCount, setMemberCount] = useState(0)
   const [tab, setTab] = useState('activities')
   const [scheduleActivity, setScheduleActivity] = useState(null)
   const [copied, setCopied] = useState(false)
@@ -18,10 +18,10 @@ export default function GroupDetail() {
 
   useEffect(() => {
     Promise.all([getGroup(id), listMembers(id)])
-      .then(([g, m]) => { setGroup(g); setMembers(m) })
+      .then(([g, m]) => { setGroup(g); setMemberCount(m.count) })
       .catch(() => navigate('/'))
       .finally(() => setLoading(false))
-  }, [id])
+  }, [id, navigate])
 
   const copyCode = () => {
     if (!group) return
@@ -84,7 +84,9 @@ export default function GroupDetail() {
                 {group.name}
               </h1>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-                <span style={{ color: 'var(--muted)', fontSize: '13px' }}>👥 {members.length} member{members.length !== 1 ? 's' : ''}</span>
+                <Link to={`/groups/${id}/members`} style={{ fontSize: '13px', textDecoration: 'none' }} className="member-count-link hover-amber-border-text hover-underline">
+                  👥 {memberCount} member{memberCount !== 1 ? 's' : ''}
+                </Link>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <code className="invite-code-badge" style={{ fontSize: '12px', padding: '2px 8px', letterSpacing: '1.5px' }}>
                     {group.invite_code}

@@ -191,8 +191,12 @@ input:focus, select:focus, textarea:focus { outline: none; }
 .hover-amber-border { transition: border-color 0.15s; }
 .hover-amber-border:hover { border-color: var(--amber); }
 
+.member-count-link { color: var(--muted); }
+
 .hover-amber-border-text { transition: border-color 0.15s, color 0.15s; }
 .hover-amber-border-text:hover { border-color: var(--amber); color: var(--amber); }
+
+.hover-underline:hover { text-decoration: underline; }
 
 .imdb-badge { transition: filter 0.15s; }
 .imdb-badge:hover { filter: brightness(1.15); }

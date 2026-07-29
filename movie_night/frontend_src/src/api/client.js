@@ -55,4 +55,9 @@ export function getErrorMessage(err, fallback = 'Something went wrong. Please tr
   return messages.length ? messages.join(' ') : fallback
 }
 
+// DRF's LimitOffsetPagination returns "next"/"previous" as full absolute
+// URLs. axios treats an absolute URL as opaque to `baseURL`, so this just
+// works for paging through a previously-fetched page.
+export const fetchPage = (url) => client.get(url).then((r) => r.data)
+
 export default client

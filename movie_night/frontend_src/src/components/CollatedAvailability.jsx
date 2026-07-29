@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { listActivities } from '../api/activities'
 import { getCollatedAvailability, suggestDate } from '../api/availability'
 import { BASE_HOUR, SLOT_COUNT, DAY_COUNT, MAX_WEEK_OFFSET, getBaseDate, slotLabel, dayLabel } from '../utils/calendarGrid'
@@ -121,7 +121,6 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
   const baseDate = useMemo(getBaseDate, [])
   const [activities, setActivities] = useState([])
   const [selectedActivity, setSelectedActivity] = useState(null)
-  const [collated, setCollated] = useState([])
   const [slotMap, setSlotMap] = useState(new Map())
   const [loading, setLoading] = useState(false)
   const [weekOffset, setWeekOffset] = useState(0)
@@ -130,7 +129,8 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
 
   useEffect(() => {
     setActivitiesError(false)
-    listActivities(groupId).then(acts => {
+    listActivities(groupId).then(page => {
+      const acts = page.results
       setActivities(acts)
       if (acts.length > 0) {
         const preselected = initialActivityId && acts.find(a => a.id === initialActivityId)
@@ -143,7 +143,7 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
     if (!selectedActivity) return
     setLoading(true)
     getCollatedAvailability(groupId, selectedActivity.id)
-      .then(data => { setCollated(data); setSlotMap(collatedToMap(data, baseDate)) })
+      .then(data => setSlotMap(collatedToMap(data, baseDate)))
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [groupId, selectedActivity, baseDate])
@@ -156,7 +156,7 @@ export default function CollatedAvailability({ groupId, initialActivityId }) {
     <div style={{ padding: '48px 16px', textAlign: 'center' }}>
       <div style={{ fontSize: '40px', marginBottom: '10px' }}>⚠️</div>
       <p style={{ color: 'var(--muted)', margin: '0 0 16px' }}>Couldn't load activities. Please try again.</p>
-      <button onClick={() => { setActivitiesError(false); listActivities(groupId).then(acts => { setActivities(acts); if (acts.length > 0) { const preselected = initialActivityId && acts.find(a => a.id === initialActivityId); setSelectedActivity(preselected || acts[0]) } }).catch(() => setActivitiesError(true)) }} style={{ background: 'var(--amber)', border: 'none', color: 'var(--bg)', borderRadius: '10px', padding: '10px 20px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
+      <button onClick={() => { setActivitiesError(false); listActivities(groupId).then(page => { const acts = page.results; setActivities(acts); if (acts.length > 0) { const preselected = initialActivityId && acts.find(a => a.id === initialActivityId); setSelectedActivity(preselected || acts[0]) } }).catch(() => setActivitiesError(true)) }} style={{ background: 'var(--amber)', border: 'none', color: 'var(--bg)', borderRadius: '10px', padding: '10px 20px', fontSize: '14px', fontWeight: 700, cursor: 'pointer', fontFamily: "'Outfit', sans-serif" }}>
         Retry
       </button>
     </div>
