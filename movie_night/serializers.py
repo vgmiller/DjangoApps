@@ -32,6 +32,20 @@ class LoginSerializer(serializers.Serializer):
     invite_code = serializers.CharField(max_length=8, required=False, allow_null=True, allow_blank=True)
 
 
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    uid = serializers.CharField()
+    token = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+    def validate_password(self, value):
+        validate_password(value)
+        return value
+
+
 class UserOutSerializer(serializers.ModelSerializer):
     name = serializers.SerializerMethodField()
     phone_number = serializers.SerializerMethodField()

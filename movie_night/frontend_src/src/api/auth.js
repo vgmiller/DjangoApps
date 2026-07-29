@@ -6,3 +6,5 @@ export const register = (data) => client.post('/auth/register', data).then((r) =
 export const login = (data) => client.post('/auth/login', data).then((r) => r.data)
 export const logout = () => client.post('/auth/logout').then((r) => r.data)
 export const getMe = () => client.get('/auth/me').then((r) => r.data)
+export const requestPasswordReset = (email) => client.post('/auth/password-reset', { email }).then((r) => r.data)
+export const confirmPasswordReset = (data) => client.post('/auth/password-reset/confirm', data).then((r) => r.data)

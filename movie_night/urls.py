@@ -9,6 +9,16 @@ urlpatterns = [
     path("api/auth/register", views.RegisterView.as_view(), name="movie_night_register"),
     path("api/auth/login", views.LoginView.as_view(), name="movie_night_login"),
     path("api/auth/logout", views.LogoutView.as_view(), name="movie_night_logout"),
+    path(
+        "api/auth/password-reset",
+        views.PasswordResetRequestView.as_view(),
+        name="movie_night_password_reset_request",
+    ),
+    path(
+        "api/auth/password-reset/confirm",
+        views.PasswordResetConfirmView.as_view(),
+        name="movie_night_password_reset_confirm",
+    ),
     path("api/auth/me", views.MeView.as_view(), name="movie_night_me"),
     path("api/groups", views.GroupListCreateView.as_view(), name="movie_night_groups"),
     path("api/groups/join", views.GroupJoinView.as_view(), name="movie_night_group_join"),

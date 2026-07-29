@@ -36,7 +36,8 @@ All routes are mounted under `/movie_night/` (see `portfolio/urls.py`).
 - `api/auth/register`, `api/auth/login`, `api/auth/logout`, `api/auth/me`
 - `api/groups`, `api/groups/join`, `api/groups/invite/<invite_code>` (public
   preview), `api/groups/<id>`, `api/groups/<id>/members`
-- `api/groups/<id>/activities`, `api/activities/<id>/interest`
+- `api/groups/<id>/activities`, `api/activities/<id>` (edit/delete),
+  `api/activities/<id>/interest`
 - `api/groups/<id>/availability`, `api/groups/<id>/availability/me`,
   `api/groups/<id>/availability/<activity_id>`
 - `api/groups/<id>/suggest`
@@ -45,18 +46,21 @@ All routes are mounted under `/movie_night/` (see `portfolio/urls.py`).
 
 ## Invite links
 
-Every `Group` has an `invite_code`. The invite link flow is:
+Every `Group` has an `invite_code`. The invite link flow, fully wired up on
+both ends:
 
-1. Frontend builds a link like `/movie_night/join/<invite_code>` (route is
-   frontend-only; the backend doesn't know about that path shape).
-2. On load, it can call `GET api/groups/invite/<invite_code>` (no auth
-   required) to show "You've been invited to <name>".
-3. If the visitor isn't logged in, send them to register/login, passing the
-   invite code along as `invite_code` in the `RegisterSerializer`/
-   `LoginSerializer` payload. Register/login will join them to the group
-   automatically as part of that request.
-4. If already logged in, `POST api/groups/join` with the invite code joins
-   them directly.
+1. The frontend builds a link like `/movie_night/join/<invite_code>` (route
+   is frontend-only; the backend doesn't know about that path shape) —
+   `buildInviteLink` in `frontend_src/src/api/groups.js`.
+2. `JoinGroup.jsx` (route `/join/:code`) calls `GET
+   api/groups/invite/<invite_code>` (no auth required) to show "You've been
+   invited to <name>".
+3. If the visitor isn't logged in, it links them to register/login with the
+   invite code as a query param, which get threaded through as `invite_code`
+   in the `RegisterSerializer`/`LoginSerializer` payload. Register/login join
+   them to the group automatically as part of that request.
+4. If already logged in, clicking "Join Group" calls `POST api/groups/join`
+   with the invite code directly (`joinGroup` in `api/groups.js`).
 
 ## Building the frontend
 

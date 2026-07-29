@@ -72,7 +72,12 @@ Key differences from the old service, and why:
   succeed even if the invite was stale. `GroupInvitePreviewView` is the one
   intentionally public group endpoint besides register/login — it only
   exposes `{id, name}`, never membership or activity data.
-- The invite-link frontend work (copy-link button, `/join/<code>` route,
-  wiring `invite_code` into register/login calls) still needs to be built in
-  `frontend_src/` — the backend support for it exists but nothing in the SPA
-  calls it yet.
+- The invite-link frontend is built: `JoinGroup.jsx` (route `/join/:code`)
+  previews the group, joins directly if logged in, or forwards the invite
+  code through register/login otherwise; `buildInviteLink`/`joinGroup`/
+  `previewInvite` in `frontend_src/src/api/groups.js` wrap the three
+  endpoints above.
+- Activities can be edited/deleted, not just created: `ActivityDetailView`
+  (`PATCH`/`DELETE` on `api/activities/<id>`) only allows the original
+  `submitted_by` user to edit or delete — enforce that same check in any new
+  activity-mutating endpoint.
