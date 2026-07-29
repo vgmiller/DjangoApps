@@ -224,6 +224,7 @@ class PasswordResetRequestView(APIView):
 class PasswordResetConfirmView(APIView):
     authentication_classes = []
     permission_classes = []
+    throttle_classes = [_AuthRateThrottle]
 
     def post(self, request):
         serializer = serializers.PasswordResetConfirmSerializer(data=request.data)

@@ -24,3 +24,17 @@ Each item is independent and can be picked up separately.
    channel; if that's ever built, phone numbers stored today may not be usable without a
    validator (e.g. E.164 format) added retroactively.
 
+5. **Pagination classes are copy-paste boilerplate** (views.py) — `_ActivityPagination`,
+   `_MembersPagination`, `_NotificationPagination` are three identical one-line
+   `LimitOffsetPagination` subclasses differing only in `default_limit`. Collapse to a single
+   factory (e.g. a helper that builds a paginator instance/class from a limit) instead of three
+   near-identical class definitions.
+
+6. **Display-name computation duplicated** (services.py) — `display_name()` computes
+   "full name or username" via `user.get_full_name() or user.get_username()`, while
+   `collate_availability()` recomputes the same rule manually from `first_name`/`last_name`/
+   `username` values (since it uses `.values()` for a lean query and can't call `display_name()`
+   directly on a dict). The two implementations can silently drift since the business rule is
+   expressed twice. Consider factoring a shared "full name from parts" helper that both
+   `display_name()` and `collate_availability()` call.
+

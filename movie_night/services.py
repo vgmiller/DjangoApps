@@ -99,10 +99,10 @@ def notify_group(group_id, message, exclude_user_id=None):
     v2: add an SMS channel here without touching call sites (Twilio env vars
     were stubbed out, unused, in the original .env.example -- never implemented).
     """
-    member_user_ids = models.GroupMember.objects.filter(group_id=group_id).values_list("user_id", flat=True)
-    notifications = [
-        models.Notification(user_id=uid, group_id=group_id, message=message)
-        for uid in member_user_ids
-        if uid != exclude_user_id
-    ]
+    member_user_ids = (
+        models.GroupMember.objects.filter(group_id=group_id)
+        .exclude(user_id=exclude_user_id)
+        .values_list("user_id", flat=True)
+    )
+    notifications = [models.Notification(user_id=uid, group_id=group_id, message=message) for uid in member_user_ids]
     models.Notification.objects.bulk_create(notifications)
