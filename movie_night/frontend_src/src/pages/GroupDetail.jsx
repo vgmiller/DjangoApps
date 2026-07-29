@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useNavigate, Link } from 'react-router'
 import { getGroup, listMembers, buildInviteLink } from '../api/groups'
 import Layout from '../components/Layout'
 import ActivitiesTab from '../components/ActivitiesTab'

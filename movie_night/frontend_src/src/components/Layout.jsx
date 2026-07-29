@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router'
 import { useAuth } from '../context/useAuth'
 import NotificationBell from './NotificationBell'
 

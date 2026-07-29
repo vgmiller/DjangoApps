@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router'
 import { register as apiRegister } from '../api/auth'
 import { previewInvite } from '../api/groups'
 import { getErrorMessage } from '../api/client'
