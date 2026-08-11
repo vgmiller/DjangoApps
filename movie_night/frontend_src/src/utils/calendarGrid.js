@@ -1,6 +1,6 @@
 export const BASE_HOUR = 10    // 10am
 export const SLOT_COUNT = 28   // 10am – 11:30pm
-export const DAY_COUNT = 28
+export const DAY_COUNT = 42
 export const MAX_WEEK_OFFSET = Math.ceil(DAY_COUNT / 7) - 1
 
 export const DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
